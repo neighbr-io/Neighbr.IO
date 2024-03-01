@@ -14,7 +14,7 @@ let locations = [
         "id": 1,
         "lat": 30.2611330,
         "long": -97.6978681,
-        "src": 'images/1.gif',
+        "src": '../images/1.gif',
         "title": "OMG Squee!",
         "url": "https://www.squeeclub.com/"
     },
@@ -22,7 +22,7 @@ let locations = [
         "id": 2,
         "lat": 30.358528,
         "long": -97.730745,
-        "src": 'images/2.png',
+        "src": '../images/2.png',
         "title": "DeSano Pizzeria",
         "url":"https://desanopizza.com/"
     },
@@ -30,7 +30,7 @@ let locations = [
         "id": 3,
         "lat": 30.140125,
         "long": -97.832975,
-        "src": 'images/3.png',
+        "src": '../images/3.png',
         "title": "Mi Ranchito",
         "url":"https://miranchitoatx.com/"
     },
@@ -38,7 +38,7 @@ let locations = [
         "id": 4,
         "lat": 30.2596649,
         "long": -97.7548076,
-        "src": 'images/4.png',
+        "src": '../images/4.png',
         "title": "Terry Black's BBQ",
         "url":"https://terryblacksbbq.com/"
     }
