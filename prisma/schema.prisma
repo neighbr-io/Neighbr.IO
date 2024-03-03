@@ -1,5 +1,6 @@
 generator client {
     provider = "prisma-client-js"
+    seed     = "node seed.js"
 }
 
 datasource db {
@@ -34,13 +35,13 @@ model Project {
 
 model AccountType {
     id   Int    @id @default(autoincrement())
-    type String
+    type String @unique
     User User[]
 }
 
 model Category {
     id       Int      @id @default(autoincrement())
-    category String
+    category String   @unique
     Project  Project[]
 }
 

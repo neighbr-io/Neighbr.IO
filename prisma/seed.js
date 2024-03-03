@@ -1,51 +1,87 @@
-const { PrismaClient } = require('@prisma/client');
-const bcrypt = require('bcrypt');
+const { PrismaClient } = require("@prisma/client");
+const bcrypt = require("bcrypt");
 
 const prisma = new PrismaClient();
 
-const accountTypeData = ['admin', 'pledge', 'business', 'business+pledger'];
+const accountTypeData = ["admin", "pledge", "business", "business+pledger"];
+
 const categoryData = [
-  'Coffee Shop', 'Restaurant', 'Wine and Spirits', 'Bookstore', 'Barbershop and Salon',
-  'Pet Grooming and Supplies', 'Bakery', 'Nursery', 'Entertainment', 'Grocery Store',
-  'Auto Mechanic', 'Gym', 'Other'
+  "Coffee Shop",
+  "Restaurant",
+  "Wine and Spirits",
+  "Bookstore",
+  "Barbershop and Salon",
+  "Pet Grooming and Supplies",
+  "Bakery",
+  "Nursery",
+  "Entertainment",
+  "Grocery Store",
+  "Auto Mechanic",
+  "Gym",
+  "Other",
 ];
 
-const userData = [ 
+const projectData = [
   {
-    email: 'admin@neighbr.io',
-    password: 'abc123', // Passwords will be hashed before being stored
+    title: "Community-Driven Artisan Coffee Shop",
+    subtitle: "Brewing connections, one cup at a time.",
+    categoryId: 1,
+    story: "In the heart of our city, we dream of our coffee shop serves as a hub for community and culture, offering locally sourced coffee and a space for artists to display their work.",
+    faq: "Frequently Asked Questions about our mission, coffee sources, and community events.",
+    updates: "Stay tuned for updates on our menu development, and featured local artists.",
+    goal: 15000,
+    funded: 0,
+    expiration: new Date('2024-06-30T23:59:59'), 
+    userId: 3,
+  },
+];
+
+const userData = [
+  {
+    email: "admin@neighbr.io",
+    password: "abc123", // Passwords will be hashed before being stored
     accountTypeId: 1,
   },
   {
-    email: 'janedoe@email.com',
-    password: 'def456', 
+    email: "janedoe@email.com",
+    password: "def456",
     accountTypeId: 2,
   },
   {
-    email: 'barista@llamacafe.com',
-    password: 'coffee', 
+    email: "barista@llamacafe.com",
+    password: "coffee",
     accountTypeId: 3,
   },
   {
-    email: 'karma@email.com',
-    password: 'giveandtake', 
+    email: "karma@email.com",
+    password: "giveandtake",
     accountTypeId: 4,
-  }
+  },
 ];
 
 async function main() {
   // Seed AccountType data
   for (const type of accountTypeData) {
-    await prisma.accountType.create({
-      data: { type },
+    const existingType = await prisma.accountType.findUnique({
+      where: { type },
     });
+    if (!existingType) {
+      await prisma.accountType.create({
+        data: { type },
+      });
+    }
   }
 
   // Seed Category data
   for (const category of categoryData) {
-    await prisma.category.create({
-      data: { category },
+    const existingCategory = await prisma.category.findUnique({
+      where: { category },
     });
+    if (!existingCategory) {
+      await prisma.category.create({
+        data: { category },
+      });
+    }
   }
 
   // Seed User data with encrypted password
@@ -55,14 +91,24 @@ async function main() {
       data: {
         email: user.email,
         password: hashedPassword,
-        accountTypeId: user.accountTypeId, 
+        accountTypeId: user.accountTypeId,
       },
     });
   }
+
+  // Seed project data
+  for (const project of projectData) {
+    await prisma.project.create({
+      data: {
+        ...project,
+      },
+    });
+  }
+
 }
 
 main()
-  .catch(e => {
+  .catch((e) => {
     console.error(e);
     process.exit(1);
   })
