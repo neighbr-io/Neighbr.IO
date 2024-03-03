@@ -6,7 +6,7 @@ const prisma = new PrismaClient();
 
 
 // GET /api/projects - Get all projects
-router.get("/projects", async (req, res) => {
+router.get("/", async (req, res) => {
   try {
     const projects = await prisma.project.findMany();
     res.json(projects);
@@ -17,7 +17,7 @@ router.get("/projects", async (req, res) => {
 });
 
 // GET /api/projects - Get project by id 
-router.get("/projects/:id", async (req, res) => {
+router.get("/:id", async (req, res) => {
   const { id } = req.params;
 
   try {
