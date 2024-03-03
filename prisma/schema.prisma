@@ -44,8 +44,6 @@ model Category {
     Project  Project[]
 }
 
-// BusinessUser table
-// RewardBusiness table
-// RewardPledger table
+
 // Transactions table 
-// RewardType table
+

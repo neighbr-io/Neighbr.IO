@@ -13,6 +13,6 @@
   "scripts": {
     "seed": "node prisma/seed.js",
     "server": "node server.js",
-    "server:dev": "nodemon server.js"
+    "server:dev": "nodemon backend/server/server.js"
   }
 }
