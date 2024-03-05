@@ -31,6 +31,7 @@ model Project {
     userId      Int      // Foreign key that references the User model
     User        User     @relation(fields: [userId], references: [id])
     Category    Category @relation(fields: [categoryId], references: [id])
+    locations   Location[]
 }
 
 model AccountType {
@@ -45,6 +46,22 @@ model Category {
     Project  Project[]
 }
 
+model Location {
+  id             Int       @id @default(autoincrement())
+  businessName   String
+  houseNumber    String
+  aptSuiteOther  String?
+  street         String
+  city           String
+  state          String
+  zipcode        String
+  lat            String
+  lon            String
+  projectId      Int
+  project        Project   @relation(fields: [projectId], references: [id])
+}
+
 
 // Transactions table 
+
 

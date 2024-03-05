@@ -36,6 +36,21 @@ const projectData = [
   },
 ];
 
+const locationData = [
+  {
+    businessName:   "The Coffee Shop",
+    houseNumber:    "1600",
+    aptSuiteOther:  "Ground floor",
+    street:         "Broadway",
+    city:           "New York",
+    state:          "NY",
+    zipcode:        "10005",
+    lat:            "40.7627",
+    lon:            "73.9683",
+    projectId:      1,
+  },
+]
+
 const userData = [
   {
     email: "admin@neighbr.io",
@@ -97,10 +112,20 @@ async function main() {
   }
 
   // Seed project data
+  console.log("Seeding projects...");
   for (const project of projectData) {
     await prisma.project.create({
       data: {
         ...project,
+      },
+    });
+  }
+
+  console.log("Seeding locations...");
+  for (const location of locationData) {
+    await prisma.location.create({
+      data: {
+        ...location,
       },
     });
   }
