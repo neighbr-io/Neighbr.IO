@@ -9,29 +9,33 @@ datasource db {
 }
 
 model User {
-    id            Int       @id @default(autoincrement())
-    email         String    @unique
-    password      String
+    id            Int        @id @default(autoincrement())
+    email         String     @unique
+    password      String?    // Make nullable if allowing OAuth sign-in without a password
+    googleId      String?    @unique // Nullable and unique Google ID for OAuth sign-ins
     accountTypeId Int
     AccountType   AccountType @relation(fields: [accountTypeId], references: [id])
-    projects      Project[] // Indicates a one-to-many relationship with Project
+    projects      Project[]  // Indicates a one-to-many relationship with Project
+    transactions  Transaction[] // Indicates a one-to-many relationship with Transaction
 }
 
 model Project {
-    id          Int      @id @default(autoincrement())
-    title       String
-    subtitle    String
-    categoryId  Int
-    story       String
-    faq         String
-    updates     String
-    goal        Int
-    funded      Int
-    expiration  DateTime
-    userId      Int      // Foreign key that references the User model
-    User        User     @relation(fields: [userId], references: [id])
-    Category    Category @relation(fields: [categoryId], references: [id])
-    locations   Location[]
+  id           Int      @id @default(autoincrement())
+  title        String
+  subtitle     String
+  categoryId   Int
+  story        String
+  faq          String
+  updates      String
+  goal         Int
+  funded       Int
+  expiration   DateTime
+  userId       Int      // Foreign key that references the User model
+  status       String   @default("draft") // 'draft' (default), 'live', 'expired'
+  User         User     @relation(fields: [userId], references: [id])
+  Category     Category @relation(fields: [categoryId], references: [id])
+  transactions Transaction[]
+  locations    Location[]
 }
 
 model AccountType {
@@ -62,6 +66,23 @@ model Location {
 }
 
 
-// Transactions table 
+// Transactions table
+model Transaction {
+  id                 Int      @id @default(autoincrement())
+  amount             Float                    // Stores the transaction amount
+  createdAt          DateTime @default(now()) // Timestamp of when the transaction was created
+  updatedAt          DateTime @updatedAt      // Timestamp of when the transaction was last updated
+  type               String                   // Could be "payment", "refund", etc.
+  paymentMethod      String                   // Describes the payment method, e.g., "credit_card", "debit_card", "venmo"
+  projectId          Int                      // Foreign key that links to a Project's id
+  status             String                   // Transaction status, e.g., "pending", "completed", "failed"
+  userId             Int                      // Foreign key that links to a User's id
+  gatewayTxnId       String                   // Unique identifier for the transaction provided by the payment gateway
+  project            Project  @relation(fields: [projectId], references: [id]) // Relation to the Project model
+  user               User     @relation(fields: [userId], references: [id]) // Relation to the User model
+}
+
+
+// Project table needs status "under review, live, expired"
 
 
