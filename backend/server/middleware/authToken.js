@@ -10,7 +10,7 @@ function authenticateToken(req, res, next) {
   jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
     if (err) return res.sendStatus(401); // Token was invalid
 
-    req.user = user;
+    req.userId = user.userId;
     next(); // Token was valid, continue to the next middleware or route handler
   });
 }
