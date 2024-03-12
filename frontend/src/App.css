@@ -20,16 +20,14 @@
   border-radius: 10px;
 }
 
-.name {
+.goal {
   color:midnightblue;
+  font-size: x-large;
 }
 
-.company {
+.title {
   font-size: x-large;
   font-weight: bolder;
   color:#b43e03;
-}
-
-.website {
-  color:#b43e03;
+  padding: 5px;
 }

@@ -6,15 +6,16 @@ function ProjectTable() {
     useGetProjectsQuery();
     console.log(useGetProjectsQuery());
     return (
-    <>
-        <h1>Projects</h1>
-        
+    <div>
+        <h1>EXPLORE PROJECTS</h1>
+        <div className="all-projects">
         {isLoading && <p>Loading...</p>}
         {error && <p>Something went wrong: {error.message}</p>}
         {projects && projects.map((project) => (
             <Project key={project.id} project={project} />
         ))}
-    </>
+        </div>
+    </div>
     );
 }
 
