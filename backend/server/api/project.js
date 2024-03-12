@@ -15,8 +15,8 @@ router.get("/", async (req, res) => {
   }
 });
 
-// POST /api/projects
-router.post('/projects', async (req, res) => {
+// POST /api/projects - Create new project, REQUIRE AUTH
+router.post('/', async (req, res) => {
     // Extract project details and the category name from request body
     const {
         title,
@@ -90,7 +90,7 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-// PUT /api/projects/:id - Update project status and FAQ
+// PUT /api/projects/:id - Update project status and FAQ, REQUIRE AUTH
 router.put('/projects/:id', async (req, res) => {
   const { id } = req.params; // Get the project ID from the URL parameters
   const { updates, faq } = req.body; // Extract only the fields allowed to be updated

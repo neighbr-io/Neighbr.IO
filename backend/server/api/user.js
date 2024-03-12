@@ -10,7 +10,7 @@ const authenticateToken = require("../middleware/authToken");
 
 require("dotenv").config();
 
-// register a new user with email and password
+// POST /api/users/register - register a new user with email and password
 router.post("/register", async (req, res) => {
   const { email, password } = req.body;
 
@@ -45,7 +45,7 @@ router.post("/register", async (req, res) => {
   }
 });
 
-// User dashboard 1 - pledger summary
+// GET /api/users/transaction/summary - User dashboard 1 pledger summary, REQUIRE AUTH
 router.get("/transaction/summary", authenticateToken, async (req, res) => {
   const userId = req.userId;
 
@@ -60,7 +60,7 @@ router.get("/transaction/summary", authenticateToken, async (req, res) => {
       },
     });
 
-    const projectIds = transactionAggregates.map(t => t.projectId);
+    const projectIds = transactionAggregates.map((t) => t.projectId);
     const projects = await prisma.project.findMany({
       where: {
         id: {
@@ -80,7 +80,7 @@ router.get("/transaction/summary", authenticateToken, async (req, res) => {
     }, {});
 
     // Enrich the transaction aggregates with project titles
-    const result = transactionAggregates.map(summary => ({
+    const result = transactionAggregates.map((summary) => ({
       projectId: summary.projectId,
       sum: summary._sum.amount,
       title: projectTitleMap[summary.projectId] || "No title",
@@ -93,6 +93,28 @@ router.get("/transaction/summary", authenticateToken, async (req, res) => {
   }
 });
 
-// User dashboard 2 - business summary
+// GET /api/users/project/summary - User dashboard 2 business summary, REQUIRE AUTH
+router.get("/project/summary", authenticateToken, async (req, res) => {
+  const userId = req.userId;
+
+  try {
+    const userProjects = await prisma.project.findMany({
+      where: {
+        userId: userId, // Filters projects to those belonging to the logged-in user
+      },
+      select: {
+        title: true, 
+        goal: true, 
+        funded: true, 
+        expiration: true, 
+      },
+    });
+
+    // Respond with the retrieved projects
+    res.json(userProjects);
+  } catch (error) {
+    console.error("error:", error);
+  }
+});
 
 module.exports = router;
