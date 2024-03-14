@@ -12,9 +12,11 @@ import SingleTable from './features/projects/ProjectContainer.jsx';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
+    <BrowserRouter>
       <Provider store={store}>
-        <App />
-        {/* <Fetch /> */}
+          <App />
+          {/* <Fetch /> */}
       </Provider>
+    </BrowserRouter>
   </React.StrictMode>,
 );

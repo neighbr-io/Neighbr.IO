@@ -4,42 +4,34 @@ import {
 import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
 
-const Project = ({ setTitle, setSubtitle, setGoal, setStory, searchText = "" }) => {
-  const { data = {}, error, isLoading } = useGetProjectsQuery();
-  // const [title, setTitle] = useState(project.title);
-  // const [subtitle, setSubtitle] = useState(project.subtitle);
-  // const [goal, setGoal] = useState(project.goal);
-  // const [story, setStory] = useState(project.story);
-
+function Project () {
+  const { data: projects, error, isLoading } = useGetProjectsQuery();
+  console.log("data", projects);
+  
   const navigate = useNavigate();
-  const filteredProjects =
-    data?.projects?.filter((project) =>
-      project.title?.toLowerCase().includes(searchText.toLowerCase())
-    ) || [];
 
   if (isLoading) {
     return <div>Loading...</div>;
   }
 
-  if (error) {
-    return <div>Error: </div>;
+  if (error || !projects ) {
+    return <div>Error occurred while retrieving data </div>;
   }
+  // const filteredProjects =
+  //   projects.filter((project) =>
+  //     project.title.toLowerCase().includes(searchText.toLowerCase())
+  //   );
   return (
     <div className="all-projects">
-      {filteredProjects.map((project) => (
-        <div className="project-preview">
+      {projects.map((project) => (
+        <div key={project.id} className="project-preview">
         <p className="title">{project.title}</p>
         <p className="goal">${project.goal}</p>
-        <Button variant="contained" size="small" sx={{bgcolor: "gray", mx: "auto"}} onClick={() => {
-            alert(`Project Story: ${project.story}`);
-        }}>See More Details</Button>
         <Button variant="contained" size="small" sx={{bgcolor: "black", mx: "auto"}} onClick={() => {
-            navigate(`projects/${project.id}`);
-            setTitle(project.title);
-            setSubtitle(project.subtitle);
-        }}>Test Button</Button>
+            navigate(`/projects/${project.id}`);
+        }}>See Project Details</Button>
       </div>
-      ))}
+     ))}
     </div>
   );
 };

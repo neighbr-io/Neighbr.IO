@@ -6,25 +6,13 @@ import ProjectTable from "./projectTable";
 import Project from "./Project";
 
 function ProjectContainer() {
-    const [title, setTitle] = useState("");
-    const [subtitle, setSubtitle] = useState("");
-    const [story, setStory] = useState("");
-    const [categoryId, setCategoryId] = useState("");
-    const [faq, setFaq] = useState("");
-    const [updates, setUpdates] = useState("");
-    const [funded, setFunded] = useState("");
-    const [expiration, setExpiration] = useState("");
-    const [goal, setGoal] = useState("");
 
     return(
+
         <Routes>
-            <Route path='/' element={ <Project title={title} setTitle={setTitle} 
-            subtitle={subtitle} setSubtitle={setSubtitle}
+            <Route path='/' element={ <Project 
             /> } />
-            <Route path='/:id' element={<SingleProject title={title} setTitle={setTitle} 
-            subtitle={subtitle} setSubtitle={setSubtitle}
-            story={story} setStory={setStory}
-            categoryId={categoryId} setCategoryId={setCategoryId}
+            <Route path='/projects/:id' element={<SingleProject 
             />} />
         </Routes>
     );
