@@ -7,10 +7,10 @@ const authRoutes = require('./api/auth');
 const transactionRoutes = require('./api/transaction');
 const cors = require('cors');
 
-
 const app = express();
 const port = 8000; 
-
+//added to resolve CORS error - connecting frontend to backend
+app.use(cors());
 app.use(express.json());
 app.use(cors());
 
