@@ -1,5 +1,5 @@
 // authantication using email and password
-// does not include sign-in with google or facebook 
+// does not yet work with Oauth (google, facebook) 
 
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
