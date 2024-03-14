@@ -7,6 +7,7 @@ function App() {
   const projectRouter = (
     <Routes>
       <Route path="/*" element={<ProjectTable />} />
+      <Route path="/*" element={<ProjectTable />} />
     </Routes>
   );
   return projectRouter;
