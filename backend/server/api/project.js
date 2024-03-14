@@ -15,8 +15,8 @@ router.get("/", async (req, res) => {
   }
 });
 
-// POST /api/projects
-router.post('/projects', async (req, res) => {
+// POST /api/projects - Create new project, REQUIRE AUTH
+router.post('/', authenticateToken, async (req, res) => {
     // Extract project details and the category name from request body
     const {
         title,
@@ -26,17 +26,24 @@ router.post('/projects', async (req, res) => {
         faq,
         goal,
         expiration,
-        userId,
         funded, // optional
         updates // optional
     } = req.body;
 
     // Validate the required input data
-    if (!title || !subtitle || !category || !story || !goal || !expiration || !userId) {
+    if (!title || !subtitle || !category || !story || !goal || !expiration ) {
         return res.status(400).send('Required project information is missing.');
     }
 
     try {
+        
+        const userRecord = await prisma.user.findUnique({
+          where: { id: req.userId } // Use req.userId set by authenticateToken
+        });
+      
+        if (!userRecord || (userRecord.accountTypeId !==3 && userRecord.accountTypeId !== 4)) {
+          return res.status(403).send('Only users with a business profile can post projects.');
+        }
         // Look up the categoryId from the Category table
         const categoryRecord = await prisma.category.findUnique({
             where: { category }
@@ -73,7 +80,7 @@ router.get("/:id", async (req, res) => {
   const { id } = req.params;
 
   try {
-    // corrected const "post" to "project"
+
     const project = await prisma.project.findUnique({
       where: {
         id: parseInt(id),
@@ -91,8 +98,8 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-// PUT /api/projects/:id - Update project status and FAQ
-router.put('/projects/:id', async (req, res) => {
+// PUT /api/projects/:id - Update project status and FAQ, REQUIRE AUTH
+router.put('/projects/:id', authenticateToken, async (req, res) => {
   const { id } = req.params; // Get the project ID from the URL parameters
   const { updates, faq } = req.body; // Extract only the fields allowed to be updated
 
