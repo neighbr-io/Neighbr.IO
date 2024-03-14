@@ -5,6 +5,7 @@ function ProjectTable() {
     const { data: projects, error, isLoading } =
     useGetProjectsQuery();
     console.log(useGetProjectsQuery());
+    console.log(projects);
     return (
     <div>
         <h1>EXPLORE PROJECTS</h1>

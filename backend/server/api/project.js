@@ -73,7 +73,8 @@ router.get("/:id", async (req, res) => {
   const { id } = req.params;
 
   try {
-    const post = await prisma.project.findUnique({
+    // corrected const "post" to "project"
+    const project = await prisma.project.findUnique({
       where: {
         id: parseInt(id),
       },
