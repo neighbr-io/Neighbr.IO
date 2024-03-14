@@ -1,61 +1,39 @@
 import { useState } from "react";
 import {
-  useDeleteProjectMutation,
-  useUpdateProjectMutation } from "./projectSlice";
-  import Button from "@mui/material/Button";
+  useGetProjectsQuery } from "./projectSlice";
+import Button from "@mui/material/Button";
+import { useNavigate } from "react-router-dom";
 
-/**
- * Displays project information and allows users to either
- * update or delete the project.
- */
-function Project({ project }) {
-  const [deleteProject] = useDeleteProjectMutation();
-  const [updateProject] = useUpdateProjectMutation();
+function Project () {
+  const { data: projects, error, isLoading } = useGetProjectsQuery();
+  console.log("data", projects);
+  
+  const navigate = useNavigate();
 
-  const [editing, setEditing] = useState(false);
-  const [title, setTitle] = useState(project.title);
-  const [subtitle, setSubtitle] = useState(project.subtitle);
-  const [goal, setGoal] = useState(project.goal);
-  const [story, setStory] = useState(project.story);
-
-  function onEdit(event) {
-    event.preventDefault();
-    if (editing) {
-      updateProject({ id: project.id, title, goal });
-    }
-    setEditing(!editing);
+  if (isLoading) {
+    return <div>Loading...</div>;
   }
 
-  // const editFields = (
-  //   <>
-  //     <td>
-  //       <input
-  //         type="text"
-  //         value={title}
-  //         onChange={(e) => setTitle(e.target.value)}
-  //       />
-  //     </td>
-  //     <td>
-  //       <input
-  //         type="text"
-  //         value={goal}
-  //         onChange={(e) => setGoal(e.target.value)}
-  //       />
-  //     </td>
-  //   </>
-  // );
-
+  if (error || !projects ) {
+    return <div>Error occurred while retrieving data </div>;
+  }
+  // const filteredProjects =
+  //   projects.filter((project) =>
+  //     project.title.toLowerCase().includes(searchText.toLowerCase())
+  //   );
   return (
     <div className="all-projects">
-      <div className="project-preview">
-        <p className="title">{title}</p>
-        <p className="goal">${goal}</p>
-        <Button variant="contained" size="small" sx={{bgcolor: "gray", mx: "auto"}} onClick={() => {
-            alert(`Project Story: ${story}`);
-        }}>See More Details</Button>
+      {projects.map((project) => (
+        <div key={project.id} className="project-preview">
+        <p className="title">{project.title}</p>
+        <p className="goal">${project.goal}</p>
+        <Button variant="contained" size="small" sx={{bgcolor: "black", mx: "auto"}} onClick={() => {
+            navigate(`/projects/${project.id}`);
+        }}>See Project Details</Button>
       </div>
+     ))}
     </div>
   );
-}
+};
 
 export default Project;
