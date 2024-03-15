@@ -11,12 +11,15 @@
     "passport-google-oauth20": "^2.0.0"
   },
   "devDependencies": {
+    "concurrently": "^8.2.2",
     "nodemon": "^3.1.0",
     "prisma": "^5.10.2"
   },
   "scripts": {
     "seed": "node prisma/seed.js",
     "server": "node server.js",
-    "server:dev": "nodemon backend/server/server.js"
+    "server:dev": "nodemon backend/server/server.js",
+    "start:frontend": "cd frontend && npm run dev",
+    "start": "concurrently \"npm run server:dev\" \"npm run start:frontend\""
   }
 }
