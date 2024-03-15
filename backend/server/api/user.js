@@ -46,7 +46,7 @@ router.post("/register", async (req, res) => {
 });
 
 // GET /api/users/transaction/summary - User dashboard 1 pledger summary, REQUIRE AUTH
-router.get("/transaction/summary", authenticateToken, async (req, res) => {
+router.get("/transactions", authenticateToken, async (req, res) => {
   const userId = req.userId;
 
   try {
@@ -93,8 +93,8 @@ router.get("/transaction/summary", authenticateToken, async (req, res) => {
   }
 });
 
-// GET /api/users/project/summary - User dashboard 2 business summary, REQUIRE AUTH
-router.get("/project/summary", authenticateToken, async (req, res) => {
+// GET /api/users/project - User dashboard 2 business summary, REQUIRE AUTH
+router.get("/projects", authenticateToken, async (req, res) => {
   const userId = req.userId;
 
   try {

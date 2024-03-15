@@ -1,6 +1,5 @@
 const express = require("express");
 const router = express.Router();
-
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 const authenticateToken = require("../middleware/authToken");
@@ -76,6 +75,41 @@ router.get("/", async (req, res) => {
     res
       .status(500)
       .send("Error retrieving transactions for the provided project IDs.");
+  }
+});
+
+//Support business users to see transactions level detail for each project
+router.get("/:projectId", authenticateToken, async (req, res) => {
+  const projectId = parseInt(req.params.projectId);
+  const userId = req.userId;
+
+  try {
+    // First, verify that the project belongs to the authenticated user
+    const project = await prisma.project.findUnique({
+      where: {
+        id: projectId,
+      },
+    });
+
+    if (!project) {
+      return res.status(404).send("Project not found.");
+    }
+
+    if (project.userId !== userId) {
+      return res.status(403).send("Unauthorized access - This project does not belong to the authenticated user.");
+    }
+
+    // Fetch transactions for the project
+    const transactions = await prisma.transaction.findMany({
+      where: {
+        projectId: projectId,
+      },
+    });
+
+    res.json(transactions);
+  } catch (error) {
+    console.error("Error fetching transactions:", error);
+    res.status(500).send("Internal Server Error");
   }
 });
 
