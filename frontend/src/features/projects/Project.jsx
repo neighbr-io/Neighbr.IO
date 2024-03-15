@@ -25,9 +25,10 @@ function Project () {
     <div className="all-projects">
       {projects.map((project) => (
         <div key={project.id} className="project-preview">
-        <p className="title">{project.title}</p>
-        <p className="goal">${project.goal}</p>
-        <Button variant="contained" size="small" sx={{bgcolor: "black", mx: "auto"}} onClick={() => {
+        <p className="title-main">{project.title}</p>
+        <p className="goal-main">Goal: ${project.goal}</p>
+        <p className="funded-main">Funded: ${project.funded}</p>
+        <Button variant="contained" size="small" sx={{bgcolor: "grey", mx: "auto"}} onClick={() => {
             navigate(`/projects/${project.id}`);
         }}>See Project Details</Button>
       </div>

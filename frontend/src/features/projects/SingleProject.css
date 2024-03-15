@@ -1,0 +1,38 @@
+#root {
+    background-color:honeydew;
+}
+
+#pledge-button {
+    font-size: 30px;
+    background-color: teal;
+
+}
+
+.single-project{
+
+}
+#pledge{
+    font-size: xx-large;
+    color:teal;
+}
+.title {
+    font-size: xx-large;
+    font-weight: bolder;
+    color:#ca4502;
+}
+.subtitle {
+
+}
+.story {}
+.category{}
+.faq{}
+.updates{}
+.funded{
+
+}
+.date{
+    font-size: x-large;
+}
+.goal {
+
+}
