@@ -3,7 +3,6 @@ const router = express.Router();
 const authenticateToken = require("../middleware/authToken");
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
-const authenticateToken = require("../middleware/authToken");
 
 // GET /api/projects - Get all projects
 router.get("/", async (req, res) => {
