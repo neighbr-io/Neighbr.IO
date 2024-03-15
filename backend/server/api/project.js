@@ -3,6 +3,7 @@ const router = express.Router();
 const authenticateToken = require("../middleware/authToken");
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
+const authenticateToken = require("../middleware/authToken");
 
 // GET /api/projects - Get all projects
 router.get("/", async (req, res) => {
@@ -36,7 +37,6 @@ router.post('/', authenticateToken, async (req, res) => {
     }
 
     try {
-        
         const userRecord = await prisma.user.findUnique({
           where: { id: req.userId } // Use req.userId set by authenticateToken
         });
@@ -46,8 +46,8 @@ router.post('/', authenticateToken, async (req, res) => {
         }
         // Look up the categoryId from the Category table
         const categoryRecord = await prisma.category.findUnique({
-            where: { category }
-        });
+          where: { category: category }
+      });
 
         if (!categoryRecord) {
             return res.status(404).send('Category not found.');
@@ -64,7 +64,7 @@ router.post('/', authenticateToken, async (req, res) => {
                 goal,
                 funded: funded || 0, // Default funded to 0 if not provided
                 expiration: new Date(expiration),
-                userId
+                userId: req.userId // Use the user Id from the token to create userId
             }
         });
 
@@ -99,7 +99,7 @@ router.get("/:id", async (req, res) => {
 });
 
 // PUT /api/projects/:id - Update project status and FAQ, REQUIRE AUTH
-router.put('/projects/:id', authenticateToken, async (req, res) => {
+router.put('/:id', authenticateToken, async (req, res) => {
   const { id } = req.params; // Get the project ID from the URL parameters
   const { updates, faq } = req.body; // Extract only the fields allowed to be updated
 
@@ -109,7 +109,17 @@ router.put('/projects/:id', authenticateToken, async (req, res) => {
   }
 
   try {
-      // Find the project by ID and update the 'updates' and/or 'faq' fields
+      // First, find the project by ID to verify the owner
+      const project = await prisma.project.findUnique({
+          where: { id: parseInt(id) },
+      });
+
+      // If no project is found or the userId does not match the authenticated user's id
+      if (!project || project.userId !== req.userId) {
+          return res.status(403).send('Unauthorized to update this project.');
+      }
+
+      // Proceed with the update since the user is authorized
       const updatedProject = await prisma.project.update({
           where: { id: parseInt(id) },
           data: {
