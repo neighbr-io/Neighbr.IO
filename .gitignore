@@ -1,2 +1,4 @@
 # Ignore .env file to protect sensitive info
 .env
+node_modules
+.DS_Store

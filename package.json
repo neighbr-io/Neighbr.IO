@@ -3,6 +3,7 @@
     "@prisma/client": "^5.10.2",
     "bcrypt": "^5.1.1",
     "body-parser": "^1.20.2",
+    "concurrently": "^8.2.2",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.18.3",
@@ -17,6 +18,8 @@
   "scripts": {
     "seed": "node prisma/seed.js",
     "server": "node server.js",
-    "server:dev": "nodemon backend/server/server.js"
+    "server:dev": "nodemon backend/server/server.js",
+    "dev": "cd frontend && npm run dev",
+    "start": "concurrently \"npm run dev\" \"npm run server:dev\""
   }
 }
