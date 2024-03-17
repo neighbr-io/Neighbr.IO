@@ -6,9 +6,9 @@
     "@mui/icons-material": "^5.15.13",
     "@mui/material": "^5.15.13",
     "@mui/styled-engine": "^5.15.11",
-    "@prisma/client": "^5.10.2",
     "@reduxjs/toolkit": "^2.2.1",
     "@vitejs/plugin-react": "^4.2.1",
+    "@prisma/client": "^5.11.0",
     "bcrypt": "^5.1.1",
     "body-parser": "^1.20.2",
     "cors": "^2.8.5",
@@ -24,11 +24,11 @@
   "devDependencies": {
     "concurrently": "^8.2.2",
     "nodemon": "^3.1.0",
-    "prisma": "^5.10.2"
+    "prisma": "^5.11.0"
   },
   "scripts": {
     "seed": "node prisma/seed.js",
-    "server": "node server.js",
+    "server": "node backend/server/server.js",
     "server:dev": "nodemon backend/server/server.js",
     "start:frontend": "cd frontend && npm run dev",
     "start": "concurrently \"npm run server:dev\" \"npm run start:frontend\""
