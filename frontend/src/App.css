@@ -20,14 +20,21 @@
   border-radius: 10px;
 }
 
-.goal {
+.goal-main {
   color:midnightblue;
   font-size: x-large;
+  font-weight: bold;
 }
 
-.title {
+.funded-main {
+  color:#013201;
+  font-size: x-large;
+  font-weight: bold;
+}
+
+.title-main {
   font-size: x-large;
   font-weight: bolder;
-  color:#b43e03;
+  color:#ca4502;
   padding: 5px;
 }
