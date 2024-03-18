@@ -3,7 +3,16 @@ import {
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import Button from "@mui/material/Button";
+import Box from "@mui/material/Box";
+import Tab from "@mui/material/Tab";
+import Tabs from "@mui/material/Tabs";
+import TabContext from "@mui/lab/TabContext";
+import TabList from "@mui/lab/TabList";
+import TabPanel from "@mui/lab/TabPanel";
+import PropTypes from 'prop-types';
+import Typography from '@mui/material/Typography';
 import "./SingleProject.css";
+
 
 const SingleProject = () => {
     const { id } = useParams();
@@ -24,17 +33,18 @@ const SingleProject = () => {
     <div className="single-project">
         <h2 className="title">{title}</h2>
         <p className="subtitle">{subtitle}</p>
-        <p id="pledge">${funded} pledged of ${goal} goal</p>
-        <p className="date">Expires: {date}</p>
+        <section id="pledge">
+        <p>${funded} pledged of ${goal} goal</p></section>
+        <section className="date"><p>Expires: {date}</p></section>
+        
         <p className="story">Story: {story}</p>
-        <p className="category">Category: {categoryId}</p>
         <p className="faq">FAQ: {faq}</p>
         <p className="updates">Updates: {updates}</p>
-        <p className="funded">Funded Amount: ${funded}</p>
-        <p className="goal">Goal: ${goal}</p>
+        <p className="category">Category: {categoryId}</p>
         <Button id="pledge-button" variant="contained" onClick={() => {
             alert("payment page coming soon!");
         }}>Back This Project</Button>
+
     </div>
     );
 }
