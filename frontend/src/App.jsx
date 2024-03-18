@@ -5,12 +5,20 @@ import ProjectContainer from './features/projects/ProjectContainer';
 import { Router } from 'react-router-dom';
 import { useState } from "react";
 
+import {
+  Navigation,
+} from "./features";
+
+
 function App() {
   const projectRouter = (
+    <>
+    <Navigation />
     <Routes>
       {/* <Route path="/*" element={<ProjectTable />} /> */}
       <Route path="/*" element={<ProjectContainer />} />
     </Routes>
+    </>
   );
   return projectRouter;
   // const [searchText, setSearchText] = useState("");
