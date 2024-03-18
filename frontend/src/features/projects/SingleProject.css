@@ -1,5 +1,7 @@
 #root {
     background-color:honeydew;
+    color:black;
+    box-sizing: border-box;
 }
 
 #pledge-button {
@@ -10,29 +12,65 @@
 
 .single-project{
 
-}
-#pledge{
-    font-size: xx-large;
-    color:teal;
-}
-.title {
-    font-size: xx-large;
-    font-weight: bolder;
-    color:#ca4502;
-}
-.subtitle {
 
 }
-.story {}
-.category{}
-.faq{}
-.updates{}
-.funded{
+
+.title {
+    font-size: 30pt;
+    font-weight: bolder;
+    color:#ca4502;
+    background-color: cadetblue;
+    padding: 30px;
+    text-align: center;
+}
+.subtitle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20pt;
+    background-color: darkseagreen;
+    height: 100px;
 
 }
 .date{
-    font-size: x-large;
+    display: flex;
+    font-size: 15pt;
+    float: left;
+    width: 40%;
+    height: 100px;
+    background-color: burlywood;
+    justify-content: center;
+    align-items: center;
 }
+
+#pledge{
+    display: flex;
+    font-size: 15pt;
+    color:teal;
+    float:right;
+    width: 60%;
+    height: 100px;
+    background-color:darkgrey;
+    justify-content: center;
+    align-items: center;
+}
+
+.story {
+
+}
+.category{
+
+}
+.faq{
+
+}
+.updates{
+
+}
+.funded{
+
+}
+
 .goal {
 
 }
