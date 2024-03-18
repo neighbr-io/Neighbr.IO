@@ -1,0 +1,75 @@
+.waitlist-container {
+  margin: auto;
+  padding: 20px;
+  text-align: center;
+  color: #fff;
+  background-color: #333;
+}
+
+.waitlist-container h1 {
+  margin-bottom: 1rem;
+  font-size: 1.5em;
+}
+
+.waitlist-signup {
+  font-size: 15pt;
+  color: darkseagreen;
+}
+
+.waitlist-container p {
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}
+
+.waitlist-form {
+  display: flex;
+  flex-direction: row; /* Align Email and button in a row */
+  justify-content: center; /* Center the email and button as agroup horizontally */
+  align-items: center;
+  gap: 10px;
+  margin: 0 auto;
+}
+
+input[type="email"] {
+  padding: 10px;
+  width: 30%;
+  border: none;
+  border-radius: 5px;
+}
+
+.waitlist-button {
+  /* Corrected class name */
+  padding: 10px 20px;
+  background-color: #655bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.waitlist-button:hover {
+  background-color: #7b1fa2;
+}
+
+.how-it-works-list {
+  display: flex; /* Align children in a row */
+  justify-content: space-around; /* Evenly space out the children */
+  list-style: none; /* Remove default list styling */
+  padding: 0; /* Remove default padding */
+}
+
+.how-it-works-list li {
+  flex: 1; /* Each item will take up equal space */
+  margin: 0 10px; /* Add some space between each item */
+}
+
+/* Optionally, if you want to ensure the content does not become too squished on smaller screens, you can add a media query to stack them back into a single column layout: */
+@media (max-width: 768px) {
+  .how-it-works-list {
+    flex-direction: column;
+  }
+  .how-it-works-list li {
+    margin: 10px 0; /* Adjust margin for vertical stack */
+  }
+}
