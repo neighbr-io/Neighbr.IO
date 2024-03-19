@@ -12,7 +12,7 @@ function ProjectContainer() {
         <Routes>
             <Route path='/' element={ <Project 
             /> } />
-            <Route path='/projects/:id' element={<SingleProject 
+            <Route path='/:id' element={<SingleProject 
             />} />
         </Routes>
     );
