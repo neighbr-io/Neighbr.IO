@@ -172,7 +172,7 @@ export default function Navigation() {
                     </Typography>
                     </Link>
 
-                    <Link to="/Projects" style={{ textDecoration: 'none', color: 'inherit' }}>
+                    <Link to="/projects" style={{ textDecoration: 'none', color: 'inherit' }}>
                     <Typography
                         variant="h6"
                         noWrap
@@ -183,7 +183,7 @@ export default function Navigation() {
                     </Typography>
                     </Link>
 
-                    <Link to="/Projects" style={{ textDecoration: 'none', color: 'inherit' }}>
+                    <Link to="/Faq" style={{ textDecoration: 'none', color: 'inherit' }}>
                     <Typography
                         variant="h6"
                         noWrap
