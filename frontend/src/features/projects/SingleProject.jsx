@@ -11,7 +11,7 @@ import TabList from "@mui/lab/TabList";
 // import TabPanel from "@mui/lab/TabPanel";
 import PropTypes from 'prop-types';
 import Typography from '@mui/material/Typography';
-import LabTabs from "./SingleProjectTab";
+import InfoTabs from "./SingleProjectTab";
 import "./SingleProject.css";
 
 const SingleProject = () => {
@@ -36,17 +36,13 @@ const SingleProject = () => {
         <section id="pledge">
         <p>${funded} pledged of ${goal} goal</p>
         </section>
-        <section className="date"><p>Expires: {date}</p></section>
-        <p>
-        <div><LabTabs /></div>
-        </p>
-        <p className="story">Story: {story}</p>
-        <p className="faq">FAQ: {faq}</p>
-        <p className="updates">Updates: {updates}</p>
-        <p className="category">Category: {category}</p>
+        <section className="date-text"><div>Help Us Reach Our Goal By:<p className="date">{date}</p></div></section>
+        <section className="info-tab"><InfoTabs /></section>
         <Button id="pledge-button" variant="contained" onClick={() => {
             alert("payment page coming soon!");
         }}>Back This Project</Button>
+        <p id="deadline">This project will only be funded if it reaches its goal by {date}.</p>
+        <p className="category">Category: {category}</p>
 
     </div>
     );

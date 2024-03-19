@@ -1,17 +1,17 @@
 #root {
     background-color:honeydew;
     color:black;
+    width: 100%;
     box-sizing: border-box;
 }
 
 #pledge-button {
     font-size: 30px;
-    background-color: teal;
+    background-color: darkslateblue;
 
 }
 
-.single-project{
-
+.single-project { 
 
 }
 
@@ -23,36 +23,52 @@
     padding: 30px;
     text-align: center;
 }
+
 .subtitle {
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 20pt;
-    background-color: darkseagreen;
-    height: 100px;
-
+    font-size: 16pt;
+    font-style: italic;
+    color:#ca4502;
 }
-.date{
+
+.info-tab {
     display: flex;
-    font-size: 15pt;
+    width: 70%;
     float: left;
-    width: 40%;
-    height: 100px;
-    background-color: burlywood;
+    height: 200px;
+}
+
+.date-text {
+    display: flex;
+    font-size: 12pt;
+    float: right;
+    width: 30%;
+    height: 200px;
     justify-content: center;
     align-items: center;
 }
 
-#pledge{
-    display: flex;
+.date {
     font-size: 15pt;
+    color:darkslateblue;
+    font-weight: bolder;
+}
+
+#pledge {
+    font-size:28pt;
+    font-weight: bolder;
     color:teal;
-    float:right;
-    width: 60%;
     height: 100px;
-    background-color:darkgrey;
     justify-content: center;
     align-items: center;
+}
+
+#deadline {
+    font-size: 10pt;
+    text-wrap: wrap;    
+    padding: 5px;
 }
 
 .story {

@@ -4,11 +4,12 @@ import Tab from '@mui/material/Tab';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
+import { palette } from '@mui/system';
 import { useGetProjectQuery } from "./projectSlice";
 import { useParams } from "react-router-dom";
 
 
-export default function LabTabs() {
+export default function InfoTabs() {
   const [value, setValue] = React.useState('1');
 
   const handleChange = (event, newValue) => {
@@ -23,12 +24,12 @@ export default function LabTabs() {
     if (error || !project ) {
         return <div>Error occurred while retrieving data </div>;
     }
-    const { title, subtitle, story, categoryId, faq, updates, funded, expiration, goal } = project;
+    const { title, subtitle, story, category, faq, updates, funded, expiration, goal } = project;
 
   return (
-    <Box sx={{ display:'flex', flexGrow:1, typography: 'body1', width:'800px' }}>
+    <Box sx={{ display:'flex', width:'800px', padding:'10px', justifyContent:'center', alignItems: 'center'}}>
       <TabContext value={value}>
-        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+        <Box sx={{ borderColor: 'divider' }}>
           <TabList 
           orientation="vertical"
           variant="scrollable" 
