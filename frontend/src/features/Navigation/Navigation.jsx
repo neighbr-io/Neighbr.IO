@@ -160,6 +160,8 @@ export default function Navigation() {
         <Box sx={{ flexGrow: 1 }}>
             <AppBar position="fixed">
                 <Toolbar>
+
+                <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
                     <Typography
                         variant="h6"
                         noWrap
@@ -168,7 +170,9 @@ export default function Navigation() {
                     >
                         NEIGHBR.IO
                     </Typography>
+                    </Link>
 
+                    <Link to="/Projects" style={{ textDecoration: 'none', color: 'inherit' }}>
                     <Typography
                         variant="h6"
                         noWrap
@@ -177,15 +181,18 @@ export default function Navigation() {
                     >
                         Projects
                     </Typography>
+                    </Link>
 
+                    <Link to="/Projects" style={{ textDecoration: 'none', color: 'inherit' }}>
                     <Typography
                         variant="h6"
                         noWrap
                         component="div"
                         sx={{ display: { xs: 'none', sm: 'block' }, mr:3 }}
                     >
-                        About
+                        FAQ
                     </Typography>
+                    </Link>
 
                     <Search>
                         <SearchIconWrapper>
