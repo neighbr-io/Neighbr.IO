@@ -7,8 +7,18 @@ const prisma = new PrismaClient();
 // GET /api/projects - Get all projects
 router.get("/", async (req, res) => {
   try {
-    const projects = await prisma.project.findMany();
-    res.json(projects);
+    const projects = await prisma.project.findMany({
+      include: {
+        Category: true,
+      }
+    });
+
+    const response = projects.map(project => ({
+      ...project,
+      category: project.Category.category,
+      Category: undefined,
+    }));
+    res.json(response);
   } catch (error) {
     console.error("Failed to get projects:", error);
     res.status(500).json({ error: "Failed to get projects" });
@@ -84,10 +94,18 @@ router.get("/:id", async (req, res) => {
       where: {
         id: parseInt(id),
       },
+      include: {
+        Category: true,
+      }
     });
 
     if (project) {
-      res.json(project);
+      const response = {
+        ...project,
+        category: project.Category.category,
+      };
+      delete response.Category;
+      res.json(response);
     } else {
       res.status(404).json({ error: "Project not found" });
     }
