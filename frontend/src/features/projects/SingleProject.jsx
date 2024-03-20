@@ -1,6 +1,5 @@
 import {
-    useGetProjectQuery } from "./projectSlice";
-import { useState } from "react";
+useGetProjectQuery } from "./projectSlice";
 import { useParams } from "react-router-dom";
 import Button from "@mui/material/Button";
 import "./SingleProject.css";

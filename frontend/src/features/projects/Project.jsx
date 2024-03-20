@@ -1,4 +1,3 @@
-import { useState } from "react";
 import {
   useGetProjectsQuery } from "./projectSlice";
 import Button from "@mui/material/Button";

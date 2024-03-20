@@ -1,8 +1,5 @@
-import { useGetProjectsQuery, useGetProjectQuery } from "./projectSlice";
 import SingleProject from "./SingleProject";
 import { Routes, Route } from "react-router-dom";
-import { useState } from "react";
-import ProjectTable from "./projectTable";
 import Project from "./Project";
 
 function ProjectContainer() {
