@@ -1,9 +1,9 @@
 import './App.css';
-import ProjectTable from './features/projects/projectTable';
 import { Route, Routes } from "react-router-dom";
 import ProjectContainer from './features/projects/ProjectContainer';
 import { Router } from 'react-router-dom';
 import { useState } from "react";
+import Waitlist from './features/waitlist/waitlist';
 
 import {
   Navigation,
@@ -41,6 +41,12 @@ function App() {
           element={
             <>
               <Faq />
+            </>
+          } />
+        <Route path="/waitlist"
+          element={
+            <>
+              <Waitlist />
             </>
           } />
 

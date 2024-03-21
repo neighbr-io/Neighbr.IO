@@ -27,7 +27,6 @@ const SingleProject = () => {
     const { title, subtitle, story, category, faq, updates, funded, expiration, goal } = project;
     console.log(expiration);
     const date = new Date(expiration).toDateString();
-    console.log(date);
 
     return (
     <div className="single-project">
