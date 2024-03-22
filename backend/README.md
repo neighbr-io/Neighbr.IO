@@ -16,6 +16,8 @@ The following table outlines the various API endpoints available, detailing thei
 | `/api/auth`                       | POST   | Receiving token when using regular log-in                       | Y             |Y                 |
 | `/api/transaction`                | POST   | Record a txn and update the Project table _funded_ field        | Y             |?                 |
 | `/api/transaction/:projectId`     | GET    | Get list of transactions by project id for business user        | Y             |Y                 |
+| `/api/waitlist`                   | POST   | Add email to waitlist                                           | N             |n/a               |
+| `/api/stripe`                     | many   | Connect to payment server                                       | Y             |Y                 |
 
 > **Note:** 'Auth Required' column specifies if the endpoint requires authentication. 'Y' indicates authentication is required, 'N' indicates it is not required.<br>
 > **Note:** 'Auth Implemented' column specifies if authentication compoment has been incorporated. 'Y' indicates it is completed. 'n/a' indicates it is not applicable. 
