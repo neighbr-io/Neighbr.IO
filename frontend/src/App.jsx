@@ -15,6 +15,7 @@ import {
   Faq
 } from "./Pages";
 import Project from './features/projects/Project';
+import NewProjectForm from './features/Registration/NewProjectForm';
 
 
 function App() {
@@ -47,6 +48,12 @@ function App() {
           element={
             <>
               <Waitlist />
+            </>
+          } />
+        <Route path="/newprojectform"
+          element={
+            <>
+              <NewProjectForm />
             </>
           } />
 
