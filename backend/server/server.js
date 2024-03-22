@@ -6,6 +6,7 @@ const staticsRoutes = require('./api/static');
 const authRoutes = require('./api/auth');
 const transactionRoutes = require('./api/transaction');
 const waitlistRoute = require('./api/waitlist');
+const stripeRoutes = require('./api/stripe');
 const cors = require('cors');
 
 const app = express();
@@ -20,6 +21,7 @@ app.use('/api/static', staticsRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/transactions', transactionRoutes);
 app.use('/api/waitlist', waitlistRoute);
+app.use('/api/stripe', stripeRoutes);
 
 app.listen(port, () => {
     console.log(`Server running on http://localhost:${port}`);
