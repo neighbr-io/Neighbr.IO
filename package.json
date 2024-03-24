@@ -4,22 +4,32 @@
     "@emotion/style": "^0.8.0",
     "@emotion/styled": "^11.11.0",
     "@mui/icons-material": "^5.15.13",
+    "@mui/lab": "^5.0.0-alpha.168",
     "@mui/material": "^5.15.13",
     "@mui/styled-engine": "^5.15.11",
-    "@prisma/client": "^5.10.2",
+    "@prisma/client": "^5.11.0",
     "@reduxjs/toolkit": "^2.2.1",
+    "@stripe/react-stripe-js": "^2.6.2",
+    "@stripe/stripe-js": "^3.0.10",
+    "@stripe/stripe-react-native": "^0.37.1",
     "@vitejs/plugin-react": "^4.2.1",
     "bcrypt": "^5.1.1",
     "body-parser": "^1.20.2",
     "concurrently": "^8.2.2",
+    "common": "^0.2.5",
     "cors": "^2.8.5",
+    "debug": "^4.3.4",
     "dotenv": "^16.4.5",
     "express": "^4.18.3",
     "jsonwebtoken": "^9.0.2",
     "passport": "^0.7.0",
     "passport-google-oauth20": "^2.0.0",
+    "prop-types": "^15.8.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "react-redux": "^9.1.0",
     "react-router-dom": "^6.22.3",
+    "stripe": "^14.21.0",
     "vite": "^5.1.6"
   },
   "devDependencies": {
@@ -35,3 +45,4 @@
     "start": "concurrently \"npm run server:dev\" \"npm run start:frontend\""
   }
 }
+
