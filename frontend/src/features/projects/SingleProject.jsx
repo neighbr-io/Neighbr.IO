@@ -1,6 +1,4 @@
-import {
-    useGetProjectQuery } from "./projectSlice";
-import { useState } from "react";
+import React from "react";
 import { useParams } from "react-router-dom";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
@@ -12,21 +10,27 @@ import TabList from "@mui/lab/TabList";
 import PropTypes from 'prop-types';
 import Typography from '@mui/material/Typography';
 import InfoTabs from "./SingleProjectTab";
+import { useGetProjectQuery } from "./projectSlice";
 import "./SingleProject.css";
 
 const SingleProject = () => {
     const { id } = useParams();
     const { data: project, error, isLoading } = useGetProjectQuery(id);
+    
     if (isLoading) {
         return <div>Loading...</div>;
     }
     
-    if (error || !project ) {
-        return <div>Error occurred while retrieving data </div>;
+    if (error || !project) {
+        return <div>Error occurred while retrieving data</div>;
     }
     const { title, subtitle, story, category, faq, updates, funded, expiration, goal } = project;
     console.log(expiration);
     const date = new Date(expiration).toDateString();
+
+    const handleBackProjectClick = async () => {
+       console.log("handleBackProjectClick");
+    };
 
     return (
     <div className="single-project">
@@ -45,6 +49,6 @@ const SingleProject = () => {
 
     </div>
     );
-}
+};
 
 export default SingleProject;
