@@ -1,96 +1,108 @@
-import './App.css';
+import "./App.css";
 import { Route, Routes } from "react-router-dom";
-import ProjectContainer from './features/projects/ProjectContainer';
-import { Router } from 'react-router-dom';
+import ProjectContainer from "./features/projects/ProjectContainer";
+import { Router } from "react-router-dom";
 import { useEffect, useState } from "react";
-import Waitlist from './features/waitlist/waitlist';
-import NewProjectForm from './features/Registration/NewProjectForm';
-import { Navigation, } from "./features";
+import Waitlist from "./features/waitlist/waitlist";
+import NewProjectForm from "./features/Registration/NewProjectForm";
+import { Navigation } from "./features";
+import SignIn from "./features/SignIn/SignIn"; 
 
-import {
-  Home,
-  Projects,
-  Faq
-} from "./Pages";
+import { Home, Projects, Faq } from "./Pages";
 
-import Project from './features/projects/Project';
+import Project from "./features/projects/Project";
 
-import '../stripeSrc/stripe.css';
-import Payment from '../stripeSrc/Payment';
-import Completion from '../stripeSrc/Completion';
-import {loadStripe} from '@stripe/stripe-js';
-
+import "../stripeSrc/stripe.css";
+import Payment from "../stripeSrc/Payment";
+import Completion from "../stripeSrc/Completion";
+import { loadStripe } from "@stripe/stripe-js";
 
 function App() {
-  const [ stripePromise, setStripePromise ] = useState(null);
-
+  const [stripePromise, setStripePromise] = useState(null);
 
   useEffect(() => {
-    
     const fetchData = async () => {
       try {
         const response = await fetch("/api/stripe/config");
         const { publishableKey } = await response.json();
-        console.log("publicshablekey",publishableKey);
+        console.log("publicshablekey", publishableKey);
         setStripePromise(loadStripe(publishableKey));
+      } catch (error) {
+        console.error("config error");
       }
-      catch (error) {
-         console.error("config error");
-      }
-    }
+    };
 
     fetchData();
   }, []);
 
-  
-  
   const projectRouter = (
     <>
       <Navigation />
       <Routes>
-
-        <Route path="/"
+        <Route
+          path="/"
           element={
             <>
-            <Home />
+              <Home />
             </>
-          } />
+          }
+        />
 
-        <Route path="/projects/*"
+        <Route
+          path="/projects/*"
           element={
             <>
               <ProjectContainer />
             </>
-          } />
+          }
+        />
 
-        <Route path="/Faq"
+        <Route
+          path="/Faq"
           element={
             <>
               <Faq />
             </>
-          } />
-        <Route path="/waitlist"
+          }
+        />
+        <Route
+          path="/waitlist"
           element={
             <>
               <Waitlist />
             </>
-          } />
-        <Route path="/newprojectform"
+          }
+        />
+
+        <Route
+          path="/newprojectform"
           element={
             <>
               <NewProjectForm />
             </>
-          } />
-             
-      <Route path="/checkout/pay" 
-          element={<Payment stripePromise={stripePromise} />} />
+          }
+        />
 
-      <Route path="/checkout/completion" 
-          element={<Completion stripePromise={stripePromise} />} />
+        <Route
+          path="/signin"
+          element={
+            <>
+              <SignIn />
+            </>
+          }
+        />
 
+        <Route
+          path="/checkout/pay"
+          element={<Payment stripePromise={stripePromise} />}
+        />
+
+        <Route
+          path="/checkout/completion"
+          element={<Completion stripePromise={stripePromise} />}
+        />
       </Routes>
     </>
-
   );
   return projectRouter;
   // const [searchText, setSearchText] = useState("");

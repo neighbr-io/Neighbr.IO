@@ -2,6 +2,7 @@ import {
   useGetProjectsQuery } from "./projectSlice";
 import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
+import stock_photo_storefront from "../../image/stock_photo_storefront.png"
 
 function Project () {
   const { data: projects, error, isLoading } = useGetProjectsQuery();
@@ -24,10 +25,12 @@ function Project () {
     <div className="all-projects">
       {projects.map((project) => (
         <div key={project.id} className="project-preview">
+        <img src={stock_photo_storefront} width="300" />
         <p className="title-main">{project.title}</p>
-        <p className="goal-main">Goal: ${project.goal}</p>
-        <p className="funded-main">Funded: ${project.funded}</p>
-        <Button variant="contained" size="small" sx={{bgcolor: "grey", mx: "auto"}} onClick={() => {
+        <p className="subtitle-main">{project.subtitle}</p>
+        <p className="goal-main">Goal: ${Number(project.goal).toLocaleString()}</p>
+        <p className="funded-main">Funded: ${Number(project.funded).toLocaleString()}</p>
+        <Button className="project-detail-button-main" onClick={() => {
             navigate(`/projects/${project.id}`);
         }}>See Project Details</Button>
       </div>

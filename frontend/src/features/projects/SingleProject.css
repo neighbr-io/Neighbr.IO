@@ -1,10 +1,28 @@
+*, *::before, *::after {
+    box-sizing: border-box;
+  }
+  
+  html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+
 #root {
-    background-color:honeydew;
+    background-color:whitesmoke;
+    width: 100vw; 
+    min-height: 100vh; 
+    margin: 0 auto;
+    padding: 2rem;
+    text-align: center;
+    box-sizing: border-box; 
 }
 
 #pledge-button {
-    font-size: 30px;
-    background-color: teal;
+    font-size: 20px;
+    background-color: #635bff;
 
 }
 
@@ -35,4 +53,22 @@
 }
 .goal {
 
+}
+
+.single-project-content {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 20px; /* Adjust the gap between the image and the info as needed */
+}
+
+.image-container {
+    width: 60%;
+    flex: 1;
+}
+
+.info-container {
+    flex: 2;
+    text-align: left; /* Aligns the text of the content on the right */
 }

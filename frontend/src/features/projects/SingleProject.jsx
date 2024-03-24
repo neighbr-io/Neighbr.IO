@@ -12,6 +12,7 @@ import PropTypes from 'prop-types';
 import Typography from '@mui/material/Typography';
 import InfoTabs from "./SingleProjectTab";
 import "./SingleProject.css";
+import stock_photo_storefront from "../../image/stock_photo_storefront.png"
 
 const SingleProject = () => {
     const { id } = useParams();
@@ -36,17 +37,25 @@ const SingleProject = () => {
     <div className="single-project">
         <h2 className="title">{title}</h2>
         <p className="subtitle">{subtitle}</p>
-        <section id="pledge">
-        <p>${funded} pledged of ${goal} goal</p>
-        </section>
-        <section className="date-text"><div>Help Us Reach Our Goal By:<p className="date">{date}</p></div></section>
-        <section className="info-tab"><InfoTabs /></section>
-        <Button id="pledge-button" variant="contained" onClick={() => {
-           window.location.href = "http://localhost:5173/checkout/pay";
-        }}>Back This Project</Button>
-        <p id="deadline">This project will only be funded if it reaches its goal by {date}.</p>
-        <p className="category">Category: {category}</p>
-
+        <div className="single-project-content">
+        <div className="image-container">
+                <img src={stock_photo_storefront} alt="Stock Photo" style={{ maxWidth: "100%", height: "auto" }} />
+            </div>
+            <div className="info-container">
+                <section id="pledge">
+                    <p>${Number(project.funded).toLocaleString()} pledged of ${Number(project.goal).toLocaleString()} goal</p>
+                </section>
+                <section className="date-text">
+                    <div>Help Us Reach Our Goal By:<p className="date">{date}</p></div>
+                </section>
+                <section className="info-tab"><InfoTabs /></section>
+                <Button id="pledge-button" variant="contained" onClick={() => {
+                    window.location.href = "http://localhost:5173/checkout/pay";
+                }}>Back This Project</Button>
+                <p id="deadline">This project will only be funded if it reaches its goal by {date}.</p>
+                <p className="category">Category: {category}</p>
+            </div>
+        </div>
     </div>
     );
 };

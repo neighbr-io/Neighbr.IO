@@ -31,7 +31,7 @@ const Waitlist = () => {
 
   return (
     <div className="waitlist-container">
-      <h1 style={{ fontSize: "40pt", color: "white" }}>Neighbr.io</h1>
+      {/* <h1 style={{ fontSize: "40pt", color: "white" }}>Neighbr.io</h1> */}
       <h2 className="waitlist-signup"> WAITLIST SIGNUP</h2>
       <h1>Empower Dreams, Strengthen Community: Your Services, Our Support!</h1>
       <p>
@@ -60,9 +60,9 @@ const Waitlist = () => {
           SIGNUP
         </button>
       </form>
-
-      <h1>How Does It Work</h1>
-      <p style={{ textAlign: "left" }}>
+      <div className="how-it-works">
+      <h1 style={{color: "black"}}>How Does It Work</h1>
+      <p style={{ textAlign: "left", color:"black"}}>
         At Neighbr.io, we've simplified the path to mutual success and community
         strength through a unique pledge system. Here’s how it unfolds:
       </p>
@@ -97,13 +97,14 @@ const Waitlist = () => {
         </li>
       </ol>
 
-      <p style={{ textAlign: "left" }}>
+      <p style={{ textAlign: "left", color: "black"}}>
         Each pledge brings us closer, weaving a tighter, more supportive
         neighborhood fabric where businesses flourish with the community's
         backing, and every service exchanged is a story of shared growth and
         gratitude. Join Neighbr.io, and be part of this innovative journey
         towards a thriving, interconnected community.
       </p>
+      </div>
     </div>
   );
 };
