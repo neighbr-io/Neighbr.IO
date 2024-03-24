@@ -7,6 +7,7 @@ import { useState } from "react";
 
 import {
   Navigation,
+  SignIn
 } from "./features";
 
 import {
@@ -43,6 +44,13 @@ function App() {
               <Faq />
             </>
           } />
+
+        {/* <Route path="/SignIn"
+          element={
+            <>
+              <SignIn />
+            </>
+          } /> */}
 
       </Routes>
     </>

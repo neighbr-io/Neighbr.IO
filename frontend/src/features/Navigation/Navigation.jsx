@@ -17,6 +17,7 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
 
 import { Link } from 'react-router-dom';
+import { SignIn } from "./SignIn/SignIn";
 
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
@@ -78,6 +79,10 @@ export default function Navigation() {
         handleMobileMenuClose();
     };
 
+    const handleSignIn = () => {
+        console.log("signin");
+    };
+
     const handleMobileMenuOpen = (event) => {
         setMobileMoreAnchorEl(event.currentTarget);
     };
@@ -101,6 +106,10 @@ export default function Navigation() {
         >
             <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
             <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+            <Link to="/SignIn" style={{ textDecoration: 'none', color: 'inherit' }}>
+                <MenuItem onClick={handleSignIn}>Sign In</MenuItem>
+            </Link>
+            <MenuItem onClick={handleMenuClose}>Sign Out</MenuItem>
         </Menu>
     );
 
