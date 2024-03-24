@@ -4,7 +4,7 @@ import ProjectContainer from './features/projects/ProjectContainer';
 import { Router } from 'react-router-dom';
 import { useEffect, useState } from "react";
 import Waitlist from './features/waitlist/waitlist';
-
+import NewProjectForm from './features/Registration/NewProjectForm';
 import { Navigation, } from "./features";
 
 import {
@@ -14,24 +14,11 @@ import {
 } from "./Pages";
 
 import Project from './features/projects/Project';
-import NewProjectForm from './features/Registration/NewProjectForm';
 
 import '../stripeSrc/stripe.css';
 import Payment from '../stripeSrc/Payment';
 import Completion from '../stripeSrc/Completion';
 import {loadStripe} from '@stripe/stripe-js';
-
-
-import {
-  Navigation,
-} from "./features";
-
-import {
-  Home,
-  Projects,
-  Faq
-} from "./Pages";
-import Project from './features/projects/Project';
 
 
 function App() {
