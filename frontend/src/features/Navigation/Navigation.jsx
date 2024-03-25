@@ -134,7 +134,7 @@ export default function Navigation() {
         </>
       ) : (
         <>
-          <MenuItem onClick={handleMenuClose}>Register</MenuItem>
+          {/* <MenuItem onClick={handleMenuClose}>Register</MenuItem> */}
           <MenuItem
             onClick={() => {
               window.location.href = "http://localhost:5173/signin";
