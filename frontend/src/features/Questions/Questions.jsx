@@ -28,19 +28,19 @@ const Questions = () => {
         <>
           <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
             <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-              <Tab label="Item One" {...a11yProps(0)} />
-              <Tab label="Item Two" {...a11yProps(1)} />
-              <Tab label="Item Three" {...a11yProps(2)} />
+              <Tab label="Who are we?" {...a11yProps(0)} />
+              <Tab label="What do we do?" {...a11yProps(1)} />
+              <Tab label="How can I get invovled?" {...a11yProps(2)} />
             </Tabs>
           </Box>
           <CustomTabPanel value={value} index={0}>
-            Item One
+           We are a small company founded out of Fullstack.
           </CustomTabPanel>
           <CustomTabPanel value={value} index={1}>
-            Item Two
+            Neihbor.io leverages community spirit to support local businesses.
           </CustomTabPanel>
           <CustomTabPanel value={value} index={2}>
-            Item Three
+            You can join as a customer or small business owner.
           </CustomTabPanel>
         </>
     );

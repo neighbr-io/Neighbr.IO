@@ -1,9 +1,7 @@
+import React, { useState } from "react";
 import './App.css';
-import ProjectTable from './features/projects/projectTable';
 import { Route, Routes } from "react-router-dom";
-import ProjectContainer from './features/projects/ProjectContainer';
-import { Router } from 'react-router-dom';
-import { useState } from "react";
+
 
 import {
   Navigation,
@@ -18,9 +16,16 @@ import Project from './features/projects/Project';
 
 
 function App() {
+
+  const [searchText, setSearchText] = useState("");
+
+  const handleSearch = (newSearchText) => {
+    setSearchText(newSearchText);
+  };
+
   const projectRouter = (
     <>
-      <Navigation />
+      <Navigation onSearch={handleSearch} />
       <Routes>
 
         <Route path="/"
@@ -33,7 +38,7 @@ function App() {
         <Route path="/projects/*"
           element={
             <>
-              <ProjectContainer />
+              <Projects />
             </>
           } />
 

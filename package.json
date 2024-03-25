@@ -12,6 +12,7 @@
     "@vitejs/plugin-react": "^4.2.1",
     "bcrypt": "^5.1.1",
     "body-parser": "^1.20.2",
+    "chalk": "^5.3.0",
     "common": "^0.2.5",
     "cors": "^2.8.5",
     "debug": "^4.3.4",

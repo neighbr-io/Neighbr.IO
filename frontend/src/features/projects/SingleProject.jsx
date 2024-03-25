@@ -1,5 +1,4 @@
-import {
-useGetProjectQuery } from "./projectSlice";
+import { useGetProjectQuery } from "./projectSlice";
 import { useParams } from "react-router-dom";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";

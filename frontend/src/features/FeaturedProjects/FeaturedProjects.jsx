@@ -1,6 +1,6 @@
 import {
   useGetProjectsQuery
-} from "./projectSlice";
+} from "../projects/projectSlice";
 import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
 import Grid from "@mui/material/Grid"
@@ -13,9 +13,18 @@ const StyledGrid = styled(Grid)(({ theme }) => ({
   border: `1px solid ${theme.palette.divider}`,
 }));
 
-function Project() {
+function FeaturedProjects() {
   const { data: projects, error, isLoading } = useGetProjectsQuery();
   const navigate = useNavigate();
+
+  const shuffleArray = (array) => {
+    let shuffledArray = [...array];
+    for (let i = shuffledArray.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffledArray[i], shuffledArray[j]] = [shuffledArray[j], shuffledArray[i]];
+    }
+    return shuffledArray;
+  };
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -24,13 +33,12 @@ function Project() {
   if (error || !projects) {
     return <div>Error occurred while retrieving data </div>;
   }
-  // const filteredProjects =
-  //   projects.filter((project) =>
-  //     project.title.toLowerCase().includes(searchText.toLowerCase())
-  //   );
+
+  const featuredProjects = shuffleArray(projects).slice(0, 3);
+
   return (
     <StyledGrid container>
-      {projects.map((project) => (
+      {featuredProjects.map((project) => (
         <StyledGrid item xs={12} sm={6} md={4} key={project.id}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap' }}>
             <Typography variant="body1">{project.title}</Typography>
@@ -52,4 +60,4 @@ function Project() {
   );
 };
 
-export default Project;
+export default FeaturedProjects;
