@@ -205,7 +205,7 @@ export default function Navigation() {
         <Toolbar>
           <Link
             className="text-3d"
-            to="/waitlist"
+            to="/"
             style={{ textDecoration: "none", color: "inherit" }}
           >
             <Typography
