@@ -1,9 +1,13 @@
 import { useAddProjectMutation } from "../projects/projectSlice";
 import "./NewProjectForm.css";
 import Button from "@mui/material/Button";
+import { useState } from "react";
 
 function NewProjectForm() {
     const [addProject] = useAddProjectMutation();
+    const [isAuthenticated, setIsAuthenticated] = useState(Boolean(localStorage.getItem("bearerToken")));
+        const token = localStorage.getItem("bearerToken");
+        console.log("User token:", token);
 
     async function onSubmit(event) {
         event.preventDefault();
@@ -15,7 +19,6 @@ function NewProjectForm() {
         const faq = event.target.faq.value;
         const goal = event.target.goal.value;
         const expiration = event.target.expiration.value;
-        const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsImlhdCI6MTcxMTA2NDE1OCwiZXhwIjoxNzExMTUwNTU4fQ.PhIHHelQ17a-2daN-CIeCZlFZWB9h-4HBCjtyOmFt58';
 
         if (title && subtitle && category && story && faq && goal && expiration) {
             await addProject ({ title, subtitle, category, story, faq, goal, expiration,
