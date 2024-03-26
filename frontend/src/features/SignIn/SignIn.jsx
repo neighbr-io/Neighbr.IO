@@ -141,23 +141,7 @@ const AuthForm = () => {
               >
                 {mode === "SignIn" ? "Sign In" : "Register"}
               </Button>
-              
-              {/* styling issue no show, need to fix */}
-              <button
-                type="button"
-                onClick={toggleMode}
-                style={{
-                  cursor: "pointer",
-                  background: "none",
-                  border: "none",
-                  color: "blue",
-                  textDecoration: "underline",
-                  width: "100%",
-                }}
-              >
-                Placeholder
-              </button>
-              {/* not needed once css fixed */}
+
             </Box>
           </Box>
         </Box>
