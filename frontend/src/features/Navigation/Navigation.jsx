@@ -128,7 +128,7 @@ export default function Navigation() {
       {isAuthenticated ? (
         // User is authenticated
         <>
-          <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+          {/* <MenuItem onClick={handleMenuClose}>Profile</MenuItem> */}
           <MenuItem onClick={handleMenuClose}>My account</MenuItem>
           <MenuItem onClick={handleSignout}>Sign out</MenuItem>
         </>

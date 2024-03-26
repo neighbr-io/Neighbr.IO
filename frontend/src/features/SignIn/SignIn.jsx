@@ -157,6 +157,7 @@ const AuthForm = () => {
               >
                 Placeholder
               </button>
+              {/* not needed once css fixed */}
             </Box>
           </Box>
         </Box>
