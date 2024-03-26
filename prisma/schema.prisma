@@ -35,6 +35,12 @@ model Project {
   goal         Int
   funded       Int
   expiration   DateTime
+  priceTier1   Int
+  rewardTier1  String
+  priceTier2   Int?
+  rewardTier2  String?
+  priceTier3   Int?
+  rewardTier3  String?
   userId       Int      // Foreign key that references the User model
   status       String   @default("draft") // 'draft' (default), 'live', 'expired'
   User         User     @relation(fields: [userId], references: [id])
@@ -69,7 +75,6 @@ model Location {
   projectId      Int
   project        Project   @relation(fields: [projectId], references: [id])
 }
-
 
 // Transactions table
 model Transaction {

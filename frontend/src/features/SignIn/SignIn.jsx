@@ -141,6 +141,7 @@ const AuthForm = () => {
               >
                 {mode === "SignIn" ? "Sign In" : "Register"}
               </Button>
+
             </Box>
           </Box>
         </Box>
