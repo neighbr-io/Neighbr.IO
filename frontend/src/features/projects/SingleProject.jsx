@@ -25,7 +25,7 @@ const SingleProject = () => {
     if (error || !project) {
         return <div>Error occurred while retrieving data</div>;
     }
-    const { title, subtitle, story, category, faq, updates, funded, expiration, goal } = project;
+    const { title, subtitle, story, category, faq, updates, funded, expiration, goal, priceTier1, rewardTier1 } = project;
     console.log(expiration);
     const date = new Date(expiration).toDateString();
 

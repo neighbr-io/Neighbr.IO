@@ -16,6 +16,7 @@ import MailIcon from "@mui/icons-material/Mail";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import { useState, useEffect } from "react";
+import { authEventEmitter } from "../../app/eventEmitter";
 
 import { Link } from "react-router-dom";
 
@@ -82,8 +83,15 @@ export default function Navigation() {
 
     window.addEventListener('storage', handleStorageChange);
 
+    const onAuthChange = (event) => {
+      setIsAuthenticated(event.detail.isAuthenticated);
+    };
+  
+    authEventEmitter.addEventListener("authChange", onAuthChange);
+
     return () => {
       window.removeEventListener('storage', handleStorageChange);
+      authEventEmitter.removeEventListener("authChange", onAuthChange);
     };
   }, []);
 
@@ -108,7 +116,8 @@ export default function Navigation() {
   };
 
   const handleSignout = () => {
-    localStorage.removeItem('bearerToken');
+    localStorage.removeItem('bearerToken'); 
+    authEventEmitter.dispatchEvent(new CustomEvent("authChange", { detail: { isAuthenticated: false } }));
     setIsAuthenticated(false);
     handleMenuClose();
     // Redirect to the login page or home page
@@ -135,8 +144,13 @@ export default function Navigation() {
       {isAuthenticated ? (
         // User is authenticated
         <>
-          <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-          <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+          {/* <MenuItem onClick={handleMenuClose}>Profile</MenuItem> */}
+          <MenuItem onClick={() => {
+            window.location.href = "http://localhost:5173/dashboard";
+          }}
+          >
+            My account
+          </MenuItem>
           <MenuItem onClick={handleSignout}>Sign out</MenuItem>
         </>
       ) : (
