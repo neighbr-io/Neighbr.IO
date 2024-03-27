@@ -59,6 +59,13 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
+const HoverTypography = styled(Typography)(({ theme }) => ({
+  '&:hover': {
+    color: theme.palette.secondary.main,
+    cursor: 'pointer',
+  },
+}));
+
 export default function Navigation() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
