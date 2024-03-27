@@ -6,7 +6,8 @@ import { useEffect, useState } from "react";
 import Waitlist from "./features/waitlist/waitlist";
 import NewProjectForm from "./features/Registration/NewProjectForm";
 import { Navigation } from "./features";
-import SignIn from "./features/SignIn/SignIn"; 
+import SignIn from "./features/SignIn/SignIn";
+import Dashboard from "./features/Dashboard/Dashboard";
 
 import { Home, Projects, Faq } from "./Pages";
 
@@ -88,6 +89,15 @@ function App() {
           element={
             <>
               <SignIn />
+            </>
+          }
+        />
+
+        <Route
+          path="/dashboard"
+          element={
+            <>
+              <Dashboard />
             </>
           }
         />

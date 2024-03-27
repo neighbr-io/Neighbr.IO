@@ -13,6 +13,7 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
+import { authEventEmitter } from "../../app/eventEmitter";
 
 const defaultTheme = createTheme();
 
@@ -41,6 +42,7 @@ const AuthForm = () => {
       const result = await response.json();
       if (mode === "SignIn") {
         localStorage.setItem("bearerToken", result.token);
+        authEventEmitter.dispatchEvent(new CustomEvent("authChange", { detail: { isAuthenticated: true } }));
         navigate("/projects");
       } else {
         console.log("Registration successful");
