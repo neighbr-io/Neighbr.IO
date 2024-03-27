@@ -6,7 +6,7 @@ import { useState } from "react";
 function NewProjectForm() {
     const [addProject] = useAddProjectMutation();
     const [isAuthenticated, setIsAuthenticated] = useState(Boolean(localStorage.getItem("bearerToken")));
-        const token = localStorage.getItem("bearerToken");
+    const token = localStorage.getItem("bearerToken");
     console.log("User token:", token);
 
     async function onSubmit(event) {
@@ -17,21 +17,16 @@ function NewProjectForm() {
         const category = event.target.category.value;
         const story = event.target.story.value;
         const faq = event.target.faq.value;
-        const goal = event.target.goal.value;
+        const goal = parseInt(event.target.goal.value, 10);
         const expiration = event.target.expiration.value;
-        const priceTier1 = event.target.priceTier1.value;
+        const priceTier1 = parseInt(event.target.priceTier1.value, 10);
         const rewardTier1 = event.target.rewardTier1.value;
 
-        if (title && subtitle && category && story && faq && goal && expiration && priceTier1 && rewardTier1) {
-            await addProject ({ title, subtitle, category, story, faq, goal, expiration, priceTier1, rewardTier1,
-                options: {
-                    headers: {
-                        //Basic Auth Header example
-                        'Authorization': `Bearer ${token}`
-                    }
-                } 
-            });
-            // event.target.reset();
+        if (title && subtitle && category && story && faq && !isNaN(goal) && expiration && !isNaN(priceTier1) && rewardTier1) {
+            await addProject ({ title, subtitle, category, story, faq, goal, expiration, priceTier1, rewardTier1,}).unwrap();
+            event.target.reset();
+        } else {
+            console.log("Please provide all required fields.")
         }
 
     }

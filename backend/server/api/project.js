@@ -36,12 +36,14 @@ router.post('/', authenticateToken, async (req, res) => {
         faq,
         goal,
         expiration,
+        priceTier1,
+        rewardTier1,
         funded, // optional
         updates // optional
     } = req.body;
 
     // Validate the required input data
-    if (!title || !subtitle || !category || !story || !goal || !expiration ) {
+    if (!title || !subtitle || !category || !story || !goal || !expiration || !priceTier1 || !rewardTier1) {
         return res.status(400).send('Required project information is missing.');
     }
 
@@ -73,6 +75,8 @@ router.post('/', authenticateToken, async (req, res) => {
                 goal,
                 funded: funded || 0, // Default funded to 0 if not provided
                 expiration: new Date(expiration),
+                priceTier1,
+                rewardTier1,
                 userId: req.userId // Use the user Id from the token to create userId
             }
         });
