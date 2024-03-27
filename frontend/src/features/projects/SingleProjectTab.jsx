@@ -24,7 +24,7 @@ export default function InfoTabs() {
     if (error || !project ) {
         return <div>Error occurred while retrieving data </div>;
     }
-    const { title, subtitle, story, category, faq, updates, funded, expiration, goal } = project;
+    const { title, subtitle, story, category, faq, updates, funded, expiration, goal, priceTier1, rewardTier1 } = project;
 
   return (
     <Box sx={{ display:'flex', width:'800px', padding:'10px', justifyContent:'center', alignItems: 'center'}}>
@@ -40,11 +40,13 @@ export default function InfoTabs() {
             <Tab label="Story" value="1" />
             <Tab label="FAQ" value="2" />
             <Tab label="Updates" value="3" />
+            <Tab label="Rewards" value="4" />
           </TabList>
         </Box>
         <TabPanel value="1">{story}</TabPanel>
         <TabPanel value="2">{faq}</TabPanel>
         <TabPanel value="3">{updates}</TabPanel>
+        <TabPanel value="4">Tier 1 Pledge: ${priceTier1}<br/>Tier 1 Reward: {rewardTier1}</TabPanel>
       </TabContext>
     </Box>
   );
