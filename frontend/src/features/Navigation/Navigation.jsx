@@ -79,7 +79,7 @@ export default function Navigation() {
       window.removeEventListener('storage', handleStorageChange);
     };
   }, []);
-  
+
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
@@ -101,11 +101,11 @@ export default function Navigation() {
   };
 
   const handleSignout = () => {
-    localStorage.removeItem('bearerToken'); 
+    localStorage.removeItem('bearerToken');
     setIsAuthenticated(false);
     handleMenuClose();
     // Redirect to the login page or home page
-    window.location.href = 'http://localhost:5173/projects'; 
+    window.location.href = 'http://localhost:5173/projects';
   };
 
   const menuId = "primary-search-account-menu";
@@ -217,32 +217,6 @@ export default function Navigation() {
               Neighbr.io
             </Typography>
           </Link>
-
-          <Link
-            to="/projects"
-            style={{ textDecoration: "none", color: "inherit" }}
-          >
-            <Typography
-              variant="h6"
-              noWrap
-              component="div"
-              sx={{ display: { xs: "none", sm: "block" }, mr: 3 }}
-            >
-              Projects
-            </Typography>
-          </Link>
-
-          <Link to="/Faq" style={{ textDecoration: "none", color: "inherit" }}>
-            <Typography
-              variant="h6"
-              noWrap
-              component="div"
-              sx={{ display: { xs: "none", sm: "block" }, mr: 3 }}
-            >
-              FAQ
-            </Typography>
-          </Link>
-
           <Search>
             <SearchIconWrapper>
               <SearchIcon />
@@ -254,6 +228,42 @@ export default function Navigation() {
           </Search>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
+            <Link
+              to="/projects"
+              style={{ textDecoration: "none", color: "inherit" }}
+            >
+              <Typography
+                variant="h6"
+                noWrap
+                component="div"
+                sx={{ display: { xs: "none", sm: "block" }, mr: 3 }}
+              >
+                Projects
+              </Typography>
+            </Link>
+
+            <Link to="/Faq" style={{ textDecoration: "none", color: "inherit" }}>
+              <Typography
+                variant="h6"
+                noWrap
+                component="div"
+                sx={{ display: { xs: "none", sm: "block" }, mr: 3 }}
+              >
+                FAQ
+              </Typography>
+            </Link>
+
+            <Link to="/newprojectform" style={{ textDecoration: "none", color: "inherit" }}>
+              <Typography
+                variant="h6"
+                noWrap
+                component="div"
+                sx={{ display: { xs: "none", sm: "block" }, mr: 3 }}
+              >
+                New Project
+              </Typography>
+            </Link>
+
             <IconButton
               size="large"
               edge="end"

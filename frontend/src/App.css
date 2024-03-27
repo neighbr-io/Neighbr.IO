@@ -10,10 +10,25 @@
 }
 
 .project-preview {
-  height: 500px;
-  width: 300px;
+  height: auto;
+  width: 30%;
+  min-width:300px;
   background-color: white;
   border-radius: 10px;
+  padding:10px;
+  border: 2px solid transparent;
+  transition: border 0.3s ease-in-out, box-shadow 0.3s ease-in-out;;
+}
+
+.project-preview img {
+  width: 100%;
+  height: auto;
+}
+
+.project-preview:hover {
+  border: 2px solid #5689ff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  
 }
 
 .goal-main {
