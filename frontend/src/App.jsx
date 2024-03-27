@@ -7,6 +7,7 @@ import Waitlist from "./features/waitlist/waitlist";
 import NewProjectForm from "./features/Registration/NewProjectForm";
 import { Navigation } from "./features";
 import SignIn from "./features/SignIn/SignIn"; 
+import Dashboard from "./features/Dashboard/Dashboard"
 
 import { Home, Projects, Faq } from "./Pages";
 
@@ -89,6 +90,15 @@ function App() {
             <>
               <SignIn />
             </>
+          }   
+        />
+
+        <Route
+          path="/dashboard"
+          element={
+            <>
+                <Dashboard />
+            </>
           }
         />
 
@@ -101,7 +111,7 @@ function App() {
           path="/checkout/completion"
           element={<Completion stripePromise={stripePromise} />}
         />
-      </Routes>
+        </Routes>
     </>
   );
   return projectRouter;

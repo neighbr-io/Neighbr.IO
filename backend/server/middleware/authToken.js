@@ -11,7 +11,7 @@ function authenticateToken(req, res, next) {
     if (err) return res.sendStatus(401); // Token was invalid
 
     req.userId = user.userId;
-    next(); // Token was valid, continue to the next middleware or route handler
+    next(); // Token was valid, continue to the next middleware or route
   });
 }
 

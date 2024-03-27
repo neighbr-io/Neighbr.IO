@@ -129,7 +129,13 @@ export default function Navigation() {
         // User is authenticated
         <>
           {/* <MenuItem onClick={handleMenuClose}>Profile</MenuItem> */}
-          <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+          <MenuItem onClick={() => {
+            window.location.href = "http://localhost:5173/dashboard";
+          }}
+          >
+            My account
+          </MenuItem>
+
           <MenuItem onClick={handleSignout}>Sign out</MenuItem>
         </>
       ) : (

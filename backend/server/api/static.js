@@ -1,5 +1,4 @@
 // Theese routes are for admin account only
-// Currently no auth required and will add later
 
 const express = require("express");
 const router = express.Router(); 

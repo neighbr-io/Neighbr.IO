@@ -1,4 +1,5 @@
 import {useEffect, useState} from 'react';
+import "./stripe.css";
 
 import {Elements} from '@stripe/react-stripe-js';
 import CheckoutForm from './CheckoutForm'
