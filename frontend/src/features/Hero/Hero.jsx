@@ -3,7 +3,7 @@ import React from "react";
 const Hero = () => {
     return (
         <>
-<p>Welcome to Neighbor.IO</p>
+<h1>Welcome to Neighbor.IO</h1>
         </>
     );
 };
