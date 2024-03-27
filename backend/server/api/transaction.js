@@ -27,7 +27,7 @@ router.post("/", async (req, res) => {
       },
       where: {
         projectId: projectId,
-        // Include additional conditions if necessary, such as status: 'completed'
+        // Include additional conditions if necessary
       },
     });
 
