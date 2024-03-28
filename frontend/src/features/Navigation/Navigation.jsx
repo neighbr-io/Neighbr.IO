@@ -92,74 +92,6 @@ export default function Navigation() {
     setIsDrawerOpen(open);
   };
 
-  //Mobile Drawer Component
-  const drawer = (
-    <Box
-      sx={{ width: 'auto' }}
-      role="presentation"
-      onClick={toggleDrawer(false)}
-      onKeyDown={toggleDrawer(false)}
-    >
-      <List>
-
-        <ListItem disablePadding>
-          <ListItemButton component={Link} to="/">
-            <ListItemIcon>
-            </ListItemIcon>
-            <ListItemText primary="Home" />
-          </ListItemButton>
-        </ListItem>
-
-        <ListItem disablePadding>
-          <ListItemButton component={Link} to="/projects">
-            <ListItemIcon>
-            </ListItemIcon>
-            <ListItemText primary="Projects" />
-          </ListItemButton>
-        </ListItem>
-
-        <ListItem disablePadding>
-          <ListItemButton component={Link} to="/faq">
-            <ListItemIcon>
-            </ListItemIcon>
-            <ListItemText primary="FAQ" />
-          </ListItemButton>
-        </ListItem>
-
-        <ListItem disablePadding>
-          <ListItemButton component={Link} to="/">
-            <ListItemIcon>
-            </ListItemIcon>
-            <ListItemText primary="New Project" />
-          </ListItemButton>
-        </ListItem>
-
-        {isAuthenticated ? (
-
-          <ListItem disablePadding>
-            <ListItemButton onClick={() => {
-            window.location.href = "http://localhost:5173/dashboard";
-          }}>
-              <ListItemIcon>
-              </ListItemIcon>
-              <ListItemText primary="My Account" />
-            </ListItemButton>
-          </ListItem>) : (
-          <ListItem disablePadding>
-            <ListItemButton onClick={() => {
-              window.location.href = "http://localhost:5173/signin";
-            }}>
-              <ListItemIcon>
-              </ListItemIcon>
-              <ListItemText primary="Sign In" />
-            </ListItemButton>
-          </ListItem>
-        )}
-
-      </List>
-    </Box>
-  );
-
   // Check if user is logged in
   console.log("is Authenticated:", isAuthenticated);
   // const isAuthenticated = false; <- use this for testing with hardcoded authenticated flag
@@ -259,6 +191,86 @@ export default function Navigation() {
 
   const mobileMenuId = "primary-search-account-menu-mobile";
 
+    //Render the mobile menu
+    const drawer = (
+      <Box
+        sx={{ width: 'auto' }}
+        role="presentation"
+        onClick={toggleDrawer(false)}
+        onKeyDown={toggleDrawer(false)}
+      >
+        <List>
+          {/*Always visible menu components */}
+          <ListItem disablePadding>
+            <ListItemButton component={Link} to="/">
+              <ListItemIcon>
+              </ListItemIcon>
+              <ListItemText primary="Home" />
+            </ListItemButton>
+          </ListItem>
+  
+          <ListItem disablePadding>
+            <ListItemButton component={Link} to="/projects">
+              <ListItemIcon>
+              </ListItemIcon>
+              <ListItemText primary="Projects" />
+            </ListItemButton>
+          </ListItem>
+  
+          <ListItem disablePadding>
+            <ListItemButton component={Link} to="/faq">
+              <ListItemIcon>
+              </ListItemIcon>
+              <ListItemText primary="FAQ" />
+            </ListItemButton>
+          </ListItem>
+  
+          <ListItem disablePadding>
+            <ListItemButton component={Link} to="/">
+              <ListItemIcon>
+              </ListItemIcon>
+              <ListItemText primary="New Project" />
+            </ListItemButton>
+          </ListItem>
+  
+          {/* Components that are only visislbe when you're signed in */}
+          {isAuthenticated ? (
+            <>
+              <ListItem disablePadding>
+                <ListItemButton onClick={() => {
+                  window.location.href = "http://localhost:5173/dashboard";
+                }}>
+                  <ListItemIcon>
+                  </ListItemIcon>
+                  <ListItemText primary="My Account" />
+                </ListItemButton>
+              </ListItem>
+  
+              <ListItem disablePadding>
+                <ListItemButton onClick={handleSignout}>
+                  <ListItemIcon>
+                  </ListItemIcon>
+                  <ListItemText primary="Sign Out" />
+                </ListItemButton>
+              </ListItem>
+            </>
+          ) : (
+  
+            <ListItem disablePadding>
+              <ListItemButton onClick={() => {
+                window.location.href = "http://localhost:5173/signin";
+              }}>
+                {/* Components that are only visislbe when you're signed out */}
+                <ListItemIcon>
+                </ListItemIcon>
+                <ListItemText primary="Sign In" />
+              </ListItemButton>
+            </ListItem>
+          )}
+  
+        </List>
+      </Box>
+    );
 
   return (
     <Box sx={{ flexGrow: 1 }}>
