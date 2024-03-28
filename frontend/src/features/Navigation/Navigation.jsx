@@ -18,6 +18,15 @@ import MoreIcon from "@mui/icons-material/MoreVert";
 import { useState, useEffect } from "react";
 import { authEventEmitter } from "../../app/eventEmitter";
 
+//Drawer Components
+import Drawer from "@mui/material/Drawer";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import InboxIcon from "@mui/icons-material/MoveToInbox";
+
 import { Link } from "react-router-dom";
 
 const Search = styled("div")(({ theme }) => ({
@@ -72,6 +81,41 @@ export default function Navigation() {
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(Boolean(localStorage.getItem("bearerToken")));
 
+  //For the mobile drawer
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+
+  //When you click on the drawer toggle it
+  const toggleDrawer = (open) => (event) => {
+    if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+      return;
+    }
+    setIsDrawerOpen(open);
+  };
+
+  //Mobile Drawer Component
+  const drawer = (
+    <Box
+      sx={{ width: 'auto' }}
+      role="presentation"
+      onClick={toggleDrawer(false)}
+      onKeyDown={toggleDrawer(false)}
+    >
+      <List>
+        
+        {['Home', 'Projects', 'FAQ', 'New Project'].map((text, index) => (
+          <ListItem key={text} disablePadding>
+            <ListItemButton>
+              <ListItemIcon>
+                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+              </ListItemIcon>
+              <ListItemText primary={text} />
+            </ListItemButton>
+          </ListItem>
+        ))}
+      </List>
+    </Box>
+  );
+
   // Check if user is logged in
   console.log("is Authenticated:", isAuthenticated);
   // const isAuthenticated = false; <- use this for testing with hardcoded authenticated flag
@@ -86,7 +130,7 @@ export default function Navigation() {
     const onAuthChange = (event) => {
       setIsAuthenticated(event.detail.isAuthenticated);
     };
-  
+
     authEventEmitter.addEventListener("authChange", onAuthChange);
 
     return () => {
@@ -116,7 +160,7 @@ export default function Navigation() {
   };
 
   const handleSignout = () => {
-    localStorage.removeItem('bearerToken'); 
+    localStorage.removeItem('bearerToken');
     authEventEmitter.dispatchEvent(new CustomEvent("authChange", { detail: { isAuthenticated: false } }));
     setIsAuthenticated(false);
     handleMenuClose();
@@ -125,6 +169,7 @@ export default function Navigation() {
   };
 
   const menuId = "primary-search-account-menu";
+
   const renderMenu = (
     <Menu
       anchorEl={anchorEl}
@@ -169,56 +214,7 @@ export default function Navigation() {
   );
 
   const mobileMenuId = "primary-search-account-menu-mobile";
-  const renderMobileMenu = (
-    <Menu
-      anchorEl={mobileMoreAnchorEl}
-      anchorOrigin={{
-        vertical: "top",
-        horizontal: "right",
-      }}
-      id={mobileMenuId}
-      keepMounted
-      transformOrigin={{
-        vertical: "top",
-        horizontal: "right",
-      }}
-      open={isMobileMenuOpen}
-      onClose={handleMobileMenuClose}
-    >
-      <MenuItem>
-        <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={4} color="error">
-            <MailIcon />
-          </Badge>
-        </IconButton>
-        <p>Messages</p>
-      </MenuItem>
-      <MenuItem>
-        <IconButton
-          size="large"
-          aria-label="show 17 new notifications"
-          color="inherit"
-        >
-          <Badge badgeContent={17} color="error">
-            <NotificationsIcon />
-          </Badge>
-        </IconButton>
-        <p>Notifications</p>
-      </MenuItem>
-      <MenuItem onClick={handleProfileMenuOpen}>
-        <IconButton
-          size="large"
-          aria-label="account of current user"
-          aria-controls="primary-search-account-menu"
-          aria-haspopup="true"
-          color="inherit"
-        >
-          <AccountCircle />
-        </IconButton>
-        <p>Profile</p>
-      </MenuItem>
-    </Menu>
-  );
+
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -268,7 +264,8 @@ export default function Navigation() {
                 variant="h6"
                 noWrap
                 component="div"
-                sx={{ display: { xs: "none", sm: "block" }, mr: 3 }}
+                sx={{ display: { xs: "none", sm: "block" }, 
+                mr: 3 }}
               >
                 FAQ
               </Typography>
@@ -279,7 +276,7 @@ export default function Navigation() {
                 variant="h6"
                 noWrap
                 component="div"
-                sx={{ display: { xs: "none", sm: "block" }, mr: 3 }}
+                sx={{ display: { sm: "none", md: "block" }, mr: 3 }}
               >
                 New Project
               </Typography>
@@ -303,15 +300,21 @@ export default function Navigation() {
               aria-label="show more"
               aria-controls={mobileMenuId}
               aria-haspopup="true"
-              onClick={handleMobileMenuOpen}
+              onClick={toggleDrawer(true)}
               color="inherit"
             >
-              <MoreIcon />
+              <MenuIcon />
             </IconButton>
           </Box>
         </Toolbar>
       </AppBar>
-      {renderMobileMenu}
+      <Drawer
+        anchor="top"
+        open={isDrawerOpen}
+        onClose={toggleDrawer(false)}
+      >
+        {drawer}
+      </Drawer>
       {renderMenu}
     </Box>
   );
