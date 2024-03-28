@@ -101,17 +101,61 @@ export default function Navigation() {
       onKeyDown={toggleDrawer(false)}
     >
       <List>
-        
-        {['Home', 'Projects', 'FAQ', 'New Project'].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton>
+
+        <ListItem disablePadding>
+          <ListItemButton component={Link} to="/">
+            <ListItemIcon>
+            </ListItemIcon>
+            <ListItemText primary="Home" />
+          </ListItemButton>
+        </ListItem>
+
+        <ListItem disablePadding>
+          <ListItemButton component={Link} to="/projects">
+            <ListItemIcon>
+            </ListItemIcon>
+            <ListItemText primary="Projects" />
+          </ListItemButton>
+        </ListItem>
+
+        <ListItem disablePadding>
+          <ListItemButton component={Link} to="/faq">
+            <ListItemIcon>
+            </ListItemIcon>
+            <ListItemText primary="FAQ" />
+          </ListItemButton>
+        </ListItem>
+
+        <ListItem disablePadding>
+          <ListItemButton component={Link} to="/">
+            <ListItemIcon>
+            </ListItemIcon>
+            <ListItemText primary="New Project" />
+          </ListItemButton>
+        </ListItem>
+
+        {isAuthenticated ? (
+
+          <ListItem disablePadding>
+            <ListItemButton onClick={() => {
+            window.location.href = "http://localhost:5173/dashboard";
+          }}>
               <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
               </ListItemIcon>
-              <ListItemText primary={text} />
+              <ListItemText primary="My Account" />
+            </ListItemButton>
+          </ListItem>) : (
+          <ListItem disablePadding>
+            <ListItemButton onClick={() => {
+              window.location.href = "http://localhost:5173/signin";
+            }}>
+              <ListItemIcon>
+              </ListItemIcon>
+              <ListItemText primary="Sign In" />
             </ListItemButton>
           </ListItem>
-        ))}
+        )}
+
       </List>
     </Box>
   );
@@ -264,8 +308,10 @@ export default function Navigation() {
                 variant="h6"
                 noWrap
                 component="div"
-                sx={{ display: { xs: "none", sm: "block" }, 
-                mr: 3 }}
+                sx={{
+                  display: { xs: "none", sm: "block" },
+                  mr: 3
+                }}
               >
                 FAQ
               </Typography>
