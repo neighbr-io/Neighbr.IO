@@ -60,6 +60,13 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
+const HoverTypography = styled(Typography)(({ theme }) => ({
+  '&:hover': {
+    color: theme.palette.secondary.main,
+    cursor: 'pointer',
+  },
+}));
+
 export default function Navigation() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -87,7 +94,7 @@ export default function Navigation() {
       authEventEmitter.removeEventListener("authChange", onAuthChange);
     };
   }, []);
-  
+
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
@@ -114,7 +121,7 @@ export default function Navigation() {
     setIsAuthenticated(false);
     handleMenuClose();
     // Redirect to the login page or home page
-    window.location.href = 'http://localhost:5173/projects'; 
+    window.location.href = 'http://localhost:5173/projects';
   };
 
   const menuId = "primary-search-account-menu";
@@ -219,7 +226,7 @@ export default function Navigation() {
         <Toolbar>
           <Link
             className="text-3d"
-            to="/waitlist"
+            to="/"
             style={{ textDecoration: "none", color: "inherit" }}
           >
             <Typography
@@ -231,32 +238,6 @@ export default function Navigation() {
               Neighbr.io
             </Typography>
           </Link>
-
-          <Link
-            to="/projects"
-            style={{ textDecoration: "none", color: "inherit" }}
-          >
-            <Typography
-              variant="h6"
-              noWrap
-              component="div"
-              sx={{ display: { xs: "none", sm: "block" }, mr: 3 }}
-            >
-              Projects
-            </Typography>
-          </Link>
-
-          <Link to="/Faq" style={{ textDecoration: "none", color: "inherit" }}>
-            <Typography
-              variant="h6"
-              noWrap
-              component="div"
-              sx={{ display: { xs: "none", sm: "block" }, mr: 3 }}
-            >
-              FAQ
-            </Typography>
-          </Link>
-
           <Search>
             <SearchIconWrapper>
               <SearchIcon />
@@ -268,6 +249,42 @@ export default function Navigation() {
           </Search>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
+            <Link
+              to="/projects"
+              style={{ textDecoration: "none", color: "inherit" }}
+            >
+              <Typography
+                variant="h6"
+                noWrap
+                component="div"
+                sx={{ display: { xs: "none", sm: "block" }, mr: 3 }}
+              >
+                Projects
+              </Typography>
+            </Link>
+
+            <Link to="/Faq" style={{ textDecoration: "none", color: "inherit" }}>
+              <Typography
+                variant="h6"
+                noWrap
+                component="div"
+                sx={{ display: { xs: "none", sm: "block" }, mr: 3 }}
+              >
+                FAQ
+              </Typography>
+            </Link>
+
+            <Link to="/newprojectform" style={{ textDecoration: "none", color: "inherit" }}>
+              <Typography
+                variant="h6"
+                noWrap
+                component="div"
+                sx={{ display: { xs: "none", sm: "block" }, mr: 3 }}
+              >
+                New Project
+              </Typography>
+            </Link>
+
             <IconButton
               size="large"
               edge="end"
