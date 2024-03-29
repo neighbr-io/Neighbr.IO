@@ -8,6 +8,7 @@ import NewProjectForm from "./features/Registration/NewProjectForm";
 import { Navigation } from "./features";
 import SignIn from "./features/SignIn/SignIn";
 import Dashboard from "./features/Dashboard/Dashboard";
+import SearchBar from "./features/SearchBar/SearchBar";
 
 import { Home, Projects, Faq } from "./Pages";
 
