@@ -15,6 +15,7 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 import MailIcon from "@mui/icons-material/Mail";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
+import SearchBar from "../SearchBar/SearchBar";
 import { useState, useEffect } from "react";
 import { authEventEmitter } from "../../app/eventEmitter";
 
@@ -164,6 +165,7 @@ export default function Navigation() {
     >
       {isAuthenticated ? (
         // User is authenticated
+        //Should wrap this in a box or a div
         <>
           {/* <MenuItem onClick={handleMenuClose}>Profile</MenuItem> */}
           <MenuItem onClick={() => {
@@ -290,15 +292,7 @@ export default function Navigation() {
               Neighbr.io
             </Typography>
           </Link>
-          <Search>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="Search…"
-              inputProps={{ "aria-label": "search" }}
-            />
-          </Search>
+          <SearchBar onSearch={(query) => console.log(query)} />
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
             <Link
