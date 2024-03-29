@@ -64,10 +64,10 @@ router.get("/", async (req, res) => {
 // GET /api/users/me - return the currently logged in user
 router.get("/me", async (req, res) => {
   try {
-
     const me = await prisma.user.findUnique({
+      // This isn't working...
       where: {
-        id: user.id
+        id: req.id
       },
     });
     res.json(me);
