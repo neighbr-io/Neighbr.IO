@@ -1,6 +1,12 @@
 import SingleProject from "./SingleProject";
 import { Routes, Route } from "react-router-dom";
 import Project from "./Project";
+import Payment from "../../../stripeSrc/Payment";
+import {
+    PaymentElement,
+    useStripe,
+    useElements
+  } from "@stripe/react-stripe-js";
 
 function ProjectContainer() {
 
@@ -10,6 +16,8 @@ function ProjectContainer() {
             <Route path='/' element={ <Project 
             /> } />
             <Route path='/:id' element={<SingleProject 
+            />} />
+            <Route path='/:id/pledge' element={<Payment
             />} />
         </Routes>
     );

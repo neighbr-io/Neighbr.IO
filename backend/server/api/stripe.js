@@ -75,7 +75,7 @@ router.get('/create-payment-intent', async (req, res) => {
   // See the documentation [0] for the full list of supported parameters.
   //
   // [0] https://stripe.com/docs/api/payment_intents/create
-  let orderAmount = 1400;
+  let orderAmount = 1400; 
   let paymentIntent;
 
   try {
