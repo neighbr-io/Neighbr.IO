@@ -144,6 +144,8 @@ const AuthForm = () => {
                 {mode === "SignIn" ? "Sign In" : "Register"}
               </Button>
 
+              <a class="button google" href="http://localhost:8000/api/auth/oauth2/redirect/google">Sign in with Google</a>
+
             </Box>
           </Box>
         </Box>
