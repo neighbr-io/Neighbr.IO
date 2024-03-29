@@ -47,6 +47,23 @@ router.post("/", async (req, res) => {
   }
 });
 
+
+// GET /api/transactions - Get all transactions
+router.get("/", async (req, res) => {
+  try {
+    const transactions = await prisma.transaction.findMany({
+    });
+
+    const response = transactions.map(transaction => ({
+      ...transaction,
+    }));
+    res.json(response);
+  } catch (error) {
+    console.error("Failed to get transactions:", error);
+    res.status(500).json({ error: "Failed to get transactions" });
+  }
+});
+
 // GET transactions based on projectId(s). Can be used to support transaction level business user dashboard
 // The endpoint can take multiple projectIds with query parameters
 // Example:    GET /aip/transactions?projectIds=1,2,3
