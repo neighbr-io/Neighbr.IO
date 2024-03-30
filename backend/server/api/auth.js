@@ -37,13 +37,8 @@ router.post('/', async (req, res) => {
     }
 });
 
-
-
-
-
 var passport = require('passport');
-var GoogleStrategy = require('passport-google-oidc');
-
+const GoogleStrategy = require("passport-google-oauth").OAuth2Strategy;
 
 
 // Configure the Google strategy for use by Passport.
@@ -58,67 +53,14 @@ console.log(process.env['GOOGLE_CLIENT_SECRET'])
 passport.use(new GoogleStrategy({
   clientID: process.env['GOOGLE_CLIENT_ID'],
   clientSecret: process.env['GOOGLE_CLIENT_SECRET'],
-  callbackURL: '/auth/oauth2/redirect/google',
+  callbackURL: '/api/auth/oauth2/redirect/google',
   scope: [ 'profile' ]
-}, function verify(issuer, profile, cb) {
-//   db.get('SELECT * FROM federated_credentials WHERE provider = ? AND subject = ?', [
-//     issuer,
-//     profile.id
-//   ], function(err, row) {
-//     if (err) { return cb(err); }
-//     if (!row) {
-//       db.run('INSERT INTO users (name) VALUES (?)', [
-//         profile.displayName
-//       ], function(err) {
-//         if (err) { return cb(err); }
-        
-//         var id = this.lastID;
-//         db.run('INSERT INTO federated_credentials (user_id, provider, subject) VALUES (?, ?, ?)', [
-//           id,
-//           issuer,
-//           profile.id
-//         ], function(err) {
-//           if (err) { return cb(err); }
-//           var user = {
-//             id: id,
-//             name: profile.displayName
-//           };
-//           return cb(null, user);
-//         });
-//       });
-//     } else {
-//       db.get('SELECT * FROM users WHERE id = ?', [ row.user_id ], function(err, row) {
-//         if (err) { return cb(err); }
-//         if (!row) { return cb(null, false); }
-//         return cb(null, row);
-//       });
-//     }
-//   });
+}, 
+
+function(accessToken, refreshToken, profile, done) {
+  userProfile=profile;
+  return done(null, userProfile);
 }));
-  
-// Configure Passport authenticated session persistence.
-//
-// In order to restore authentication state across HTTP requests, Passport needs
-// to serialize users into and deserialize users out of the session.  In a
-// production-quality application, this would typically be as simple as
-// supplying the user ID when serializing, and querying the user record by ID
-// from the database when deserializing.  However, due to the fact that this
-// example does not have a database, the complete Facebook profile is serialized
-// and deserialized.
-passport.serializeUser(function(user, cb) {
-  process.nextTick(function() {
-    cb(null, { id: user.id, username: user.username, name: user.name });
-  });
-});
-
-passport.deserializeUser(function(user, cb) {
-  process.nextTick(function() {
-    return cb(null, user);
-  });
-});
-
-
-
 
 /* GET /login
  *
@@ -153,7 +95,7 @@ router.get('/login/federated/google', passport.authenticate('google'));
     user returns, they are signed in to their linked account.
 */
 router.get('/oauth2/redirect/google', passport.authenticate('google', {
-  successReturnToOrRedirect: '/',
+  successReturnToOrRedirect: '/', //this need to correct redirect your
   failureRedirect: '/login'
 }));
 
