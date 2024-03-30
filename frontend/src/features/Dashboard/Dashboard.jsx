@@ -1,12 +1,12 @@
 import React from 'react';
 import { useMeQuery } from './authSlice';
 import { useGetTransactionsQuery } from './transactionSlice';
-
+import { useGetAccountDetailsQuery } from './userSlice';
 
 const Dashboard = () => {
   const { data: transactions, error, isLoading } = useGetTransactionsQuery();
   console.log("data", transactions);
-  const { data: me } = useMeQuery();
+  const { data: me } = useGetAccountDetailsQuery();
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -19,7 +19,7 @@ const Dashboard = () => {
     <>
       <h1>Transactions</h1>
       {/* "me" - This isn't working yet... */}
-      <h3>Hi {me}!</h3>
+      <h3>Hi {me.email}!</h3>
       <table className='transactions-table'>
         <thead>
           <tr>
