@@ -62,16 +62,26 @@ router.get("/", async (req, res) => {
 });
 
 // GET /api/users/me - return the currently logged in user
-router.get("/me", async (req, res) => {
+router.get("/me", authenticateToken, async (req, res) => {
   try {
+    
+    const userId = req.userId;
+
+    if (!userId) {
+      return res.status(400).send("User ID is missing.");
+    }
+
     const me = await prisma.user.findUnique({
-      // This isn't working...
       where: {
-        id: req.id
+        id: userId,
       },
     });
-    res.json(me);
 
+    if (!me) {
+      return res.status(404).send("User not found.");
+    }
+
+    res.json(me);
   } catch (error) {
     console.error("Failed to get user:", error);
     res.status(500).json({ error: "Failed to get user" });
