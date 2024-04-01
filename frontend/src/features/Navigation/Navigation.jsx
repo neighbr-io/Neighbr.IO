@@ -15,6 +15,7 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 import MailIcon from "@mui/icons-material/Mail";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
+import SearchBar from "../SearchBar/SearchBar";
 import { useState, useEffect } from "react";
 import { authEventEmitter } from "../../app/eventEmitter";
 import logoImage from "../../image/logo.png";
@@ -192,6 +193,7 @@ export default function Navigation() {
     >
       {isAuthenticated ? (
         // User is authenticated
+        //Should wrap this in a box or a div
         <>
           {/* <MenuItem onClick={handleMenuClose}>Profile</MenuItem> */}
           <MenuItem
@@ -307,15 +309,7 @@ export default function Navigation() {
               style={{ height: "70px", marginRight: "5px" }} // Adjust the height and margin as needed
             />
           </Link>
-          <Search>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="Search…"
-              inputProps={{ "aria-label": "search" }}
-            />
-          </Search>
+          <SearchBar onSearch={(query) => console.log(query)} />
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
             <Link

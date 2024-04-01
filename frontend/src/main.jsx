@@ -9,8 +9,6 @@ import { ThemeProvider } from '@mui/material';
 import theme from "./theme.js";
 // Using Fetch for testing/placeholder
 // import Fetch from './features/projects/fetch.jsx';
-import SingleProject from './features/projects/SingleProject.jsx';
-import SingleTable from './features/projects/ProjectContainer.jsx';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>

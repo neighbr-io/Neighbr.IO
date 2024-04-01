@@ -61,3 +61,31 @@
   size: small;
   background-color: grey;
 }
+
+.dropdown {
+  background-color: rgb(129, 175, 255);
+  padding:10px;
+  top: 81%;
+  width:100%;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid gray;
+  border-radius: 10px;
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+}
+
+dropdown:empty {
+  border:none
+}
+
+.dropdown-row {
+  cursor: pointer;
+  text-align: start;
+  margin: 2px 0;
+  padding:10px;
+}
+
+.dropdown-row:hover {
+  background-color: #5689ff;
+}
