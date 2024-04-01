@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import "./Rewards.css";
 import { Elements } from "@stripe/react-stripe-js";
 import CheckoutForm from "./CheckoutForm";
 import { useGetProjectQuery } from "../src/features/projects/projectSlice";
@@ -49,31 +48,6 @@ function Payment(props) {
 
   return (
     <>
-      <div className="rewards-container">
-        {project && (
-          <>
-            <div className="reward-card"  onClick={() => handleSelectTier(project.priceTier1)}>
-              <h3>Tier 1</h3>
-              <p>Price: ${project.priceTier1}</p>
-              <p>Reward: {project.rewardTier1}</p>
-            </div>
-            {project.priceTier2 && (
-              <div className="reward-card" onClick={() => handleSelectTier(project.priceTier2)}>
-                <h3>Tier 2</h3>
-                <p>Price: ${project.priceTier2}</p>
-                <p>Reward: {project.rewardTier2}</p>
-              </div>
-            )}
-            {project.priceTier3 && (
-              <div className="reward-card" onClick={() => handleSelectTier(project.priceTier3)}>
-                <h3>Tier 3</h3>
-                <p>Price: ${project.priceTier3}</p>
-                <p>Reward: {project.rewardTier3}</p>
-              </div>
-            )}
-          </>
-        )}
-      </div>
       <h1>Payment</h1>
       {clientSecret && stripePromise && (
         <Elements stripe={stripePromise} options={{ clientSecret }}>

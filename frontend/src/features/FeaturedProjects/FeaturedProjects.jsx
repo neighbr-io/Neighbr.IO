@@ -35,7 +35,8 @@ function FeaturedProjects() {
     return <div>Error occurred while retrieving data </div>;
   }
 
-  const featuredProjects = shuffleArray(projects).slice(0, 3);
+  const liveProjects = projects.filter(project => project.status === 'live'); 
+  const featuredProjects = shuffleArray(liveProjects).slice(0, 3);
 
   return (
     <div className="all-projects">

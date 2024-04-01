@@ -79,7 +79,7 @@ const SingleProject = () => {
             variant="contained"
             onClick={() => {
                 // navigate(`/projects/${id}/pledge`);
-                navigate(`/checkout/pay`, { state: { projectId: id } });
+                navigate(`/projects/${id}/pledge`, { state: { projectId: id } });
             }}
           >
             Back This Project

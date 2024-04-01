@@ -17,6 +17,7 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import { useState, useEffect } from "react";
 import { authEventEmitter } from "../../app/eventEmitter";
+import logoImage from "../../image/logo.png";
 
 //Drawer Components
 import Drawer from "@mui/material/Drawer";
@@ -29,19 +30,39 @@ import InboxIcon from "@mui/icons-material/MoveToInbox";
 
 import { Link } from "react-router-dom";
 
+// const Search = styled("div")(({ theme }) => ({
+//   position: "relative",
+//   borderRadius: theme.shape.borderRadius,
+//   backgroundColor: alpha(theme.palette.common.white, 0.15),
+//   "&:hover": {
+//     backgroundColor: alpha(theme.palette.common.white, 0.25),
+//   },
+//   marginRight: theme.spacing(2),
+//   marginLeft: 0,
+//   width: "100%",
+//   [theme.breakpoints.up("sm")]: {
+//     marginLeft: theme.spacing(3),
+//     width: "auto",
+//   },
+// }));
+
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
   borderRadius: theme.shape.borderRadius,
   backgroundColor: alpha(theme.palette.common.white, 0.15),
-  "&:hover": {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
-  },
   marginRight: theme.spacing(2),
   marginLeft: 0,
   width: "100%",
+  boxShadow: "0 0 5px rgba(0, 0, 0, 0.1)", // Subtle shadow
   [theme.breakpoints.up("sm")]: {
     marginLeft: theme.spacing(3),
     width: "auto",
+  },
+  "&:hover": {
+    backgroundColor: alpha(theme.palette.common.white, 0.25),
+    // Glowing effect on hover
+    boxShadow:
+      "0 0 10px rgba(0, 0, 0, 0.1), 0 0 20px rgba(0, 0, 0, 0.1), 0 0 30px rgba(0, 0, 0, 0.2)",
   },
 }));
 
@@ -70,23 +91,28 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 const HoverTypography = styled(Typography)(({ theme }) => ({
-  '&:hover': {
+  "&:hover": {
     color: theme.palette.secondary.main,
-    cursor: 'pointer',
+    cursor: "pointer",
   },
 }));
 
 export default function Navigation() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-  const [isAuthenticated, setIsAuthenticated] = useState(Boolean(localStorage.getItem("bearerToken")));
+  const [isAuthenticated, setIsAuthenticated] = useState(
+    Boolean(localStorage.getItem("bearerToken"))
+  );
 
   //For the mobile drawer
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   //When you click on the drawer toggle it
   const toggleDrawer = (open) => (event) => {
-    if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+    if (
+      event.type === "keydown" &&
+      (event.key === "Tab" || event.key === "Shift")
+    ) {
       return;
     }
     setIsDrawerOpen(open);
@@ -101,7 +127,7 @@ export default function Navigation() {
       setIsAuthenticated(Boolean(localStorage.getItem("bearerToken")));
     };
 
-    window.addEventListener('storage', handleStorageChange);
+    window.addEventListener("storage", handleStorageChange);
 
     const onAuthChange = (event) => {
       setIsAuthenticated(event.detail.isAuthenticated);
@@ -110,7 +136,7 @@ export default function Navigation() {
     authEventEmitter.addEventListener("authChange", onAuthChange);
 
     return () => {
-      window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener("storage", handleStorageChange);
       authEventEmitter.removeEventListener("authChange", onAuthChange);
     };
   }, []);
@@ -136,12 +162,14 @@ export default function Navigation() {
   };
 
   const handleSignout = () => {
-    localStorage.removeItem('bearerToken');
-    authEventEmitter.dispatchEvent(new CustomEvent("authChange", { detail: { isAuthenticated: false } }));
+    localStorage.removeItem("bearerToken");
+    authEventEmitter.dispatchEvent(
+      new CustomEvent("authChange", { detail: { isAuthenticated: false } })
+    );
     setIsAuthenticated(false);
     handleMenuClose();
     // Redirect to the login page or home page
-    window.location.href = 'http://localhost:5173/projects';
+    window.location.href = "http://localhost:5173/projects";
   };
 
   const menuId = "primary-search-account-menu";
@@ -166,9 +194,10 @@ export default function Navigation() {
         // User is authenticated
         <>
           {/* <MenuItem onClick={handleMenuClose}>Profile</MenuItem> */}
-          <MenuItem onClick={() => {
-            window.location.href = "http://localhost:5173/dashboard";
-          }}
+          <MenuItem
+            onClick={() => {
+              window.location.href = "http://localhost:5173/dashboard";
+            }}
           >
             My account
           </MenuItem>
@@ -191,104 +220,92 @@ export default function Navigation() {
 
   const mobileMenuId = "primary-search-account-menu-mobile";
 
-    //Render the mobile menu
-    const drawer = (
-      <Box
-        sx={{ width: 'auto' }}
-        role="presentation"
-        onClick={toggleDrawer(false)}
-        onKeyDown={toggleDrawer(false)}
-      >
-        <List>
-          {/*Always visible menu components */}
-          <ListItem disablePadding>
-            <ListItemButton component={Link} to="/">
-              <ListItemIcon>
-              </ListItemIcon>
-              <ListItemText primary="Home" />
-            </ListItemButton>
-          </ListItem>
-  
-          <ListItem disablePadding>
-            <ListItemButton component={Link} to="/projects">
-              <ListItemIcon>
-              </ListItemIcon>
-              <ListItemText primary="Projects" />
-            </ListItemButton>
-          </ListItem>
-  
-          <ListItem disablePadding>
-            <ListItemButton component={Link} to="/faq">
-              <ListItemIcon>
-              </ListItemIcon>
-              <ListItemText primary="FAQ" />
-            </ListItemButton>
-          </ListItem>
-  
-          <ListItem disablePadding>
-            <ListItemButton component={Link} to="/">
-              <ListItemIcon>
-              </ListItemIcon>
-              <ListItemText primary="New Project" />
-            </ListItemButton>
-          </ListItem>
-  
-          {/* Components that are only visislbe when you're signed in */}
-          {isAuthenticated ? (
-            <>
-              <ListItem disablePadding>
-                <ListItemButton onClick={() => {
-                  window.location.href = "http://localhost:5173/dashboard";
-                }}>
-                  <ListItemIcon>
-                  </ListItemIcon>
-                  <ListItemText primary="My Account" />
-                </ListItemButton>
-              </ListItem>
-  
-              <ListItem disablePadding>
-                <ListItemButton onClick={handleSignout}>
-                  <ListItemIcon>
-                  </ListItemIcon>
-                  <ListItemText primary="Sign Out" />
-                </ListItemButton>
-              </ListItem>
-            </>
-          ) : (
-  
+  //Render the mobile menu
+  const drawer = (
+    <Box
+      sx={{ width: "auto" }}
+      role="presentation"
+      onClick={toggleDrawer(false)}
+      onKeyDown={toggleDrawer(false)}
+    >
+      <List>
+        {/*Always visible menu components */}
+        <ListItem disablePadding>
+          <ListItemButton component={Link} to="/">
+            <ListItemIcon></ListItemIcon>
+            <ListItemText primary="Home" />
+          </ListItemButton>
+        </ListItem>
+
+        <ListItem disablePadding>
+          <ListItemButton component={Link} to="/projects">
+            <ListItemIcon></ListItemIcon>
+            <ListItemText primary="Projects" />
+          </ListItemButton>
+        </ListItem>
+
+        <ListItem disablePadding>
+          <ListItemButton component={Link} to="/faq">
+            <ListItemIcon></ListItemIcon>
+            <ListItemText primary="FAQ" />
+          </ListItemButton>
+        </ListItem>
+
+        <ListItem disablePadding>
+          <ListItemButton component={Link} to="/">
+            <ListItemIcon></ListItemIcon>
+            <ListItemText primary="New Project" />
+          </ListItemButton>
+        </ListItem>
+
+        {/* Components that are only visislbe when you're signed in */}
+        {isAuthenticated ? (
+          <>
             <ListItem disablePadding>
-              <ListItemButton onClick={() => {
-                window.location.href = "http://localhost:5173/signin";
-              }}>
-                {/* Components that are only visislbe when you're signed out */}
-                <ListItemIcon>
-                </ListItemIcon>
-                <ListItemText primary="Sign In" />
+              <ListItemButton
+                onClick={() => {
+                  window.location.href = "http://localhost:5173/dashboard";
+                }}
+              >
+                <ListItemIcon></ListItemIcon>
+                <ListItemText primary="My Account" />
               </ListItemButton>
             </ListItem>
-          )}
-  
-        </List>
-      </Box>
-    );
+
+            <ListItem disablePadding>
+              <ListItemButton onClick={handleSignout}>
+                <ListItemIcon></ListItemIcon>
+                <ListItemText primary="Sign Out" />
+              </ListItemButton>
+            </ListItem>
+          </>
+        ) : (
+          <ListItem disablePadding>
+            <ListItemButton
+              onClick={() => {
+                window.location.href = "http://localhost:5173/signin";
+              }}
+            >
+              {/* Components that are only visislbe when you're signed out */}
+              <ListItemIcon></ListItemIcon>
+              <ListItemText primary="Sign In" />
+            </ListItemButton>
+          </ListItem>
+        )}
+      </List>
+    </Box>
+  );
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="fixed">
+      <AppBar position="fixed" color="default">
         <Toolbar>
-          <Link
-            className="text-3d"
-            to="/"
-            style={{ textDecoration: "none", color: "inherit" }}
-          >
-            <Typography
-              variant="h6"
-              noWrap
-              component="div"
-              sx={{ display: { xs: "none", sm: "block" }, mr: 3 }}
-            >
-              Neighbr.io
-            </Typography>
+          <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
+            <img
+              src={logoImage}
+              alt="Neighbr.io Logo"
+              style={{ height: "70px", marginRight: "5px" }} // Adjust the height and margin as needed
+            />
           </Link>
           <Search>
             <SearchIconWrapper>
@@ -306,37 +323,58 @@ export default function Navigation() {
               style={{ textDecoration: "none", color: "inherit" }}
             >
               <Typography
-                variant="h6"
+                variant="BUTTON TEXT"
                 noWrap
                 component="div"
-                sx={{ display: { xs: "none", sm: "block" }, mr: 3 }}
+                sx={{
+                  display: { xs: "none", sm: "block" },
+                  mr: 3,
+                  border: "1px solid #ddd",
+                  borderRadius: "4px",
+                  padding: "10px 10px",
+                }}
               >
                 Projects
               </Typography>
             </Link>
 
-            <Link to="/Faq" style={{ textDecoration: "none", color: "inherit" }}>
+            <Link
+              to="/newprojectform"
+              style={{ textDecoration: "none", color: "inherit" }}
+            >
               <Typography
-                variant="h6"
+                variant="BUTTON TEXT"
+                noWrap
+                component="div"
+                sx={{
+                  display: { sm: "none", md: "block" },
+                  mr: 3,
+                  border: "1px solid #ddd",
+                  borderRadius: "4px",
+                  padding: "10px 10px",
+                }}
+              >
+                New Project
+              </Typography>
+            </Link>
+
+            <Link
+              to="/Faq"
+              style={{ textDecoration: "none", color: "inherit" }}
+            >
+              <Typography
+                variant="BUTTON TEXT"
                 noWrap
                 component="div"
                 sx={{
                   display: { xs: "none", sm: "block" },
-                  mr: 3
+                  mr: 3,
+                  border: "1px solid #ddd",
+                  borderRadius: "4px",
+                  padding: "10px 10px",
                 }}
               >
                 FAQ
-              </Typography>
-            </Link>
-
-            <Link to="/newprojectform" style={{ textDecoration: "none", color: "inherit" }}>
-              <Typography
-                variant="h6"
-                noWrap
-                component="div"
-                sx={{ display: { sm: "none", md: "block" }, mr: 3 }}
-              >
-                New Project
               </Typography>
             </Link>
 
@@ -366,11 +404,7 @@ export default function Navigation() {
           </Box>
         </Toolbar>
       </AppBar>
-      <Drawer
-        anchor="top"
-        open={isDrawerOpen}
-        onClose={toggleDrawer(false)}
-      >
+      <Drawer anchor="top" open={isDrawerOpen} onClose={toggleDrawer(false)}>
         {drawer}
       </Drawer>
       {renderMenu}
