@@ -1,0 +1,5 @@
+-- AlterTable
+ALTER TABLE "Transaction" ALTER COLUMN "type" DROP NOT NULL,
+ALTER COLUMN "paymentMethod" DROP NOT NULL,
+ALTER COLUMN "status" DROP NOT NULL,
+ALTER COLUMN "gatewayTxnId" DROP NOT NULL;

@@ -46,20 +46,28 @@ router.post("/register", async (req, res) => {
 });
 
 // GET /api/users - Get all users
-router.get("/", async (req, res) => {
+router.get("/", authenticateToken, async (req, res) => {
   try {
-    const users = await prisma.user.findMany({
+    // First, verify the user's role
+    const userRecord = await prisma.user.findUnique({
+      where: { id: req.userId },
     });
 
-    const response = users.map(transaction => ({
-      ...transaction,
-    }));
-    res.json(response);
+    if (!userRecord || userRecord.accountTypeId !== 1) {
+      // If user does not exist or is not an admin, return error
+      return res.status(403).send("Access denied. Admins only.");
+    }
+
+    // If the user is an admin, proceed to fetch all users
+    const users = await prisma.user.findMany();
+
+    res.json(users);
   } catch (error) {
     console.error("Failed to get users:", error);
     res.status(500).json({ error: "Failed to get users" });
   }
 });
+
 
 // GET /api/users/me - return the currently logged in user
 router.get("/me", authenticateToken, async (req, res) => {
