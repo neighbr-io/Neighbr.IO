@@ -95,7 +95,7 @@ router.get('/login/federated/google', passport.authenticate('google'));
     user returns, they are signed in to their linked account.
 */
 router.get('/oauth2/redirect/google', passport.authenticate('google', {
-  successReturnToOrRedirect: '/', //this need to correct redirect your
+  successReturnToOrRedirect: 'http://localhost:5173/', //this need to correct redirect your
   failureRedirect: '/login'
 }));
 
