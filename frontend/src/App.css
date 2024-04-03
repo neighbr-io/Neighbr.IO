@@ -63,10 +63,10 @@
 }
 
 .dropdown {
-  background-color: rgb(129, 175, 255);
+  background-color: rgb(255, 255, 255);
   padding:10px;
   top: 81%;
-  width:100%;
+  width:80%;
   position: absolute;
   display: flex;
   flex-direction: column;
@@ -87,5 +87,5 @@ dropdown:empty {
 }
 
 .dropdown-row:hover {
-  background-color: #5689ff;
+  background-color: #d2d2d2;
 }
