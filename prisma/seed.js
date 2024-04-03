@@ -182,7 +182,7 @@ const projectData = [
 
 const locationData = [
   {
-    businessName: "The Coffee Shop",
+    businessName: "Coco Coffee",
     houseNumber: "1600",
     aptSuiteOther: "Ground floor",
     street: "Broadway",
@@ -191,7 +191,6 @@ const locationData = [
     zipcode: "10005",
     lat: "40.7627",
     lon: "73.9683",
-    projectId: 1,
   },
 ];
 
