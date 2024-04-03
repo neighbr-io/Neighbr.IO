@@ -3,6 +3,7 @@ import "./waitlist.css";
 
 const Waitlist = () => {
   const [email, setEmail] = useState("");
+  const [role, setRole] = useState("");
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -12,7 +13,7 @@ const Waitlist = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ email }), // change to { email, role } once table is updated
       });
       
       const data = await response.json();
@@ -56,55 +57,21 @@ const Waitlist = () => {
           onChange={(e) => setEmail(e.target.value)}
           required
         />
+        <select
+          name="role"
+          value={role}
+          onChange={(e) => setRole(e.target.value)}
+          required
+        >
+          <option value="" disabled>Who are you?</option>
+          <option value="business_owner">Business Owner</option>
+          <option value="neighbor">Just a Neighbor</option>
+          <option value="both">Both</option>
+        </select>
         <button className="waitlist-button" type="submit">
           SIGNUP
         </button>
       </form>
-      <div className="how-it-works">
-      <h1 style={{color: "black"}}>How Does It Work</h1>
-      <p style={{ textAlign: "left", color:"black"}}>
-        At Neighbr.io, we've simplified the path to mutual success and community
-        strength through a unique pledge system. Here’s how it unfolds:
-      </p>
-
-      <ol className="how-it-works-list">
-        <li>
-          <h1 style={{ fontSize: "40pt" }}>1</h1>
-          <p style={{ textAlign: "left" }}>
-            <strong>Pledge & Support:</strong> Community members, like you,
-            pledge financial support to local businesses through Neighbr.io.
-            This isn’t a loan; it’s a vote of confidence in the potential of
-            neighborhood businesses.
-          </p>
-        </li>
-        <li>
-          <h1 style={{ fontSize: "40pt" }}>2</h1>
-          <p style={{ textAlign: "left" }}>
-            <strong>Offer & Thank: </strong> In return for your pledge,
-            businesses don’t pay back with money plus interest. Instead, they
-            offer their services or products as a heartfelt expression of
-            gratitude, most definitely with a big discount!
-          </p>
-        </li>
-        <li>
-          <h1 style={{ fontSize: "40pt" }}>3</h1>
-          <p style={{ textAlign: "left" }}>
-            <strong>Strengthen & Grow:</strong> This exchange fosters a robust
-            ecosystem where businesses grow without the burden of financial
-            debt, and supporters enjoy local services, enriching the community
-            bond.
-          </p>
-        </li>
-      </ol>
-
-      <p style={{ textAlign: "left", color: "black"}}>
-        Each pledge brings us closer, weaving a tighter, more supportive
-        neighborhood fabric where businesses flourish with the community's
-        backing, and every service exchanged is a story of shared growth and
-        gratitude. Join Neighbr.io, and be part of this innovative journey
-        towards a thriving, interconnected community.
-      </p>
-      </div>
     </div>
   );
 };
