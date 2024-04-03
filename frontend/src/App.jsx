@@ -1,13 +1,13 @@
 import "./App.css";
 import { Route, Routes } from "react-router-dom";
 import ProjectContainer from "./features/projects/ProjectContainer";
-import { Router } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Waitlist from "./features/waitlist/waitlist";
 import NewProjectForm from "./features/Registration/NewProjectForm";
 import { Navigation } from "./features";
 import SignIn from "./features/SignIn/SignIn";
 import Dashboard from "./features/Dashboard/Dashboard";
+import ScrollToTop from "./features/ScrollToTop/ScrollToTop";
 
 import { Home, Projects, Faq } from "./Pages";
 
@@ -39,6 +39,7 @@ function App() {
   const projectRouter = (
     <>
       <Navigation />
+      <ScrollToTop />
       <Routes>
         <Route
           path="/"

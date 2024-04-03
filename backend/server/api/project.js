@@ -120,6 +120,7 @@ router.get("/:id", async (req, res) => {
 });
 
 // PUT /api/projects/:id - Update project status and FAQ, REQUIRE AUTH
+// Look into how to make it append - @fangzi
 router.put('/:id', authenticateToken, async (req, res) => {
   const { id } = req.params; // Get the project ID from the URL parameters
   const { updates, faq } = req.body; // Extract only the fields allowed to be updated
