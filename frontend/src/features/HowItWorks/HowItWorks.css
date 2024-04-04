@@ -1,0 +1,28 @@
+.how-it-works {
+    background-color: white;
+    margin-top: 80px;
+    margin-bottom: 40px;
+  }
+  
+  .how-it-works-list {
+    display: flex; /* Align children in a row */
+    justify-content: space-around; /* Evenly space out the children */
+    list-style: none; /* Remove default list styling */
+    padding: 0; /* Remove default padding */
+  }
+  
+  .how-it-works-list li {
+    flex: 1; /* Each item will take up equal space */
+    margin: 0 10px; /* Add some space between each item */
+    color: black;
+  }
+  
+  /* Optionally, if you want to ensure the content does not become too squished on smaller screens, you can add a media query to stack them back into a single column layout: */
+  @media (max-width: 768px) {
+    .how-it-works-list {
+      flex-direction: column;
+    }
+    .how-it-works-list li {
+      margin: 10px 0; /* Adjust margin for vertical stack */
+    }
+  }

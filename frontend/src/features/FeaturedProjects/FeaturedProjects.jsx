@@ -39,6 +39,8 @@ function FeaturedProjects() {
   const featuredProjects = shuffleArray(liveProjects).slice(0, 3);
 
   return (
+  <>
+    <h4> Featured Projects </h4>
     <div className="all-projects">
       {featuredProjects.map((project) => (
         <div key={project.id} className="project-preview"
@@ -53,6 +55,8 @@ function FeaturedProjects() {
       </div>
      ))}
     </div>
+    <hr />
+  </>
   );
 };
 

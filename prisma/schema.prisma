@@ -11,6 +11,7 @@ datasource db {
 model Waitlist {
   id       Int        @id @default(autoincrement())
   email    String     @unique
+  role     String 
 }
 
 model User {
@@ -46,7 +47,6 @@ model Project {
   User         User     @relation(fields: [userId], references: [id])
   Category     Category @relation(fields: [categoryId], references: [id])
   transactions Transaction[]
-  locations    Location[]
 }
 
 model AccountType {
@@ -70,10 +70,8 @@ model Location {
   city           String
   state          String
   zipcode        String
-  lat            String
-  lon            String
-  projectId      Int
-  project        Project   @relation(fields: [projectId], references: [id])
+  lat            String?
+  lon            String?
 }
 
 // Transactions table
