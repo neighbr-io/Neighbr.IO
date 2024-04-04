@@ -1,184 +1,111 @@
-import { useAddProjectMutation } from "../projects/projectSlice";
-import "./NewProjectForm.css";
-import Button from "@mui/material/Button";
-import { useState } from "react";
+import * as React from 'react';
+import Box from '@mui/material/Box';
+import { useTheme } from '@mui/material/styles';
+import MobileStepper from '@mui/material/MobileStepper';
+import Paper from '@mui/material/Paper';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
+import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
+import TextField from "@mui/material/TextField"; 
 
-function NewProjectForm() {
-  const [addProject] = useAddProjectMutation();
-  const [isAuthenticated, setIsAuthenticated] = useState(
-    Boolean(localStorage.getItem("bearerToken"))
-  );
-  const token = localStorage.getItem("bearerToken");
-  console.log("User token:", token);
+const steps = [
+  {
+    label: 'Tell us about your business',
+    description: `It is important for the community members to know a little bit about your business. Please provide your business name and address.`,
+    form: (formData, setFormData) => (
+      <>
+        <TextField
+          fullWidth
+          label="Business Name"
+          value={formData.businessName || ''}
+          onChange={e => setFormData({ ...formData, businessName: e.target.value })}
+          margin="normal"
+        />
+        <TextField
+          fullWidth
+          label="Business Address"
+          value={formData.businessAddress || ''}
+          onChange={e => setFormData({ ...formData, businessAddress: e.target.value })}
+          margin="normal"
+        />
+      </>
+    ),
+  },
+  {
+    label: 'Tell us about your project',
+    description:
+      'Please be as specific as possible about the project you have in mind. ',
+      form: (formData, setFormData) => (
+        <TextField
+          fullWidth
+          label="Project Description"
+          multiline
+          rows={4}
+          value={formData.projectDescription || ''}
+          onChange={e => setFormData({ ...formData, projectDescription: e.target.value })}
+          margin="normal"
+        />
+      ),
+  },
+  {
+    label: 'Rewards to the pledgers',
+    description: `Tell us how you would like to reward pledgers. Neighbr.io provides a tiered rewards system where you can come up with between 1-3 tiers of rewards, each with different pledging amount.`,
+    form: (formData, setFormData) => (
+      <TextField
+        fullWidth
+        label="Rewards Description"
+        multiline
+        rows={4}
+        value={formData.rewardsDescription || ''}
+        onChange={e => setFormData({ ...formData, rewardsDescription: e.target.value })}
+        margin="normal"
+      />
+    ),
+  },
+];
 
-  async function onSubmit(event) {
-    event.preventDefault();
+export default function NewProjectForm() {
+  const theme = useTheme();
+  const [activeStep, setActiveStep] = React.useState(0);
+  const [formData, setFormData] = React.useState({});
+  const maxSteps = steps.length;
 
-    const title = event.target.title.value;
-    const subtitle = event.target.subtitle.value;
-    const category = event.target.category.value;
-    const story = event.target.story.value;
-    const faq = event.target.faq.value;
-    const goal = parseInt(event.target.goal.value, 10);
-    const expiration = event.target.expiration.value;
-    const priceTier1 = parseInt(event.target.priceTier1.value, 10);
-    const rewardTier1 = event.target.rewardTier1.value;
+  const handleNext = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+  };
 
-    const priceTier2Value = event.target.priceTier2.value;
-    const rewardTier2Value = event.target.rewardTier2.value;
-    const priceTier3Value = event.target.priceTier3.value;
-    const rewardTier3Value = event.target.rewardTier3.value;
+  const handleBack = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+  };
 
-    const priceTier2 = priceTier2Value ? parseInt(priceTier2Value, 10) : null;
-    const rewardTier2 = rewardTier2Value || null;
-    const priceTier3 = priceTier3Value ? parseInt(priceTier3Value, 10) : null;
-    const rewardTier3 = rewardTier3Value || null;
-
-    if (
-      title &&
-      subtitle &&
-      category &&
-      story &&
-      faq &&
-      !isNaN(goal) &&
-      expiration &&
-      !isNaN(priceTier1) &&
-      rewardTier1
-    ) {
-      await addProject({
-        title,
-        subtitle,
-        category,
-        story,
-        faq,
-        goal,
-        expiration,
-        priceTier1,
-        rewardTier1,
-        ...(priceTier2 !== null && !isNaN(priceTier2) ? { priceTier2 } : {}), 
-        ...(rewardTier2 ? { rewardTier2 } : {}), 
-        ...(priceTier3 !== null && !isNaN(priceTier3) ? { priceTier3 } : {}), 
-        ...(rewardTier3 ? { rewardTier3 } : {}), 
-      }).unwrap();
-      event.target.reset();
-    } else {
-      console.log("Please provide all required fields.");
-    }
+  const handleSubmit = () => {
+    console.log(formData);
+    // REPLACE WITH API CALLS !!
   }
+
   return (
-    <section>
-      <h1>New Project Request</h1>
-      <form onSubmit={onSubmit}>
-        <div id="new-project-form">
-          <label className="label">
-            Business Name:
-            <input type="text" name="businessName" placeholder="placeholder" />
-          </label>
-          <label className="label">
-            Business Address Street Number:
-            <input type="text" name="houseNumber" placeholder="placeholder" />
-          </label>
-          <label className="label">
-            Street Name:
-            <input type="text" name="street" placeholder="placeholder" />
-          </label>
-          <label className="label">
-            City:
-            <input type="text" name="city" placeholder="placeholder" />
-          </label>
-          <label className="label">
-            State:
-            <input type="text" name="state" placeholder="placeholder" />
-          </label>
-          <label className="label">
-            Zip Code:
-            <input type="text" name="zipcode" placeholder="placeholder" />
-          </label>
-          <label className="label">
-            Project Name:
-            <input type="text" name="title" placeholder="Name of Project" />
-          </label>
-          <label className="label">
-            Catchy Tagline:
-            <input type="text" name="subtitle" placeholder="Subtitle" />
-          </label>
-          {/* <label className="label">Category:<input type="text" name="category" placeholder="Category"/></label> */}
-          <label className="label">Category:</label>
-          <select name="categories" id="category">
-            <option value="select">Select a Category</option>
-            <option value="Arts and Craft">Arts and Craft</option>
-            <option value="Auto Mechanic">Auto Mechanic</option>
-            <option value="Bakery">Bakery</option>
-            <option value="Barbershop and Salon">Barbershop and Salon</option>
-            <option value="Coffee Shop">Coffee Shop</option>
-            <option value="Education and Bookstore">
-              Education and Bookstore
-            </option>
-            <option value="Entertainment">Entertainment</option>
-            <option value="Grocery Store">Grocery Store</option>
-            <option value="Gym">Gym</option>
-            <option value="Nursery">Nursery</option>
-            <option value="Pet Grooming and Supplies">
-              Pet Grooming and Supplies
-            </option>
-            <option value="Restaurant">Restaurant</option>
-            <option value="Wine and Spirits">Wine and Spirits</option>
-            <option value="Other">Other</option>
-          </select>
-          <label className="label" htmlFor="story">
-            Short Description of Your Project:
-            <textarea
-              id="story"
-              name="story"
-              rows="5"
-              cols="100"
-              placeholder="Story"
-            />
-          </label>
-          <label className="label-number">
-            Tier 1 Reward Price:
-            <input
-              type="number"
-              name="priceTier1"
-              placeholder="Input Whole Number (no symbols)"
-            />
-          </label>
-          <label className="label">
-            Tier 1 Reward:
-            <input
-              type="text"
-              name="rewardTier1"
-              placeholder="Tier 1 Reward Details"
-            />
-          </label>
-          <label className="label" htmlFor="faq">
-            FAQs:
-            <textarea
-              id="faq"
-              name="faq"
-              rows="2"
-              placeholder="Frequently Asked Questions"
-            />
-          </label>
-          <label className="label-number">
-            Funding Goal:
-            <input
-              type="number"
-              name="goal"
-              placeholder="Input Whole Number (no symbols)"
-            />
-          </label>
-          <label className="label-date">
-            Project Deadline:
-            <input type="datetime-local" name="expiration" />
-          </label>
-          <button type="submit" className="button">
-            SUBMIT
-          </button>
-        </div>
-      </form>
-    </section>
+    <Box sx={{ maxWidth: 400, flexGrow: 1 }}>
+      <Paper square elevation={0} sx={{ display: 'flex', alignItems: 'center', height: 50, pl: 2, bgcolor: 'background.default', }}>
+        <Typography>{steps[activeStep].label}</Typography>
+      </Paper>
+      <Box sx={{ height: 255, maxWidth: 400, width: '100%', p: 2 }}>
+        {steps[activeStep].description}
+        {steps[activeStep].form(formData, setFormData)}
+      </Box>
+      <MobileStepper variant="text" steps={maxSteps} position="static" activeStep={activeStep}
+        nextButton={
+          <Button size="small" onClick={activeStep === maxSteps - 1 ? handleSubmit : handleNext}>
+            {activeStep === maxSteps - 1 ? 'Submit' : 'Next'}
+            {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
+          </Button>
+        }
+        backButton={
+          <Button size="small" onClick={handleBack} disabled={activeStep === 0}>
+            Back{theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
+          </Button>
+        }
+      />
+    </Box>
   );
 }
-
-export default NewProjectForm;
