@@ -1,3 +1,5 @@
+//server.js
+
 require('dotenv').config();
 const express = require('express');
 const projectsRoutes = require('./api/project');
@@ -10,20 +12,27 @@ const stripeRoutes = require('./api/stripe');
 const cors = require('cors');
 const session = require('express-session');
 const passport = require('passport');
+const initializePassport = require('./passport-config'); // Import initializePassport function
+const SQLiteStore = require('connect-sqlite3')(session);
 
 const app = express();
 const port = 8000; 
 //added to resolve CORS error - connecting frontend to backend
 app.use(cors());
 app.use(express.json());
-app.use(passport.initialize());
 app.use(session({
     secret: 'keyboard cat',
     resave: false, // don't save session if unmodified
     saveUninitialized: true, // don't create session until something stored
-    // store: new SQLiteStore({ db: 'sessions.db', dir: './var/db' })
+    store: new SQLiteStore({ db: 'sessions.db', dir: './var/db' })
   }));
-  app.use(passport.authenticate('session'));
+
+initializePassport();
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+// app.use(passport.authenticate('session'));
 
   passport.serializeUser(function(user, cb) {
     process.nextTick(function() {
