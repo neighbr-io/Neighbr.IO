@@ -23,10 +23,40 @@ const steps = [
           margin="normal"
         />
         <TextField
+          width="15%"
+          alignItems="left"
+          label="Street Number"
+          value={formData.houseNumber || ''}
+          onChange={e => setFormData({ ...formData, houseNumber: e.target.value })}
+          margin="normal"
+        />
+        <TextField
+          width="75%"
+          position="right"
+          label="Street Name"
+          value={formData.street || ''}
+          onChange={e => setFormData({ ...formData, street: e.target.value })}
+          margin="normal"
+        />
+        <TextField
           fullWidth
-          label="Business Address"
-          value={formData.businessAddress || ''}
-          onChange={e => setFormData({ ...formData, businessAddress: e.target.value })}
+          label="City"
+          value={formData.city || ''}
+          onChange={e => setFormData({ ...formData, city: e.target.value })}
+          margin="normal"
+        />
+        <TextField
+          width="15%"
+          label="State"
+          value={formData.state || ''}
+          onChange={e => setFormData({ ...formData, state: e.target.value })}
+          margin="normal"
+        />
+        <TextField
+          width="15%"
+          label="Zip Code"
+          value={formData.zipcode || ''}
+          onChange={e => setFormData({ ...formData, zipcode: e.target.value })}
           margin="normal"
         />
       </>
@@ -37,30 +67,97 @@ const steps = [
     description:
       'Please be as specific as possible about the project you have in mind. ',
       form: (formData, setFormData) => (
+      <> 
         <TextField
           fullWidth
-          label="Project Description"
+          label="Project Title"
           multiline
-          rows={4}
-          value={formData.projectDescription || ''}
-          onChange={e => setFormData({ ...formData, projectDescription: e.target.value })}
+          rows={1}
+          value={formData.title || ''}
+          onChange={e => setFormData({ ...formData, title: e.target.value })}
           margin="normal"
         />
+        <TextField
+          fullWidth
+          label="Tagline"
+          multiline
+          rows={2}
+          value={formData.subtitle || ''}
+          onChange={e => setFormData({ ...formData, subtitle: e.target.value })}
+          margin="normal"
+        />
+        <TextField
+          fullWidth
+          label="Category"
+          multiline
+          rows={1}
+          value={formData.category || ''}
+          onChange={e => setFormData({ ...formData, category: e.target.value })}
+          margin="normal"
+        />
+        <TextField
+          fullWidth
+          label="Description"
+          multiline
+          rows={2}
+          value={formData.story || ''}
+          onChange={e => setFormData({ ...formData, story: e.target.value })}
+          margin="normal"
+        />
+        <TextField
+          fullWidth
+          label="Frequently Asked Questions"
+          multiline
+          rows={3}
+          value={formData.faq || ''}
+          onChange={e => setFormData({ ...formData, faq: e.target.value })}
+          margin="normal"
+        />
+        <TextField
+          fullWidth
+          label="Funding Goal"
+          multiline
+          rows={1}
+          value={formData.goal || ''}
+          onChange={e => setFormData({ ...formData, goal: parseInt(e.target.value) })}
+          margin="normal"
+        />
+        <TextField
+          fullWidth
+          label="Project Deadline"
+          multiline
+          rows={1}
+          value={formData.expiration || ''}
+          onChange={e => setFormData({ ...formData, expiration: e.target.value })}
+          margin="normal"
+        />
+      </>  
       ),
   },
   {
     label: 'Rewards to the pledgers',
     description: `Tell us how you would like to reward pledgers. Neighbr.io provides a tiered rewards system where you can come up with between 1-3 tiers of rewards, each with different pledging amount.`,
     form: (formData, setFormData) => (
+      <>
       <TextField
         fullWidth
-        label="Rewards Description"
+        label="Tier 1 Reward Amount"
         multiline
-        rows={4}
-        value={formData.rewardsDescription || ''}
-        onChange={e => setFormData({ ...formData, rewardsDescription: e.target.value })}
+        rows={1}
+        value={formData.priceTier1 || ''}
+        onChange={e => setFormData({ ...formData, priceTier1: parseInt(e.target.value) })}
         margin="normal"
       />
+      <TextField
+        fullWidth
+        label="Tier 1 Reward Description"
+        multiline
+        rows={2}
+        value={formData.rewardTier1 || ''}
+        onChange={e => setFormData({ ...formData, rewardTier1: e.target.value })}
+        margin="normal"
+      />
+      </>
     ),
   },
 ];
@@ -89,7 +186,7 @@ export default function NewProjectForm() {
       <Paper square elevation={0} sx={{ display: 'flex', alignItems: 'center', height: 50, pl: 2, bgcolor: 'background.default', }}>
         <Typography>{steps[activeStep].label}</Typography>
       </Paper>
-      <Box sx={{ height: 255, maxWidth: 400, width: '100%', p: 2 }}>
+      <Box sx={{ height: 750, maxWidth: 400, width: '100%', p: 2 }}>
         {steps[activeStep].description}
         {steps[activeStep].form(formData, setFormData)}
       </Box>
