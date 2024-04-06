@@ -8,6 +8,9 @@ import Button from '@mui/material/Button';
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import TextField from "@mui/material/TextField"; 
+import InputAdornment from '@mui/material/InputAdornment';
+import MenuItem from '@mui/material/MenuItem';
+import { Grid } from '@mui/material';
 
 const steps = [
   {
@@ -16,49 +19,65 @@ const steps = [
     form: (formData, setFormData) => (
       <>
         <TextField
+          required
           fullWidth
           label="Business Name"
           value={formData.businessName || ''}
           onChange={e => setFormData({ ...formData, businessName: e.target.value })}
           margin="normal"
         />
+      <Grid container>
+        <Grid item xs={4}>
+          <TextField
+            required
+            style={{paddingRight: "10px", width: "120px"}}
+            label="Number"
+            value={formData.houseNumber || ''}
+            onChange={e => setFormData({ ...formData, houseNumber: e.target.value })}
+            margin="normal"
+          />
+        </Grid>
+        <Grid item xs={8}>
+          <TextField
+            required
+            style={{width: "245px"}}
+            label="Street Name"
+            value={formData.street || ''}
+            onChange={e => setFormData({ ...formData, street: e.target.value })}
+            margin="normal"
+          />
+        </Grid>
+      </Grid>
         <TextField
-          width="15%"
-          alignItems="left"
-          label="Street Number"
-          value={formData.houseNumber || ''}
-          onChange={e => setFormData({ ...formData, houseNumber: e.target.value })}
-          margin="normal"
-        />
-        <TextField
-          width="75%"
-          position="right"
-          label="Street Name"
-          value={formData.street || ''}
-          onChange={e => setFormData({ ...formData, street: e.target.value })}
-          margin="normal"
-        />
-        <TextField
+          required
           fullWidth
           label="City"
           value={formData.city || ''}
           onChange={e => setFormData({ ...formData, city: e.target.value })}
           margin="normal"
         />
-        <TextField
-          width="15%"
-          label="State"
-          value={formData.state || ''}
-          onChange={e => setFormData({ ...formData, state: e.target.value })}
-          margin="normal"
-        />
-        <TextField
-          width="15%"
-          label="Zip Code"
-          value={formData.zipcode || ''}
-          onChange={e => setFormData({ ...formData, zipcode: e.target.value })}
-          margin="normal"
-        />
+      <Grid container>
+        <Grid item xs={4}>
+          <TextField
+            required
+            style={{paddingRight: "10px", width: "120px"}}
+            label="State"
+            value={formData.state || ''}
+            onChange={e => setFormData({ ...formData, state: e.target.value })}
+            margin="normal"
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <TextField
+            required
+            style={{width: "150px"}}
+            label="Zip Code"
+            value={formData.zipcode || ''}
+            onChange={e => setFormData({ ...formData, zipcode: e.target.value })}
+            margin="normal"
+          />
+        </Grid>
+      </Grid>
       </>
     ),
   },
@@ -69,15 +88,15 @@ const steps = [
       form: (formData, setFormData) => (
       <> 
         <TextField
+          required
           fullWidth
           label="Project Title"
-          multiline
-          rows={1}
           value={formData.title || ''}
           onChange={e => setFormData({ ...formData, title: e.target.value })}
           margin="normal"
         />
         <TextField
+          required
           fullWidth
           label="Tagline"
           multiline
@@ -87,15 +106,33 @@ const steps = [
           margin="normal"
         />
         <TextField
+          required
+          select
           fullWidth
           label="Category"
-          multiline
-          rows={1}
           value={formData.category || ''}
           onChange={e => setFormData({ ...formData, category: e.target.value })}
           margin="normal"
-        />
+        >
+          <MenuItem value="Arts and Craft"> Arts and Craft</MenuItem>
+          <MenuItem value="Auto Mechanic">Auto Mechanic</MenuItem>
+          <MenuItem value="Bakery">Bakery</MenuItem>
+          <MenuItem value="Barbershop and Salon">Barbershop and Salon</MenuItem>
+          <MenuItem value="Coffee Shop">Coffee Shop</MenuItem>
+          <MenuItem value="Education and Bookstore">
+              Education and Bookstore</MenuItem>
+          <MenuItem value="Entertainment">Entertainment</MenuItem>
+          <MenuItem value="Grocery Store">Grocery Store</MenuItem>
+          <MenuItem value="Gym">Gym</MenuItem>
+          <MenuItem value="Nursery">Nursery</MenuItem>
+          <MenuItem value="Pet Grooming and Supplies">
+              Pet Grooming and Supplies</MenuItem>
+          <MenuItem value="Restaurant">Restaurant</MenuItem>
+          <MenuItem value="Wine and Spirits">Wine and Spirits</MenuItem>
+          <MenuItem value="Other">Other</MenuItem>
+        </TextField>
         <TextField
+          required
           fullWidth
           label="Description"
           multiline
@@ -105,6 +142,7 @@ const steps = [
           margin="normal"
         />
         <TextField
+          required
           fullWidth
           label="Frequently Asked Questions"
           multiline
@@ -114,23 +152,31 @@ const steps = [
           margin="normal"
         />
         <TextField
+          required
           fullWidth
           label="Funding Goal"
-          multiline
-          rows={1}
           value={formData.goal || ''}
           onChange={e => setFormData({ ...formData, goal: parseInt(e.target.value) })}
           margin="normal"
+          InputProps={{
+            startAdornment: <InputAdornment position="start">$</InputAdornment>,
+          }}
         />
-        <TextField
-          fullWidth
-          label="Project Deadline"
-          multiline
-          rows={1}
-          value={formData.expiration || ''}
-          onChange={e => setFormData({ ...formData, expiration: e.target.value })}
-          margin="normal"
-        />
+     
+          <TextField
+            required
+            fullWidth
+            InputProps={{
+              startAdornment: " "
+            }}
+            type="datetime-local"
+            label="Deadline"
+            value={formData.expiration || ''}
+            onChange={e => setFormData({ ...formData, expiration: e.target.value })}
+            margin="normal"
+
+          />
+      
       </>  
       ),
   },
@@ -140,21 +186,62 @@ const steps = [
     form: (formData, setFormData) => (
       <>
       <TextField
+        required
         fullWidth
         label="Tier 1 Reward Amount"
-        multiline
-        rows={1}
         value={formData.priceTier1 || ''}
         onChange={e => setFormData({ ...formData, priceTier1: parseInt(e.target.value) })}
         margin="normal"
+        InputProps={{
+          startAdornment: <InputAdornment position="start">$</InputAdornment>,
+        }}
       />
       <TextField
+        required
         fullWidth
         label="Tier 1 Reward Description"
         multiline
         rows={2}
         value={formData.rewardTier1 || ''}
         onChange={e => setFormData({ ...formData, rewardTier1: e.target.value })}
+        margin="normal"
+      />
+      <TextField
+        fullWidth
+        label="Tier 2 Reward Amount"
+        value={formData.priceTier2 || ''}
+        onChange={e => setFormData({ ...formData, priceTier2: parseInt(e.target.value) })}
+        margin="normal"
+        InputProps={{
+          startAdornment: <InputAdornment position="start">$</InputAdornment>,
+        }}
+      />
+      <TextField
+        fullWidth
+        label="Tier 2 Reward Description"
+        multiline
+        rows={2}
+        value={formData.rewardTier2 || ''}
+        onChange={e => setFormData({ ...formData, rewardTier2: e.target.value })}
+        margin="normal"
+      />
+      <TextField
+        fullWidth
+        label="Tier 3 Reward Amount"
+        value={formData.priceTier3 || ''}
+        onChange={e => setFormData({ ...formData, priceTier3: parseInt(e.target.value) })}
+        margin="normal"
+        InputProps={{
+          startAdornment: <InputAdornment position="start">$</InputAdornment>,
+        }}
+      />
+      <TextField
+        fullWidth
+        label="Tier 3 Reward Description"
+        multiline
+        rows={2}
+        value={formData.rewardTier3 || ''}
+        onChange={e => setFormData({ ...formData, rewardTier3: e.target.value })}
         margin="normal"
       />
       </>
@@ -186,7 +273,7 @@ export default function NewProjectForm() {
       <Paper square elevation={0} sx={{ display: 'flex', alignItems: 'center', height: 50, pl: 2, bgcolor: 'background.default', }}>
         <Typography>{steps[activeStep].label}</Typography>
       </Paper>
-      <Box sx={{ height: 750, maxWidth: 400, width: '100%', p: 2 }}>
+      <Box sx={{ maxHeight: 750, maxWidth: 400, width: '100%', p: 2 }}>
         {steps[activeStep].description}
         {steps[activeStep].form(formData, setFormData)}
       </Box>
