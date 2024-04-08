@@ -8,6 +8,9 @@ import Button from '@mui/material/Button';
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import TextField from "@mui/material/TextField"; 
+import InputAdornment from '@mui/material/InputAdornment';
+import MenuItem from '@mui/material/MenuItem';
+import { Grid } from '@mui/material';
 
 const steps = [
   {
@@ -16,19 +19,65 @@ const steps = [
     form: (formData, setFormData) => (
       <>
         <TextField
+          required
           fullWidth
           label="Business Name"
           value={formData.businessName || ''}
           onChange={e => setFormData({ ...formData, businessName: e.target.value })}
           margin="normal"
         />
+      <Grid container>
+        <Grid item xs={4}>
+          <TextField
+            required
+            style={{paddingRight: "10px", width: "120px"}}
+            label="Number"
+            value={formData.houseNumber || ''}
+            onChange={e => setFormData({ ...formData, houseNumber: e.target.value })}
+            margin="normal"
+          />
+        </Grid>
+        <Grid item xs={8}>
+          <TextField
+            required
+            style={{width: "245px"}}
+            label="Street Name"
+            value={formData.street || ''}
+            onChange={e => setFormData({ ...formData, street: e.target.value })}
+            margin="normal"
+          />
+        </Grid>
+      </Grid>
         <TextField
+          required
           fullWidth
-          label="Business Address"
-          value={formData.businessAddress || ''}
-          onChange={e => setFormData({ ...formData, businessAddress: e.target.value })}
+          label="City"
+          value={formData.city || ''}
+          onChange={e => setFormData({ ...formData, city: e.target.value })}
           margin="normal"
         />
+      <Grid container>
+        <Grid item xs={4}>
+          <TextField
+            required
+            style={{paddingRight: "10px", width: "120px"}}
+            label="State"
+            value={formData.state || ''}
+            onChange={e => setFormData({ ...formData, state: e.target.value })}
+            margin="normal"
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <TextField
+            required
+            style={{width: "150px"}}
+            label="Zip Code"
+            value={formData.zipcode || ''}
+            onChange={e => setFormData({ ...formData, zipcode: e.target.value })}
+            margin="normal"
+          />
+        </Grid>
+      </Grid>
       </>
     ),
   },
@@ -37,30 +86,165 @@ const steps = [
     description:
       'Please be as specific as possible about the project you have in mind. ',
       form: (formData, setFormData) => (
+      <> 
         <TextField
+          required
           fullWidth
-          label="Project Description"
-          multiline
-          rows={4}
-          value={formData.projectDescription || ''}
-          onChange={e => setFormData({ ...formData, projectDescription: e.target.value })}
+          label="Project Title"
+          value={formData.title || ''}
+          onChange={e => setFormData({ ...formData, title: e.target.value })}
           margin="normal"
         />
+        <TextField
+          required
+          fullWidth
+          label="Tagline"
+          multiline
+          rows={2}
+          value={formData.subtitle || ''}
+          onChange={e => setFormData({ ...formData, subtitle: e.target.value })}
+          margin="normal"
+        />
+        <TextField
+          required
+          select
+          fullWidth
+          label="Category"
+          value={formData.category || ''}
+          onChange={e => setFormData({ ...formData, category: e.target.value })}
+          margin="normal"
+        >
+          <MenuItem value="Arts and Craft"> Arts and Craft</MenuItem>
+          <MenuItem value="Auto Mechanic">Auto Mechanic</MenuItem>
+          <MenuItem value="Bakery">Bakery</MenuItem>
+          <MenuItem value="Barbershop and Salon">Barbershop and Salon</MenuItem>
+          <MenuItem value="Coffee Shop">Coffee Shop</MenuItem>
+          <MenuItem value="Education and Bookstore">
+              Education and Bookstore</MenuItem>
+          <MenuItem value="Entertainment">Entertainment</MenuItem>
+          <MenuItem value="Grocery Store">Grocery Store</MenuItem>
+          <MenuItem value="Gym">Gym</MenuItem>
+          <MenuItem value="Nursery">Nursery</MenuItem>
+          <MenuItem value="Pet Grooming and Supplies">
+              Pet Grooming and Supplies</MenuItem>
+          <MenuItem value="Restaurant">Restaurant</MenuItem>
+          <MenuItem value="Wine and Spirits">Wine and Spirits</MenuItem>
+          <MenuItem value="Other">Other</MenuItem>
+        </TextField>
+        <TextField
+          required
+          fullWidth
+          label="Description"
+          multiline
+          rows={2}
+          value={formData.story || ''}
+          onChange={e => setFormData({ ...formData, story: e.target.value })}
+          margin="normal"
+        />
+        <TextField
+          required
+          fullWidth
+          label="Frequently Asked Questions"
+          multiline
+          rows={3}
+          value={formData.faq || ''}
+          onChange={e => setFormData({ ...formData, faq: e.target.value })}
+          margin="normal"
+        />
+        <TextField
+          required
+          fullWidth
+          label="Funding Goal"
+          value={formData.goal || ''}
+          onChange={e => setFormData({ ...formData, goal: parseInt(e.target.value) })}
+          margin="normal"
+          InputProps={{
+            startAdornment: <InputAdornment position="start">$</InputAdornment>,
+          }}
+        />
+     
+          <TextField
+            required
+            fullWidth
+            InputProps={{
+              startAdornment: " "
+            }}
+            type="datetime-local"
+            label="Deadline"
+            value={formData.expiration || ''}
+            onChange={e => setFormData({ ...formData, expiration: e.target.value })}
+            margin="normal"
+
+          />
+      
+      </>  
       ),
   },
   {
     label: 'Rewards to the pledgers',
     description: `Tell us how you would like to reward pledgers. Neighbr.io provides a tiered rewards system where you can come up with between 1-3 tiers of rewards, each with different pledging amount.`,
     form: (formData, setFormData) => (
+      <>
       <TextField
+        required
         fullWidth
-        label="Rewards Description"
+        label="Tier 1 Reward Amount"
+        value={formData.priceTier1 || ''}
+        onChange={e => setFormData({ ...formData, priceTier1: parseInt(e.target.value) })}
+        margin="normal"
+        InputProps={{
+          startAdornment: <InputAdornment position="start">$</InputAdornment>,
+        }}
+      />
+      <TextField
+        required
+        fullWidth
+        label="Tier 1 Reward Description"
         multiline
-        rows={4}
-        value={formData.rewardsDescription || ''}
-        onChange={e => setFormData({ ...formData, rewardsDescription: e.target.value })}
+        rows={2}
+        value={formData.rewardTier1 || ''}
+        onChange={e => setFormData({ ...formData, rewardTier1: e.target.value })}
         margin="normal"
       />
+      <TextField
+        fullWidth
+        label="Tier 2 Reward Amount"
+        value={formData.priceTier2 || ''}
+        onChange={e => setFormData({ ...formData, priceTier2: parseInt(e.target.value) })}
+        margin="normal"
+        InputProps={{
+          startAdornment: <InputAdornment position="start">$</InputAdornment>,
+        }}
+      />
+      <TextField
+        fullWidth
+        label="Tier 2 Reward Description"
+        multiline
+        rows={2}
+        value={formData.rewardTier2 || ''}
+        onChange={e => setFormData({ ...formData, rewardTier2: e.target.value })}
+        margin="normal"
+      />
+      <TextField
+        fullWidth
+        label="Tier 3 Reward Amount"
+        value={formData.priceTier3 || ''}
+        onChange={e => setFormData({ ...formData, priceTier3: parseInt(e.target.value) })}
+        margin="normal"
+        InputProps={{
+          startAdornment: <InputAdornment position="start">$</InputAdornment>,
+        }}
+      />
+      <TextField
+        fullWidth
+        label="Tier 3 Reward Description"
+        multiline
+        rows={2}
+        value={formData.rewardTier3 || ''}
+        onChange={e => setFormData({ ...formData, rewardTier3: e.target.value })}
+        margin="normal"
+      />
+      </>
     ),
   },
 ];
@@ -89,7 +273,7 @@ export default function NewProjectForm() {
       <Paper square elevation={0} sx={{ display: 'flex', alignItems: 'center', height: 50, pl: 2, bgcolor: 'background.default', }}>
         <Typography>{steps[activeStep].label}</Typography>
       </Paper>
-      <Box sx={{ height: 255, maxWidth: 400, width: '100%', p: 2 }}>
+      <Box sx={{ maxHeight: 750, maxWidth: 400, width: '100%', p: 2 }}>
         {steps[activeStep].description}
         {steps[activeStep].form(formData, setFormData)}
       </Box>
