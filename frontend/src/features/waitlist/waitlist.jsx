@@ -13,7 +13,7 @@ const Waitlist = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ email }), // change to { email, role } once table is updated
+        body: JSON.stringify({ email, role }), 
       });
       
       const data = await response.json();

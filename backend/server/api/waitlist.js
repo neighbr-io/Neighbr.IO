@@ -5,7 +5,7 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
 router.post("/", async (req, res) => {
-    const { email } = req.body; 
+    const { email, role } = req.body; 
   
     try {
       // Check if the email already exists
@@ -19,7 +19,7 @@ router.post("/", async (req, res) => {
   
       const waitlistEmail = await prisma.waitlist.create({
         data: {
-          email,
+          email, role
         },
       });
   
