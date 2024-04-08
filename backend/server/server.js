@@ -20,11 +20,22 @@ const port = 8000;
 //added to resolve CORS error - connecting frontend to backend
 app.use(cors());
 app.use(express.json());
+
+const fs = require('fs');
+const path = require('path');
+
+const dbDirectory = path.join(__dirname, 'var', 'db');
+
+// Check if the directory exists, create it if it doesn't
+if (!fs.existsSync(dbDirectory)) {
+    fs.mkdirSync(dbDirectory, { recursive: true });
+}
+
 app.use(session({
     secret: 'keyboard cat',
     resave: false, // don't save session if unmodified
-    saveUninitialized: true, // don't create session until something stored
-    store: new SQLiteStore({ db: 'sessions.db', dir: './var/db' })
+    saveUninitialized: false, // don't create session until something stored
+    // store: new SQLiteStore({ db: 'sessions.db', dir: path.join(__dirname, 'var', 'db') })
   }));
 
 initializePassport();

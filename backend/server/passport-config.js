@@ -22,7 +22,9 @@ function initializePassport() {
         // Create a new user if not exists
         user = await prisma.user.create({
           data: {
+            accountTypeId: 2,
             email: profile.emails[0].value,
+            // password: "bikebike",
             // You can set other properties here if needed
           },
         });
@@ -30,6 +32,7 @@ function initializePassport() {
 
       return done(null, user);
     } catch (error) {
+      console.log("newerror", error);
       return done(error);
     }
   }));

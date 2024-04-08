@@ -39,15 +39,17 @@ router.post('/login', async (req, res) => {
 });
 
 // Route for Google OAuth authentication
-router.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
+router.get('/oauth2/redirect/google', passport.authenticate('google', { scope: ['profile', 'email'] }), (req, res) => {
+  res.redirect("http://localhost:5173");
+});
 
-router.get('http://localhost:8000/api/auth/oauth2/redirect/google', passport.authenticate('google', { failureRedirect: '/login' }),
-  (req, res) => {
-    // Successful authentication, issue token or redirect
-    const token = jwt.sign({ userId: req.user.id }, process.env.JWT_SECRET, { expiresIn: '24h' });
-    res.json({ token });
-  }
-);
+// router.get('http://localhost:8000/api/auth/oauth2/redirect/google', passport.authenticate('google', { failureRedirect: '/login' }),
+//   (req, res) => {
+//     // Successful authentication, issue token or redirect
+//     const token = jwt.sign({ userId: req.user.id }, process.env.JWT_SECRET, { expiresIn: '24h' });
+//     res.json({ token });
+//   }
+// );
 
 // Logout route
 router.post('/logout', (req, res) => {
