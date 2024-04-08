@@ -110,6 +110,43 @@ router.get('/create-payment-intent', async (req, res) => {
   }
 });
 
+
+// POST request to create-payment-intent
+router.post('/create-payment-intent', async(req, res) => {
+  let { amount, currency = 'usd', calculateTax } = req.body;
+  let paymentIntent;
+
+  try {
+    if (calculateTax) {
+      let taxCalculation = await calculate_tax(orderAmount, currency);
+      paymentIntent = await stripe.paymentIntents.create({
+        currency,
+        amount: taxCalculation.amount_total,
+        automatic_payment_methods: { enabled: true },
+        metadata: { tax_calculation: taxCalculation.id }
+      });
+    } else {
+      paymentIntent = await stripe.paymentIntents.create({
+        currency,
+        amount: orderAmount,
+        automatic_payment_methods: { enabled: true }
+      });
+    }
+
+    res.send({
+      clientSecret: paymentIntent.client_secret,
+    });
+  } catch (e) {
+    return res.status(400).send({
+      error: {
+        message: e.message,
+      },
+    });
+  }
+});
+
+
+
 // Expose a endpoint as a webhook handler for asynchronous events.
 // Configure your webhook in the stripe developer dashboard
 // https://dashboard.stripe.com/test/webhooks

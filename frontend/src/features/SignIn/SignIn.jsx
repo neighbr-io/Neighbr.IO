@@ -130,6 +130,14 @@ const AuthForm = () => {
               >
                 {mode === "SignIn" ? "Sign In" : "Register"}
               </Button>
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{ mb: 2 }}
+              >
+                Continue With Google
+              </Button>
             </Box>
           </Box>
         </Box>

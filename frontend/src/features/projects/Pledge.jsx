@@ -1,14 +1,11 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from 'react-router-dom';
-import { useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useGetProjectQuery } from "./projectSlice";
 import { useParams } from "react-router-dom";
 import "./Pledge.css";
 
-function Pledge() {
-  // For retreiving Tier rewards
-  const location = useLocation();
-  const id = location.state?.projectId;
+function Pledge( {id} ) {
+
   const { data: project, error, isLoading } = useGetProjectQuery(id);
 
   // For selecting the package to asign checkout amount and track the selected tier
@@ -36,7 +33,8 @@ function Pledge() {
               <button
                 className="pledge-button"
                 onClick={() => {
-                  navigate(`/checkout/pay`);
+                  // navigate(`/checkout/pay`);
+                  window.open('https://buy.stripe.com/test_14k7voabo8Ygf7OdQR', '_blank');
                 }}
               >
                 Pledge ${selectedTier.price}
@@ -52,7 +50,13 @@ function Pledge() {
               <p>Price: ${project.priceTier2}</p>
               <p>Reward: {project.rewardTier2}</p>
               {selectedTier?.tier === "Tier 2" && (
-                <button className="pledge-button">
+                <button
+                  className="pledge-button"
+                  onClick={() => {
+                    // navigate(`/checkout/pay`);
+                    window.open('https://buy.stripe.com/test_14k7voabo8Ygf7OdQR', '_blank');
+                  }}
+                >
                   Pledge ${selectedTier.price}
                 </button>
               )}
@@ -67,7 +71,13 @@ function Pledge() {
               <p>Price: ${project.priceTier3}</p>
               <p>Reward: {project.rewardTier3}</p>
               {selectedTier?.tier === "Tier 3" && (
-                <button className="pledge-button">
+                <button
+                  className="pledge-button"
+                  onClick={() => {
+                    // navigate(`/checkout/pay`);
+                    window.open('https://buy.stripe.com/test_14k7voabo8Ygf7OdQR', '_blank');
+                  }}
+                >
                   Pledge ${selectedTier.price}
                 </button>
               )}
