@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState } from 'react';
 import { styled, alpha } from "@mui/material/styles";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -6,46 +6,22 @@ import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import InputBase from "@mui/material/InputBase";
-import Badge from "@mui/material/Badge";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
-import SearchIcon from "@mui/icons-material/Search";
 import AccountCircle from "@mui/icons-material/AccountCircle";
-import MailIcon from "@mui/icons-material/Mail";
-import NotificationsIcon from "@mui/icons-material/Notifications";
-import MoreIcon from "@mui/icons-material/MoreVert";
 import SearchBar from "../SearchBar/SearchBar";
-import { useState, useEffect } from "react";
-import { authEventEmitter } from "../../app/eventEmitter";
 import logoImage from "../../image/logo.png";
-
-//Drawer Components
 import Drawer from "@mui/material/Drawer";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-
+import ListItemIcon from "@mui/material/ListItemIcon";
 import { Link } from "react-router-dom";
-
-// const Search = styled("div")(({ theme }) => ({
-//   position: "relative",
-//   borderRadius: theme.shape.borderRadius,
-//   backgroundColor: alpha(theme.palette.common.white, 0.15),
-//   "&:hover": {
-//     backgroundColor: alpha(theme.palette.common.white, 0.25),
-//   },
-//   marginRight: theme.spacing(2),
-//   marginLeft: 0,
-//   width: "100%",
-//   [theme.breakpoints.up("sm")]: {
-//     marginLeft: theme.spacing(3),
-//     width: "auto",
-//   },
-// }));
+import { useSelector } from "react-redux";
+import { selectIsAuthenticated, useLogoutMutation } from "../../features/Dashboard/authSlice";
+import { useNavigate } from 'react-router-dom';
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -54,14 +30,13 @@ const Search = styled("div")(({ theme }) => ({
   marginRight: theme.spacing(2),
   marginLeft: 0,
   width: "100%",
-  boxShadow: "0 0 5px rgba(0, 0, 0, 0.1)", // Subtle shadow
+  boxShadow: "0 0 5px rgba(0, 0, 0, 0.1)",
   [theme.breakpoints.up("sm")]: {
     marginLeft: theme.spacing(3),
     width: "auto",
   },
   "&:hover": {
     backgroundColor: alpha(theme.palette.common.white, 0.25),
-    // Glowing effect on hover
     boxShadow:
       "0 0 10px rgba(0, 0, 0, 0.1), 0 0 20px rgba(0, 0, 0, 0.1), 0 0 30px rgba(0, 0, 0, 0.2)",
   },
@@ -81,7 +56,6 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   color: "inherit",
   "& .MuiInputBase-input": {
     padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
     transition: theme.transitions.create("width"),
     width: "100%",
@@ -99,48 +73,12 @@ const HoverTypography = styled(Typography)(({ theme }) => ({
 }));
 
 export default function Navigation() {
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-  const [isAuthenticated, setIsAuthenticated] = useState(
-    Boolean(localStorage.getItem("bearerToken"))
-  );
-
-  //For the mobile drawer
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-
-  //When you click on the drawer toggle it
-  const toggleDrawer = (open) => (event) => {
-    if (
-      event.type === "keydown" &&
-      (event.key === "Tab" || event.key === "Shift")
-    ) {
-      return;
-    }
-    setIsDrawerOpen(open);
-  };
-
-  // Check if user is logged in
-  console.log("is Authenticated:", isAuthenticated);
-  // const isAuthenticated = false; <- use this for testing with hardcoded authenticated flag
-
-  useEffect(() => {
-    const handleStorageChange = () => {
-      setIsAuthenticated(Boolean(localStorage.getItem("bearerToken")));
-    };
-
-    window.addEventListener("storage", handleStorageChange);
-
-    const onAuthChange = (event) => {
-      setIsAuthenticated(event.detail.isAuthenticated);
-    };
-
-    authEventEmitter.addEventListener("authChange", onAuthChange);
-
-    return () => {
-      window.removeEventListener("storage", handleStorageChange);
-      authEventEmitter.removeEventListener("authChange", onAuthChange);
-    };
-  }, []);
+  const isAuthenticated = useSelector(selectIsAuthenticated);
+  const [logout, { isLoading }] = useLogoutMutation();
+  const navigate = useNavigate();
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -149,28 +87,29 @@ export default function Navigation() {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleMobileMenuClose = () => {
-    setMobileMoreAnchorEl(null);
-  };
-
   const handleMenuClose = () => {
     setAnchorEl(null);
-    handleMobileMenuClose();
+    setMobileMoreAnchorEl(null);
   };
 
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
-  const handleSignout = () => {
-    localStorage.removeItem("bearerToken");
-    authEventEmitter.dispatchEvent(
-      new CustomEvent("authChange", { detail: { isAuthenticated: false } })
-    );
-    setIsAuthenticated(false);
-    handleMenuClose();
-    // Redirect to the login page or home page
-    window.location.href = "http://localhost:5173/projects";
+  const handleSignout = async () => {
+    try {
+      await logout().unwrap();
+      navigate('/signin');
+    } catch (error) {
+      console.error('Logout failed', error);
+    }
+  };
+
+  const toggleDrawer = (open) => (event) => {
+    if (event.type === "keydown" && (event.key === "Tab" || event.key === "Shift")) {
+      return;
+    }
+    setIsDrawerOpen(open);
   };
 
   const menuId = "primary-search-account-menu";
@@ -192,30 +131,12 @@ export default function Navigation() {
       onClose={handleMenuClose}
     >
       {isAuthenticated ? (
-        // User is authenticated
-        //Should wrap this in a box or a div
         <>
-          {/* <MenuItem onClick={handleMenuClose}>Profile</MenuItem> */}
-          <MenuItem
-            onClick={() => {
-              window.location.href = "http://localhost:5173/dashboard";
-            }}
-          >
-            My account
-          </MenuItem>
-          <MenuItem onClick={handleSignout}>Sign out</MenuItem>
+          <MenuItem onClick={() => window.location.href = "http://localhost:5173/dashboard"}>My account</MenuItem>
+          <MenuItem onClick={handleSignout} disabled={isLoading}>Sign out</MenuItem>
         </>
       ) : (
-        <>
-          {/* <MenuItem onClick={handleMenuClose}>Register</MenuItem> */}
-          <MenuItem
-            onClick={() => {
-              window.location.href = "http://localhost:5173/signin";
-            }}
-          >
-            Sign In
-          </MenuItem>
-        </>
+        <MenuItem onClick={() => navigate("/signin")}>Sign In</MenuItem>
       )}
     </Menu>
   );
