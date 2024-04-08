@@ -42,7 +42,9 @@ const AuthForm = () => {
       const result = await response.json();
       if (mode === "SignIn") {
         localStorage.setItem("bearerToken", result.token);
-        authEventEmitter.dispatchEvent(new CustomEvent("authChange", { detail: { isAuthenticated: true } }));
+        authEventEmitter.dispatchEvent(
+          new CustomEvent("authChange", { detail: { isAuthenticated: true } })
+        );
         navigate("/projects");
       } else {
         console.log("Registration successful");
@@ -74,27 +76,24 @@ const AuthForm = () => {
           <Typography component="h1" variant="h5">
             {mode === "SignIn" ? "Sign In" : "Register"}
           </Typography>
-          
+
           <button
-                type="button"
-                onClick={toggleMode}
-                style={{
-                  cursor: "pointer",
-                  background: "none",
-                  border: "none",
-                  color: "blue",
-                  textDecoration: "underline",
-                  width: "100%",
-                }}
-              >
-                {mode === "SignIn"
-                  ? "Don't have an account? Sign Up"
-                  : "Already have an account? Sign In."}
-              </button>
+            type="button"
+            onClick={toggleMode}
+            style={{
+              cursor: "pointer",
+              background: "none",
+              border: "none",
+              color: "blue",
+              textDecoration: "underline",
+              width: "100%",
+            }}
+          >
+            {mode === "SignIn"
+              ? "Don't have an account? Sign Up"
+              : "Already have an account? Sign In."}
+          </button>
 
-
-
-          
           <Box
             component="form"
             onSubmit={handleSubmit}
@@ -143,7 +142,14 @@ const AuthForm = () => {
               >
                 {mode === "SignIn" ? "Sign In" : "Register"}
               </Button>
-
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{ mb: 2 }}
+              >
+                Continue With Google
+              </Button>
             </Box>
           </Box>
         </Box>

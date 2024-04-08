@@ -18,9 +18,8 @@
 
 }
 
-.single-project{
+/* .single-project{} */
 
-}
 #pledge{
     font-size: xx-large;
     color:teal;
@@ -30,22 +29,20 @@
     font-weight: bolder;
     color:#ca4502;
 }
-.subtitle {
-
-}
-.story {}
+/* .subtitle {} */
+/* .story {}
 .category{}
 .faq{}
 .updates{}
 .funded{
 
-}
+} */
 .date{
     font-size: x-large;
 }
-.goal {
+/* .goal {
 
-}
+} */
 
 .single-project-content {
     display: flex;
