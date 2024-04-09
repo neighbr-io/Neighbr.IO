@@ -175,7 +175,7 @@ export default function Navigation() {
         </ListItem>
 
         <ListItem disablePadding>
-          <ListItemButton component={Link} to="/">
+          <ListItemButton component={Link} to="/newprojectform">
             <ListItemIcon></ListItemIcon>
             <ListItemText primary="New Project" />
           </ListItemButton>

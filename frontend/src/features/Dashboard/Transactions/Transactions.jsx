@@ -20,6 +20,7 @@ export default function TransactionTable() {
     }
 
     return (
+      
         <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }} aria-label="transaction table">
                 <TableHead>

@@ -2,14 +2,22 @@
     box-sizing: border-box;
   }
 
-#root {
+ /* #root {
     width: 100vw; 
     min-height: 100vh; 
     margin: 0 auto;
     padding: 2rem;
     text-align: center;
     box-sizing: border-box; 
-} */
+}  */
+
+.transactions {
+    width: 100vw; 
+    min-height: 100vh; 
+    margin: 0 auto;
+    padding: 2rem;
+    text-align: center;
+}
 
 #pledge-button {
     font-size: 20px;
