@@ -57,7 +57,7 @@ router.post("/", authenticateToken, async (req, res) => {
   }
 });
 
-// GET /api/transactions - Get all transactions
+// GET /api/transactions - Get all transactions or transactions based on projectId(s)
 // REQUIRE AUTH
 router.get("/", authenticateToken, async (req, res) => {
   try {
@@ -69,16 +69,30 @@ router.get("/", authenticateToken, async (req, res) => {
       return res.status(403).send("Only authenticated user can view transactions.");
     }
 
-    const transactions = await prisma.transaction.findMany({
-      where: {
-        userId: req.userId,
-      },
-    });
-
-    const response = transactions.map((transaction) => ({
-      ...transaction,
-    }));
-    res.json(response);
+    const { projectIds } = req.query;
+    if (projectIds) {
+      // If projectIds provided, fetch transactions for the provided projectIds
+      const projectIdArray = projectIds.split(",").map((id) => parseInt(id.trim()));
+      const transactions = await prisma.transaction.findMany({
+        where: {
+          projectId: {
+            in: projectIdArray,
+          },
+        },
+        orderBy: {
+          createdAt: "desc", // Newest transactions first
+        },
+      });
+      res.json(transactions);
+    } else {
+      // If no projectIds provided, fetch all transactions for the authenticated user
+      const transactions = await prisma.transaction.findMany({
+        where: {
+          userId: req.userId,
+        },
+      });
+      res.json(transactions);
+    }
   } catch (error) {
     console.error("Failed to get transactions:", error);
     res.status(500).json({ error: "Failed to get transactions" });
@@ -121,46 +135,6 @@ router.get("/:projectId", authenticateToken, async (req, res) => {
   } catch (error) {
     console.error("Error fetching transactions:", error);
     res.status(500).send("Internal Server Error");
-  }
-});
-
-// GET transactions based on projectId(s). Can be used to support transaction level business user dashboard
-// The endpoint can take multiple projectIds with query parameters
-// Example:    GET /aip/transactions?projectIds=1,2,3
-// REQUIRE AUTH
-router.get("/", authenticateToken, async (req, res) => {
-
-  const userRecord = await prisma.user.findUnique({
-    where: { id: req.userId }, // Use req.userId set by authenticateToken
-  });
-
-  if (!userRecord) {
-    return res.status(403).send("Only authenticated user can view transactions.");
-  }
-
-  const { projectIds } = req.query; // "projectIds" should be a comma-separated string
-
-  // Convert the projectIds string to an array of integers
-  const projectIdArray = projectIds.split(",").map((id) => parseInt(id.trim()));
-
-  try {
-    const transactions = await prisma.transaction.findMany({
-      where: {
-        projectId: {
-          in: projectIdArray,
-        },
-      },
-      orderBy: {
-        createdAt: "desc", // Newest transactions first
-      },
-    });
-
-    res.json(transactions);
-  } catch (error) {
-    console.error("Error fetching transactions:", error);
-    res
-      .status(500)
-      .send("Error retrieving transactions for the provided project IDs.");
   }
 });
 
