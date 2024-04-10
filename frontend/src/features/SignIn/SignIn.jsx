@@ -1,3 +1,5 @@
+//SignIn.jsx
+
 import React, { useState } from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
@@ -20,7 +22,7 @@ const defaultTheme = createTheme();
 const AuthForm = () => {
   const navigate = useNavigate();
   const [mode, setMode] = useState("SignIn"); // Track whether we are in "SignIn" or "Register" mode
-
+  
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -41,6 +43,27 @@ const AuthForm = () => {
 
       const result = await response.json();
       if (mode === "SignIn") {
+        // Assuming you've stored the token in a cookie named 'token'
+        const token = document.cookie.split('; ').find(row => row.startsWith('token')).split('=')[1];
+
+        // Now, use the fetched token along with your API call
+        const apiResponse = await fetch('/api/auth', {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${token}`
+          },
+        });
+        
+        if (!apiResponse.ok) {
+          throw new Error("Failed to fetch data");
+        }
+
+        // Handle the response from your API endpoint
+        const apiData = await apiResponse.json();
+        console.log('Success:', apiData);
+
+
+        // Handle authentication locally
         localStorage.setItem("bearerToken", result.token);
         authEventEmitter.dispatchEvent(new CustomEvent("authChange", { detail: { isAuthenticated: true } }));
         navigate("/projects");
