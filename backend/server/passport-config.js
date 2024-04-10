@@ -12,6 +12,7 @@ function initializePassport() {
     callbackURL: 'http://localhost:8000/api/auth/oauth2/redirect/google',
   },
   async (accessToken, refreshToken, profile, done) => {
+    console.log(profile)
     try {
       // Check if the user already exists
       let user = await prisma.user.findUnique({
@@ -24,6 +25,7 @@ function initializePassport() {
           data: {
             accountTypeId: 2,
             email: profile.emails[0].value,
+            googleId: profile.id
             // password: "bikebike",
             // You can set other properties here if needed
           },
@@ -33,7 +35,7 @@ function initializePassport() {
       return done(null, user);
     } catch (error) {
       console.log("newerror", error);
-      return done(error);
+      return done(error, null);
     }
   }));
 

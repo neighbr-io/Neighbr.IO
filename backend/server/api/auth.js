@@ -40,6 +40,8 @@ router.post('/login', async (req, res) => {
 
 // Route for Google OAuth authentication
 router.get('/oauth2/redirect/google', passport.authenticate('google', { scope: ['profile', 'email'] }), (req, res) => {
+  const token = jwt.sign({ userId: req.session.passport.user }, process.env.JWT_SECRET, { expiresIn: '24h' });
+  res.cookie("token", token)
   res.redirect("http://localhost:5173");
 });
 
