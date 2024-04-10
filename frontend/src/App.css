@@ -89,3 +89,14 @@ dropdown:empty {
 .dropdown-row:hover {
   background-color: #5689ff;
 }
+
+li {
+  list-style: none;
+  padding-left: 20px;
+  padding-bottom: 20px;
+}
+
+.faq {
+  font-weight:bolder;
+  padding-top: 10px;
+}
