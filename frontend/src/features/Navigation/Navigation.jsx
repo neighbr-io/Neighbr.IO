@@ -130,7 +130,7 @@ export default function Navigation() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      {isAuthenticated ? (
+      ç
         <>
           <MenuItem onClick={() => window.location.href = "http://localhost:5173/dashboard"}>My account</MenuItem>
           <MenuItem onClick={handleSignout} disabled={isLoading}>Sign out</MenuItem>

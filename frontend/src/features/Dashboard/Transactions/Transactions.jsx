@@ -19,7 +19,7 @@ export default function TransactionTable() {
     
         return transactions.map((transaction) => ({
             ...transaction,
-            projectName: projects.find((project) => project.id === transaction.projectgitId)?.title || "Unknown Project",
+            projectName: projects.find((project) => project.id === transaction.projectId)?.title || "Unknown Project",
         }));
     }, [transactions, projects]);
 
