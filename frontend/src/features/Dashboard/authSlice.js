@@ -15,7 +15,7 @@ const authApi = api.injectEndpoints({
     }),
     login: builder.mutation({
       query: (credentials) => ({
-        url: "users/login",
+        url: "auth",
         method: "POST",
         body: credentials,
       }),
@@ -41,7 +41,7 @@ const authApi = api.injectEndpoints({
  */
 export function storeToken(state, { payload }) {
   state.token = payload.token;
-  window.sessionStorage.setItem(TOKEN, payload.token);
+  window.localStorage.setItem(TOKEN, payload.token);
 }
 
 /**
@@ -50,15 +50,15 @@ export function storeToken(state, { payload }) {
 const authSlice = createSlice({
   name: "auth",
   initialState: {
-    token: window.sessionStorage.getItem(TOKEN),
+    token: window.localStorage.getItem(TOKEN),
   },
   reducers: {},
   extraReducers: (builder) => {
-    builder.addMatcher(api.endpoints.login.matchFulfilled, storeToken);
-    builder.addMatcher(api.endpoints.register.matchFulfilled, storeToken);
-    builder.addMatcher(api.endpoints.logout.matchFulfilled, (state) => {
+    builder.addMatcher(authApi.endpoints.login.matchFulfilled, storeToken);
+    builder.addMatcher(authApi.endpoints.register.matchFulfilled, storeToken);
+    builder.addMatcher(authApi.endpoints.logout.matchFulfilled, (state) => {
       state.token = null;
-      window.sessionStorage.removeItem(TOKEN);
+      window.localStorage.removeItem(TOKEN);
     });
   },
 });
@@ -71,3 +71,5 @@ export const {
   useRegisterMutation,
   useLogoutMutation,
 } = authApi;
+
+export const selectIsAuthenticated = (state) => Boolean(state.auth.token);
