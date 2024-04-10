@@ -1,8 +1,10 @@
 import React from 'react';
 import { useGetTransactionsQuery } from './transactionSlice';
 import { useGetAccountDetailsQuery } from './userSlice';
-import { useGetProjectQuery } from '../projects/projectSlice';
-import TransactionTable from './Transactions/Transactions'; // Ensure this path is correct
+import TransactionTable from './Transactions/Transactions';
+import DashboardGrid from './DashboardGrid/DashboardGrid';
+
+import "../projects/SingleProject.css"
 
 const Dashboard = () => {
   const { data: transactions, error, isLoading } = useGetTransactionsQuery();
@@ -17,14 +19,9 @@ const Dashboard = () => {
   }
 
   return (
-    <div>
-      <h1>Transactions</h1>
-      <h3>Hi {me?.email}!</h3>
-      {transactions && transactions.length > 0 ? (
-        <TransactionTable transactions={transactions} />
-      ) : (
-        <p>There are no transactions</p>
-      )}
+    <div className="transactions">
+      <h1>Welcome back Neighbor!</h1>
+      <DashboardGrid />
     </div>
   );
 };
