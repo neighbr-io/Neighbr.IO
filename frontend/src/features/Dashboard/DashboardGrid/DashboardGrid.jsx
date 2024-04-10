@@ -28,12 +28,6 @@ export default function DashboardGrid() {
                         <h2>{me?.email}</h2>
                     </Item>
                 </Grid>
-                <Grid item xs={6}>
-                    <Item>xs=6</Item>
-                </Grid>
-                <Grid item xs={6}>
-                    <Item>xs=6</Item>
-                </Grid>
                 <Grid item xs={12}>
                     <Item>
                             {transactions && transactions.length > 0 ? (
