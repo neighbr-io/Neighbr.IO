@@ -11,11 +11,13 @@ import stock_photo_storefront from "../../image/stock_photo_storefront.png";
 import Pledge from "./Pledge";
 import { useSelector } from "react-redux";
 import { selectIsAuthenticated } from "../Dashboard/authSlice";
+import { useNavigate } from 'react-router-dom';
 
 const SingleProject = () => {
   const { id } = useParams();
   const { data: project, error, isLoading } = useGetProjectQuery(id);
   const isAuthenticated = useSelector(selectIsAuthenticated);
+  const navigate = useNavigate();
 
   // const navigate = useNavigate();
   const [showPledge, setShowPledge] = useState(false);
@@ -80,20 +82,29 @@ const SingleProject = () => {
           </p>
           <p className="category">Category: {category}</p>
           {isAuthenticated ? (
-          <Button
-            id="pledge-button"
-            variant="contained"
-            onClick={handleBackProjectClick}
-            startIcon={showPledge ? <ExpandLessOutlinedIcon /> : <ExpandMoreOutlinedIcon />}
-          >
-            Back This Project
-          </Button>
-          ) : null}
-          <hr/>
+            <Button
+              id="pledge-button"
+              variant="contained"
+              onClick={handleBackProjectClick}
+              startIcon={showPledge ? <ExpandLessOutlinedIcon /> : <ExpandMoreOutlinedIcon />}
+            >
+              Back This Project
+            </Button>
+          ) : (
+
+            <Button
+              id="pledge-button"
+              variant="contained"
+              onClick={() => navigate("/signin")}>
+              Please Sign in to Back the Project
+            </Button>
+
+          )}
+          <hr />
           {/* Conditionally render the pledge section */}
           {showPledge && (
             <div id="pledge-section">
-               <Pledge id={id} />
+              <Pledge id={id} />
             </div>
           )}
         </div>
