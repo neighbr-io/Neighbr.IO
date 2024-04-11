@@ -11,6 +11,7 @@ datasource db {
 model Waitlist {
   id       Int        @id @default(autoincrement())
   email    String     @unique
+  role     String 
 }
 
 model User {
@@ -46,7 +47,6 @@ model Project {
   User         User     @relation(fields: [userId], references: [id])
   Category     Category @relation(fields: [categoryId], references: [id])
   transactions Transaction[]
-  locations    Location[]
 }
 
 model AccountType {
@@ -70,10 +70,8 @@ model Location {
   city           String
   state          String
   zipcode        String
-  lat            String
-  lon            String
-  projectId      Int
-  project        Project   @relation(fields: [projectId], references: [id])
+  lat            String?
+  lon            String?
 }
 
 // Transactions table
@@ -81,13 +79,13 @@ model Transaction {
   id                 Int      @id @default(autoincrement())
   amount             Float                    // Stores the transaction amount
   createdAt          DateTime @default(now()) // Timestamp of when the transaction was created
-  updatedAt          DateTime @updatedAt      // Timestamp of when the transaction was last updated
-  type               String                   // Could be "payment", "refund", etc.
-  paymentMethod      String                   // Describes the payment method, e.g., "credit_card", "debit_card", "venmo"
+  updatedAt          DateTime? @updatedAt      // Timestamp of when the transaction was last updated
+  type               String?                   // Could be "payment", "refund", etc.
+  paymentMethod      String?                   // Describes the payment method, e.g., "credit_card", "debit_card", "venmo"
   projectId          Int                      // Foreign key that links to a Project's id
-  status             String                   // Transaction status, e.g., "pending", "completed", "failed"
+  status             String?                  // Transaction status, e.g., "pending", "completed", "failed"
   userId             Int                      // Foreign key that links to a User's id
-  gatewayTxnId       String                   // Unique identifier for the transaction provided by the payment gateway
+  gatewayTxnId       String?                  // Unique identifier for the transaction provided by the payment gateway
   project            Project  @relation(fields: [projectId], references: [id]) // Relation to the Project model
   user               User     @relation(fields: [userId], references: [id]) // Relation to the User model
 }

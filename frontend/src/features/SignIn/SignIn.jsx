@@ -5,73 +5,47 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
-import Link from "@mui/material/Link";
-import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
-import { authEventEmitter } from "../../app/eventEmitter";
+import { useLoginMutation, useRegisterMutation } from "../Dashboard/authSlice"; // Import the RTK Query hooks
 
 const defaultTheme = createTheme();
 
 const AuthForm = () => {
   const navigate = useNavigate();
-  const [mode, setMode] = useState("SignIn"); // Track whether we are in "SignIn" or "Register" mode
-  
+
+  const [mode, setMode] = useState("SignIn");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  // RTK Query mutation hooks
+  const [login] = useLoginMutation();
+  const [register] = useRegisterMutation();
+
+
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    const email = data.get("email");
-    const password = data.get("password");
-    const endpoint = mode === "SignIn" ? "/api/auth" : "/api/users/register";
 
     try {
-      const response = await fetch(endpoint, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to process request");
-      }
-
-      const result = await response.json();
       if (mode === "SignIn") {
-        // Assuming you've stored the token in a cookie named 'token'
-        const token = document.cookie.split('; ').find(row => row.startsWith('token')).split('=')[1];
-
-        // Now, use the fetched token along with your API call
-        const apiResponse = await fetch('/api/auth', {
-          method: 'GET',
-          headers: {
-            'Authorization': `Bearer ${token}`
-          },
-        });
-        
-        if (!apiResponse.ok) {
-          throw new Error("Failed to fetch data");
-        }
-
-        // Handle the response from your API endpoint
-        const apiData = await apiResponse.json();
-        console.log('Success:', apiData);
-
-
-        // Handle authentication locally
-        localStorage.setItem("bearerToken", result.token);
-        authEventEmitter.dispatchEvent(new CustomEvent("authChange", { detail: { isAuthenticated: true } }));
+        // Use the RTK Query mutation for login
+        const result = await login({ email, password }).unwrap();
+        // Store token and navigate on successful login
+        localStorage.setItem("bearerToken", result.token); // Consider more secure storage options
         navigate("/projects");
       } else {
+        // Use the RTK Query mutation for registration
+        await register({ email, password }).unwrap();
+        // Handle post-registration logic (e.g., showing a success message)
         console.log("Registration successful");
+        setMode("SignIn"); // Optionally switch to SignIn mode after registration
       }
     } catch (error) {
-      console.error("Error:", error.message);
+      console.error("Error:", error);
     }
   };
 
@@ -97,27 +71,24 @@ const AuthForm = () => {
           <Typography component="h1" variant="h5">
             {mode === "SignIn" ? "Sign In" : "Register"}
           </Typography>
-          
+
           <button
-                type="button"
-                onClick={toggleMode}
-                style={{
-                  cursor: "pointer",
-                  background: "none",
-                  border: "none",
-                  color: "blue",
-                  textDecoration: "underline",
-                  width: "100%",
-                }}
-              >
-                {mode === "SignIn"
-                  ? "Don't have an account? Sign Up"
-                  : "Already have an account? Sign In."}
-              </button>
+            type="button"
+            onClick={toggleMode}
+            style={{
+              cursor: "pointer",
+              background: "none",
+              border: "none",
+              color: "blue",
+              textDecoration: "underline",
+              width: "100%",
+            }}
+          >
+            {mode === "SignIn"
+              ? "Don't have an account? Sign Up"
+              : "Already have an account? Sign In."}
+          </button>
 
-
-
-          
           <Box
             component="form"
             onSubmit={handleSubmit}
@@ -139,6 +110,8 @@ const AuthForm = () => {
               name="email"
               autoComplete="email"
               autoFocus
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
             <TextField
               margin="normal"
@@ -149,15 +122,10 @@ const AuthForm = () => {
               type="password"
               id="password"
               autoComplete="current-password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
-            {/* {mode === "SignIn" && (
-              <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
-                label="Remember me"
-              />
-            )} */}
             <Box mt={2} sx={{ alignSelf: "stretch" }}>
-              {" "}
               <Button
                 type="submit"
                 fullWidth
@@ -167,7 +135,15 @@ const AuthForm = () => {
                 {mode === "SignIn" ? "Sign In" : "Register"}
               </Button>
 
-              <a class="button google" href="http://localhost:8000/api/auth/oauth2/redirect/google">Sign in with Google</a>
+              <Button
+                fullWidth                
+                variant="contained"
+                component="a"
+                href="http://localhost:8000/api/auth/oauth2/redirect/google" 
+                sx={{ mb: 2 }}
+              >
+                Continue With Google
+              </Button>
 
             </Box>
           </Box>

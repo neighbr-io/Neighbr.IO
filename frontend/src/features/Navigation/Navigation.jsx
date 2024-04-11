@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState } from 'react';
 import { styled, alpha } from "@mui/material/styles";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -6,33 +6,39 @@ import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import InputBase from "@mui/material/InputBase";
-import Badge from "@mui/material/Badge";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
-import SearchIcon from "@mui/icons-material/Search";
 import AccountCircle from "@mui/icons-material/AccountCircle";
-import MailIcon from "@mui/icons-material/Mail";
-import NotificationsIcon from "@mui/icons-material/Notifications";
-import MoreIcon from "@mui/icons-material/MoreVert";
-import { useState, useEffect } from "react";
-import { authEventEmitter } from "../../app/eventEmitter";
-
+import SearchBar from "../SearchBar/SearchBar";
+import logoImage from "../../image/logo.png";
+import Drawer from "@mui/material/Drawer";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemText from "@mui/material/ListItemText";
+import ListItemIcon from "@mui/material/ListItemIcon";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { selectIsAuthenticated, useLogoutMutation } from "../../features/Dashboard/authSlice";
+import { useNavigate } from 'react-router-dom';
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
   borderRadius: theme.shape.borderRadius,
   backgroundColor: alpha(theme.palette.common.white, 0.15),
-  "&:hover": {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
-  },
   marginRight: theme.spacing(2),
   marginLeft: 0,
   width: "100%",
+  boxShadow: "0 0 5px rgba(0, 0, 0, 0.1)",
   [theme.breakpoints.up("sm")]: {
     marginLeft: theme.spacing(3),
     width: "auto",
+  },
+  "&:hover": {
+    backgroundColor: alpha(theme.palette.common.white, 0.25),
+    boxShadow:
+      "0 0 10px rgba(0, 0, 0, 0.1), 0 0 20px rgba(0, 0, 0, 0.1), 0 0 30px rgba(0, 0, 0, 0.2)",
   },
 }));
 
@@ -50,7 +56,6 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   color: "inherit",
   "& .MuiInputBase-input": {
     padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
     transition: theme.transitions.create("width"),
     width: "100%",
@@ -61,39 +66,19 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 const HoverTypography = styled(Typography)(({ theme }) => ({
-  '&:hover': {
+  "&:hover": {
     color: theme.palette.secondary.main,
-    cursor: 'pointer',
+    cursor: "pointer",
   },
 }));
 
 export default function Navigation() {
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-  const [isAuthenticated, setIsAuthenticated] = useState(Boolean(localStorage.getItem("bearerToken")));
-
-  // Check if user is logged in
-  console.log("is Authenticated:", isAuthenticated);
-  // const isAuthenticated = false; <- use this for testing with hardcoded authenticated flag
-
-  useEffect(() => {
-    const handleStorageChange = () => {
-      setIsAuthenticated(Boolean(localStorage.getItem("bearerToken")));
-    };
-
-    window.addEventListener('storage', handleStorageChange);
-
-    const onAuthChange = (event) => {
-      setIsAuthenticated(event.detail.isAuthenticated);
-    };
-  
-    authEventEmitter.addEventListener("authChange", onAuthChange);
-
-    return () => {
-      window.removeEventListener('storage', handleStorageChange);
-      authEventEmitter.removeEventListener("authChange", onAuthChange);
-    };
-  }, []);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const isAuthenticated = useSelector(selectIsAuthenticated);
+  const [logout, { isLoading }] = useLogoutMutation();
+  const navigate = useNavigate();
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -102,29 +87,33 @@ export default function Navigation() {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleMobileMenuClose = () => {
-    setMobileMoreAnchorEl(null);
-  };
-
   const handleMenuClose = () => {
     setAnchorEl(null);
-    handleMobileMenuClose();
+    setMobileMoreAnchorEl(null);
   };
 
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
-  const handleSignout = () => {
-    localStorage.removeItem('bearerToken'); 
-    authEventEmitter.dispatchEvent(new CustomEvent("authChange", { detail: { isAuthenticated: false } }));
-    setIsAuthenticated(false);
-    handleMenuClose();
-    // Redirect to the login page or home page
-    window.location.href = 'http://localhost:5173/projects';
+  const handleSignout = async () => {
+    try {
+      await logout().unwrap();
+      navigate('/signin');
+    } catch (error) {
+      console.error('Logout failed', error);
+    }
+  };
+
+  const toggleDrawer = (open) => (event) => {
+    if (event.type === "keydown" && (event.key === "Tab" || event.key === "Shift")) {
+      return;
+    }
+    setIsDrawerOpen(open);
   };
 
   const menuId = "primary-search-account-menu";
+
   const renderMenu = (
     <Menu
       anchorEl={anchorEl}
@@ -142,111 +131,106 @@ export default function Navigation() {
       onClose={handleMenuClose}
     >
       {isAuthenticated ? (
-        // User is authenticated
         <>
-          {/* <MenuItem onClick={handleMenuClose}>Profile</MenuItem> */}
-          <MenuItem onClick={() => {
-            window.location.href = "http://localhost:5173/dashboard";
-          }}
-          >
-            My account
-          </MenuItem>
-          <MenuItem onClick={handleSignout}>Sign out</MenuItem>
+          <MenuItem onClick={() => window.location.href = "http://localhost:5173/dashboard"}>My account</MenuItem>
+          <MenuItem onClick={handleSignout} disabled={isLoading}>Sign out</MenuItem>
         </>
       ) : (
-        <>
-          {/* <MenuItem onClick={handleMenuClose}>Register</MenuItem> */}
-          <MenuItem
-            onClick={() => {
-              window.location.href = "http://localhost:5173/signin";
-            }}
-          >
-            Sign In
-          </MenuItem>
-        </>
+        <MenuItem onClick={() => navigate("/signin")}>Sign In</MenuItem>
       )}
     </Menu>
   );
 
   const mobileMenuId = "primary-search-account-menu-mobile";
-  const renderMobileMenu = (
-    <Menu
-      anchorEl={mobileMoreAnchorEl}
-      anchorOrigin={{
-        vertical: "top",
-        horizontal: "right",
-      }}
-      id={mobileMenuId}
-      keepMounted
-      transformOrigin={{
-        vertical: "top",
-        horizontal: "right",
-      }}
-      open={isMobileMenuOpen}
-      onClose={handleMobileMenuClose}
+
+  //Render the mobile menu
+  const drawer = (
+    <Box
+      sx={{ width: "auto" }}
+      role="presentation"
+      onClick={toggleDrawer(false)}
+      onKeyDown={toggleDrawer(false)}
     >
-      <MenuItem>
-        <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={4} color="error">
-            <MailIcon />
-          </Badge>
-        </IconButton>
-        <p>Messages</p>
-      </MenuItem>
-      <MenuItem>
-        <IconButton
-          size="large"
-          aria-label="show 17 new notifications"
-          color="inherit"
-        >
-          <Badge badgeContent={17} color="error">
-            <NotificationsIcon />
-          </Badge>
-        </IconButton>
-        <p>Notifications</p>
-      </MenuItem>
-      <MenuItem onClick={handleProfileMenuOpen}>
-        <IconButton
-          size="large"
-          aria-label="account of current user"
-          aria-controls="primary-search-account-menu"
-          aria-haspopup="true"
-          color="inherit"
-        >
-          <AccountCircle />
-        </IconButton>
-        <p>Profile</p>
-      </MenuItem>
-    </Menu>
+      <List>
+        {/*Always visible menu components */}
+        <ListItem disablePadding>
+          <ListItemButton component={Link} to="/">
+            <ListItemIcon></ListItemIcon>
+            <ListItemText primary="Home" />
+          </ListItemButton>
+        </ListItem>
+
+        <ListItem disablePadding>
+          <ListItemButton component={Link} to="/projects">
+            <ListItemIcon></ListItemIcon>
+            <ListItemText primary="Projects" />
+          </ListItemButton>
+        </ListItem>
+
+        <ListItem disablePadding>
+          <ListItemButton component={Link} to="/faq">
+            <ListItemIcon></ListItemIcon>
+            <ListItemText primary="FAQ" />
+          </ListItemButton>
+        </ListItem>
+
+        <ListItem disablePadding>
+          <ListItemButton component={Link} to="/">
+            <ListItemIcon></ListItemIcon>
+            <ListItemText primary="New Project" />
+          </ListItemButton>
+        </ListItem>
+
+        {/* Components that are only visislbe when you're signed in */}
+        {isAuthenticated ? (
+          <>
+            <ListItem disablePadding>
+              <ListItemButton
+                onClick={() => {
+                  window.location.href = "http://localhost:5173/dashboard";
+                }}
+              >
+                <ListItemIcon></ListItemIcon>
+                <ListItemText primary="My Account" />
+              </ListItemButton>
+            </ListItem>
+
+            <ListItem disablePadding>
+              <ListItemButton onClick={handleSignout}>
+                <ListItemIcon></ListItemIcon>
+                <ListItemText primary="Sign Out" />
+              </ListItemButton>
+            </ListItem>
+          </>
+        ) : (
+          <ListItem disablePadding>
+            <ListItemButton
+              onClick={() => {
+                window.location.href = "http://localhost:5173/signin";
+              }}
+            >
+              {/* Components that are only visislbe when you're signed out */}
+              <ListItemIcon></ListItemIcon>
+              <ListItemText primary="Sign In" />
+            </ListItemButton>
+          </ListItem>
+        )}
+      </List>
+    </Box>
   );
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="fixed">
+      <AppBar position="fixed" color="default">
         <Toolbar>
-          <Link
-            className="text-3d"
-            to="/"
-            style={{ textDecoration: "none", color: "inherit" }}
-          >
-            <Typography
-              variant="h6"
-              noWrap
-              component="div"
-              sx={{ display: { xs: "none", sm: "block" }, mr: 3 }}
-            >
-              Neighbr.io
-            </Typography>
-          </Link>
-          <Search>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="Search…"
-              inputProps={{ "aria-label": "search" }}
+          <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
+            <img
+              src={logoImage}
+              alt="Neighbr.io Logo"
+              style={{ height: "70px", marginRight: "5px" }} // Adjust the height and margin as needed
             />
-          </Search>
+          </Link>
+          <SearchBar onSearch={(query) => console.log(query)} />
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
             <Link
@@ -254,34 +238,58 @@ export default function Navigation() {
               style={{ textDecoration: "none", color: "inherit" }}
             >
               <Typography
-                variant="h6"
+                variant="BUTTON TEXT"
                 noWrap
                 component="div"
-                sx={{ display: { xs: "none", sm: "block" }, mr: 3 }}
+                sx={{
+                  display: { xs: "none", sm: "block" },
+                  mr: 3,
+                  border: "1px solid #ddd",
+                  borderRadius: "4px",
+                  padding: "10px 10px",
+                }}
               >
                 Projects
               </Typography>
             </Link>
 
-            <Link to="/Faq" style={{ textDecoration: "none", color: "inherit" }}>
+            <Link
+              to="/newprojectform"
+              style={{ textDecoration: "none", color: "inherit" }}
+            >
               <Typography
-                variant="h6"
+                variant="BUTTON TEXT"
                 noWrap
                 component="div"
-                sx={{ display: { xs: "none", sm: "block" }, mr: 3 }}
+                sx={{
+                  display: { sm: "none", md: "block" },
+                  mr: 3,
+                  border: "1px solid #ddd",
+                  borderRadius: "4px",
+                  padding: "10px 10px",
+                }}
               >
-                FAQ
+                New Project
               </Typography>
             </Link>
 
-            <Link to="/newprojectform" style={{ textDecoration: "none", color: "inherit" }}>
+            <Link
+              to="/Faq"
+              style={{ textDecoration: "none", color: "inherit" }}
+            >
               <Typography
-                variant="h6"
+                variant="BUTTON TEXT"
                 noWrap
                 component="div"
-                sx={{ display: { xs: "none", sm: "block" }, mr: 3 }}
+                sx={{
+                  display: { xs: "none", sm: "block" },
+                  mr: 3,
+                  border: "1px solid #ddd",
+                  borderRadius: "4px",
+                  padding: "10px 10px",
+                }}
               >
-                New Project
+                FAQ
               </Typography>
             </Link>
 
@@ -303,15 +311,17 @@ export default function Navigation() {
               aria-label="show more"
               aria-controls={mobileMenuId}
               aria-haspopup="true"
-              onClick={handleMobileMenuOpen}
+              onClick={toggleDrawer(true)}
               color="inherit"
             >
-              <MoreIcon />
+              <MenuIcon />
             </IconButton>
           </Box>
         </Toolbar>
       </AppBar>
-      {renderMobileMenu}
+      <Drawer anchor="top" open={isDrawerOpen} onClose={toggleDrawer(false)}>
+        {drawer}
+      </Drawer>
       {renderMenu}
     </Box>
   );

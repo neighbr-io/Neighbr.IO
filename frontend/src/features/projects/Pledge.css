@@ -1,0 +1,33 @@
+/* Container for the three cards */
+.rewards-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 50px;
+}
+
+/* Styling for each card */
+.reward-card {
+  flex: 1;
+  padding: 10px;
+  background-color: white;
+  cursor: pointer;
+  transition: border 0.3s;
+  border: 2px solid #e9e8fa;
+  box-sizing: border-box;
+  min-height: 300px;
+  position: relative;
+  border-radius: 15px;
+}
+
+.reward-card:hover {
+  border: 2px solid #655bff;
+}
+
+.pledge-button {
+  position: absolute; 
+  bottom: 10px; /* 10px from the bottom of the .reward-card */
+  left: 50%; /* Center horizontally */
+  transform: translateX(-50%); /* Adjust horizontal centering */
+  width: 60%;
+  max-width: 250px;
+}

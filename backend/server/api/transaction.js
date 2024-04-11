@@ -6,17 +6,26 @@ const authenticateToken = require("../middleware/authToken");
 
 // POST /api/transactions - write to the Transaction table with amount pledged
 // The route also make updates to the Project table's funded field
+// Update with virtual column (pulling from transaction table)
 // REQUIRE AUTH
-router.post("/", async (req, res) => {
-  const { amount, projectId, userId } = req.body; // add more fields as needed
+router.post("/", authenticateToken, async (req, res) => {
+  const { amount, projectId, createdAt } = req.body; // add more fields as needed
 
   try {
+    const userRecord = await prisma.user.findUnique({
+      where: { id: req.userId }, // Use req.userId set by authenticateToken
+    });
+
+    if (!userRecord) {
+      return res.status(403).send("Only registered user can pledge.");
+    }
     // Create the transaction
     const transaction = await prisma.transaction.create({
       data: {
         amount,
         projectId,
-        userId,
+        createdAt,
+        userId: req.userId,
       },
     });
 
@@ -32,6 +41,7 @@ router.post("/", async (req, res) => {
     });
 
     // Update the funded amount in the project
+    // Will not need this block of code once 'funded' is converted to virtual
     const projectUpdate = await prisma.project.update({
       where: { id: projectId },
       data: { funded: totalFunded._sum.amount || 0 },
@@ -47,34 +57,45 @@ router.post("/", async (req, res) => {
   }
 });
 
-// GET transactions based on projectId(s). Can be used to support transaction level business user dashboard
-// The endpoint can take multiple projectIds with query parameters
-// Example:    GET /aip/transactions?projectIds=1,2,3
+// GET /api/transactions - Get all transactions or transactions based on projectId(s)
 // REQUIRE AUTH
-router.get("/", async (req, res) => {
-  const { projectIds } = req.query; // "projectIds" should be a comma-separated string
-
-  // Convert the projectIds string to an array of integers
-  const projectIdArray = projectIds.split(",").map((id) => parseInt(id.trim()));
-
+router.get("/", authenticateToken, async (req, res) => {
   try {
-    const transactions = await prisma.transaction.findMany({
-      where: {
-        projectId: {
-          in: projectIdArray, 
-        },
-      },
-      orderBy: {
-        createdAt: "desc", // Newest transactions first
-      },
+    const userRecord = await prisma.user.findUnique({
+      where: { id: req.userId }, // Use req.userId set by authenticateToken
     });
 
-    res.json(transactions);
+    if (!userRecord) {
+      return res.status(403).send("Only authenticated user can view transactions.");
+    }
+
+    const { projectIds } = req.query;
+    if (projectIds) {
+      // If projectIds provided, fetch transactions for the provided projectIds
+      const projectIdArray = projectIds.split(",").map((id) => parseInt(id.trim()));
+      const transactions = await prisma.transaction.findMany({
+        where: {
+          projectId: {
+            in: projectIdArray,
+          },
+        },
+        orderBy: {
+          createdAt: "desc", // Newest transactions first
+        },
+      });
+      res.json(transactions);
+    } else {
+      // If no projectIds provided, fetch all transactions for the authenticated user
+      const transactions = await prisma.transaction.findMany({
+        where: {
+          userId: req.userId,
+        },
+      });
+      res.json(transactions);
+    }
   } catch (error) {
-    console.error("Error fetching transactions:", error);
-    res
-      .status(500)
-      .send("Error retrieving transactions for the provided project IDs.");
+    console.error("Failed to get transactions:", error);
+    res.status(500).json({ error: "Failed to get transactions" });
   }
 });
 
@@ -96,7 +117,11 @@ router.get("/:projectId", authenticateToken, async (req, res) => {
     }
 
     if (project.userId !== userId) {
-      return res.status(403).send("Unauthorized access - This project does not belong to the authenticated user.");
+      return res
+        .status(403)
+        .send(
+          "Unauthorized access - This project does not belong to the authenticated user."
+        );
     }
 
     // Fetch transactions for the project

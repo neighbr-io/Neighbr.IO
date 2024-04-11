@@ -9,6 +9,7 @@ const authRoutes = require('./api/auth');
 const transactionRoutes = require('./api/transaction');
 const waitlistRoute = require('./api/waitlist');
 const stripeRoutes = require('./api/stripe');
+const locationRoute = require('./api/location');
 const cors = require('cors');
 const session = require('express-session');
 const passport = require('passport');
@@ -60,10 +61,14 @@ app.use(passport.session());
 app.use('/api/projects', projectsRoutes);
 app.use('/api/users', usersRoutes);
 app.use('/api/static', staticsRoutes);
+app.use('/api/waitlist', waitlistRoute);
+app.use('/api/projects', projectsRoutes);
+app.use('/api/location', locationRoute);
+app.use('/api/users', usersRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/transactions', transactionRoutes);
-app.use('/api/waitlist', waitlistRoute);
 app.use('/api/stripe', stripeRoutes);
+
 
 app.listen(port, () => {
     console.log(`Server running on http://localhost:${port}`);

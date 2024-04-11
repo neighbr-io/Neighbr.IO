@@ -23,7 +23,7 @@ function Project () {
   //   );
   return (
     <div className="all-projects">
-      {projects.map((project) => (
+     {projects.filter(project => project.status === 'live').map((project) => (
         <div key={project.id} className="project-preview"
         onClick={() => navigate(`/projects/${project.id}`)}
         style={{ cursor: 'pointer' }}

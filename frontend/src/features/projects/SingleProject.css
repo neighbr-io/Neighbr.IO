@@ -2,7 +2,7 @@
     box-sizing: border-box;
   }
 
-#root {
+/* #root {
     background-color:whitesmoke;
     width: 100vw; 
     min-height: 100vh; 
@@ -10,7 +10,7 @@
     padding: 2rem;
     text-align: center;
     box-sizing: border-box; 
-}
+} */
 
 #pledge-button {
     font-size: 20px;
@@ -18,9 +18,16 @@
 
 }
 
-.single-project{
-
+.transactions {
+    width: 100vw; 
+    min-height: 100vh; 
+    margin: 0 auto;
+    padding: 2rem;
+    text-align: center;
 }
+
+/* .single-project{} */
+
 #pledge{
     font-size: xx-large;
     color:teal;
@@ -30,22 +37,20 @@
     font-weight: bolder;
     color:#ca4502;
 }
-.subtitle {
-
-}
-.story {}
+/* .subtitle {} */
+/* .story {}
 .category{}
 .faq{}
 .updates{}
 .funded{
 
-}
+} */
 .date{
     font-size: x-large;
 }
-.goal {
+/* .goal {
 
-}
+} */
 
 .single-project-content {
     display: flex;

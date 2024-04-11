@@ -45,6 +45,57 @@ router.post("/register", async (req, res) => {
   }
 });
 
+// GET /api/users - Get all users
+router.get("/", authenticateToken, async (req, res) => {
+  try {
+    // First, verify the user's role
+    const userRecord = await prisma.user.findUnique({
+      where: { id: req.userId },
+    });
+
+    if (!userRecord || userRecord.accountTypeId !== 1) {
+      // If user does not exist or is not an admin, return error
+      return res.status(403).send("Access denied. Admins only.");
+    }
+
+    // If the user is an admin, proceed to fetch all users
+    const users = await prisma.user.findMany();
+
+    res.json(users);
+  } catch (error) {
+    console.error("Failed to get users:", error);
+    res.status(500).json({ error: "Failed to get users" });
+  }
+});
+
+
+// GET /api/users/me - return the currently logged in user
+router.get("/me", authenticateToken, async (req, res) => {
+  try {
+    
+    const userId = req.userId;
+
+    if (!userId) {
+      return res.status(400).send("User ID is missing.");
+    }
+
+    const me = await prisma.user.findUnique({
+      where: {
+        id: userId,
+      },
+    });
+
+    if (!me) {
+      return res.status(404).send("User not found.");
+    }
+
+    res.json(me);
+  } catch (error) {
+    console.error("Failed to get user:", error);
+    res.status(500).json({ error: "Failed to get user" });
+  }
+});
+
 // GET /api/users/transaction/summary - User dashboard 1 pledger summary, REQUIRE AUTH
 router.get("/transactions", authenticateToken, async (req, res) => {
   const userId = req.userId;
