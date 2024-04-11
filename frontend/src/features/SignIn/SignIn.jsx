@@ -18,6 +18,8 @@ const AuthForm = () => {
   const [mode, setMode] = useState("SignIn");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [emailError, setEmailError] = useState(false);
+  const [passwordError, setPasswordError] = useState(false);
 
   // RTK Query mutation hooks
   const [login] = useLoginMutation();
@@ -25,6 +27,21 @@ const AuthForm = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+
+    const emailRegex = /\S+@\S+\.\S+/;
+
+    if (!email || !emailRegex.test(email)) {
+      setEmailError(true);
+    }
+
+    if (!password) {
+      setPasswordError(true); // Set password error if it's empty
+    }
+
+    // If there's an error with either email or password, stop the form submission
+    if (!email || !emailRegex.test(email) || !password) {
+      return;
+    }
 
     try {
       if (mode === "SignIn") {
@@ -98,6 +115,8 @@ const AuthForm = () => {
             }}
           >
             <TextField
+              error={emailError}
+              helperText={emailError ? "Email is required" : ""}
               margin="normal"
               required
               fullWidth
