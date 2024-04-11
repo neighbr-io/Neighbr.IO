@@ -3,55 +3,66 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
-import Link from "@mui/material/Link";
-import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
-import { authEventEmitter } from "../../app/eventEmitter";
+import { useLoginMutation, useRegisterMutation } from "../Dashboard/authSlice"; // Import the RTK Query hooks
 
 const defaultTheme = createTheme();
 
 const AuthForm = () => {
   const navigate = useNavigate();
-  const [mode, setMode] = useState("SignIn"); // Track whether we are in "SignIn" or "Register" mode
+  const [mode, setMode] = useState("SignIn");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [emailError, setEmailError] = useState(false);
+  const [passwordError, setPasswordError] = useState(false);
+
+  // RTK Query mutation hooks
+  const [login] = useLoginMutation();
+  const [register] = useRegisterMutation();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
+    
     const data = new FormData(event.currentTarget);
     const email = data.get("email");
     const password = data.get("password");
     const endpoint = mode === "SignIn" ? "/api/auth" : "/api/users/register";
+    const emailRegex = /\S+@\S+\.\S+/;
+
+    if (!email || !emailRegex.test(email)) {
+      setEmailError(true);
+    }
+
+    if (!password) {
+      setPasswordError(true); // Set password error if it's empty
+    }
+
+    // If there's an error with either email or password, stop the form submission
+    if (!email || !emailRegex.test(email) || !password) {
+      return;
+    }
 
     try {
-      const response = await fetch(endpoint, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to process request");
-      }
-
-      const result = await response.json();
       if (mode === "SignIn") {
-        localStorage.setItem("bearerToken", result.token);
-        authEventEmitter.dispatchEvent(
-          new CustomEvent("authChange", { detail: { isAuthenticated: true } })
-        );
+        // Use the RTK Query mutation for login
+        const result = await login({ email, password }).unwrap();
+        // Store token and navigate on successful login
+        localStorage.setItem("bearerToken", result.token); // Consider more secure storage options
         navigate("/projects");
       } else {
+        // Use the RTK Query mutation for registration
+        await register({ email, password }).unwrap();
+        // Handle post-registration logic (e.g., showing a success message)
         console.log("Registration successful");
+        setMode("SignIn"); // Optionally switch to SignIn mode after registration
       }
     } catch (error) {
-      console.error("Error:", error.message);
+      console.error("Error:", error);
     }
   };
 
@@ -108,6 +119,8 @@ const AuthForm = () => {
             }}
           >
             <TextField
+              error={emailError}
+              helperText={emailError ? "Email is required" : ""}
               margin="normal"
               required
               fullWidth
@@ -116,6 +129,8 @@ const AuthForm = () => {
               name="email"
               autoComplete="email"
               autoFocus
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
             <TextField
               margin="normal"
@@ -126,15 +141,10 @@ const AuthForm = () => {
               type="password"
               id="password"
               autoComplete="current-password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
-            {/* {mode === "SignIn" && (
-              <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
-                label="Remember me"
-              />
-            )} */}
             <Box mt={2} sx={{ alignSelf: "stretch" }}>
-              {" "}
               <Button
                 type="submit"
                 fullWidth

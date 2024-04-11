@@ -4,23 +4,20 @@ import { useParams } from "react-router-dom";
 import Button from "@mui/material/Button";
 import ExpandMoreOutlinedIcon from '@mui/icons-material/ExpandMoreOutlined';
 import ExpandLessOutlinedIcon from '@mui/icons-material/ExpandLessOutlined';
-import Box from "@mui/material/Box";
-import Tab from "@mui/material/Tab";
-import Tabs from "@mui/material/Tabs";
-import TabContext from "@mui/lab/TabContext";
-import TabList from "@mui/lab/TabList";
 // import TabPanel from "@mui/lab/TabPanel";
-import PropTypes from "prop-types";
-import Typography from "@mui/material/Typography";
 import InfoTabs from "./SingleProjectTab";
 import "./SingleProject.css";
 import stock_photo_storefront from "../../image/stock_photo_storefront.png";
-import { useNavigate } from "react-router-dom";
 import Pledge from "./Pledge";
+import { useSelector } from "react-redux";
+import { selectIsAuthenticated } from "../Dashboard/authSlice";
+import { useNavigate } from 'react-router-dom';
 
 const SingleProject = () => {
   const { id } = useParams();
   const { data: project, error, isLoading } = useGetProjectQuery(id);
+  const isAuthenticated = useSelector(selectIsAuthenticated);
+  const navigate = useNavigate();
 
   // const navigate = useNavigate();
   const [showPledge, setShowPledge] = useState(false);
@@ -84,19 +81,30 @@ const SingleProject = () => {
             This project will only be funded if it reaches its goal by {date}.
           </p>
           <p className="category">Category: {category}</p>
-          <Button
-            id="pledge-button"
-            variant="contained"
-            onClick={handleBackProjectClick}
-            startIcon={showPledge ? <ExpandLessOutlinedIcon /> : <ExpandMoreOutlinedIcon />}
-          >
-            Back This Project
-          </Button>
-          <hr/>
+          {isAuthenticated ? (
+            <Button
+              id="pledge-button"
+              variant="contained"
+              onClick={handleBackProjectClick}
+              startIcon={showPledge ? <ExpandLessOutlinedIcon /> : <ExpandMoreOutlinedIcon />}
+            >
+              Back This Project
+            </Button>
+          ) : (
+
+            <Button
+              id="pledge-button"
+              variant="contained"
+              onClick={() => navigate("/signin")}>
+              Please Sign in to Back the Project
+            </Button>
+
+          )}
+          <hr />
           {/* Conditionally render the pledge section */}
           {showPledge && (
             <div id="pledge-section">
-               <Pledge id={id} />
+              <Pledge id={id} />
             </div>
           )}
         </div>
