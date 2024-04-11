@@ -12,6 +12,8 @@ import InputAdornment from "@mui/material/InputAdornment";
 import MenuItem from "@mui/material/MenuItem";
 import { Grid } from "@mui/material";
 import { useAddProjectMutation } from "../projects/projectSlice";
+import { useAddLocationMutation } from "../projects/locationSlice";
+import Alert from '@mui/material/Alert';
 
 
 const steps = [
@@ -294,6 +296,7 @@ export default function NewProjectForm() {
   const maxSteps = steps.length;
 
   const [createProject] = useAddProjectMutation();
+  const [createLocation] = useAddLocationMutation();
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -338,12 +341,22 @@ export default function NewProjectForm() {
         rewardTier3: formData.rewardTier3 || null,
         status: "draft", 
       };
+      const locationData = {
+        businessName: formData.businessName,
+        houseNumber: formData.houseNumber,
+        street: formData.street,
+        city: formData.city,
+        state: formData.state,
+        zipcode: formData.zipcode,
+      };
 
       await createProject(projectData).unwrap();
-
+      createLocation(locationData).unwrap();
       console.log("Project created successfully");
+      alert("Project submitted successfully");
     } catch (error) {
       console.error("Error creating project:", error);
+      alert(error.data);
     }
   };
 
