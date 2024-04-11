@@ -298,21 +298,6 @@ export default function NewProjectForm() {
 
   const handleSubmit = async () => {
     
-  //   const {
-  //     title,
-  //     subtitle,
-  //     category, // This is the category name, not the ID
-  //     story,
-  //     faq,
-  //     goal,
-  //     expiration,
-  //     priceTier1,
-  //     rewardTier1,
-  //     funded, // optional
-  //     updates // optional
-  // } = req.body;
-    
-    
     console.log(formData);
     try {
       const projectData = {
