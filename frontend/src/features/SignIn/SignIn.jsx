@@ -20,6 +20,7 @@ const AuthForm = () => {
   const [password, setPassword] = useState("");
   const [emailError, setEmailError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
+  const [userError, setUserError] = useState(false);
 
   // RTK Query mutation hooks
   const [login] = useLoginMutation();
@@ -28,11 +29,15 @@ const AuthForm = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+    setEmailError(false);
+    setPasswordError(false);
+    setUserError(false);
+
     const emailRegex = /\S+@\S+\.\S+/;
 
     if (!email || !emailRegex.test(email)) {
       setEmailError(true);
-    }
+    };
 
     if (!password) {
       setPasswordError(true); // Set password error if it's empty
@@ -58,7 +63,7 @@ const AuthForm = () => {
         setMode("SignIn"); // Optionally switch to SignIn mode after registration
       }
     } catch (error) {
-      console.error("Error:", error);
+      setUserError(true);
     }
   };
 
@@ -127,8 +132,13 @@ const AuthForm = () => {
               autoFocus
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              onBlur={() => {
+                setEmailError(false); // Clears password error when user clicks off the text field
+              }}
             />
             <TextField
+              error={userError || passwordError}
+              helperText={userError ? "Username or Password not found" : passwordError ? "Please enter a password" : ""}
               margin="normal"
               required
               fullWidth
@@ -139,6 +149,10 @@ const AuthForm = () => {
               autoComplete="current-password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              onBlur={() => {
+                setPasswordError(false); // Clears password error when user clicks off the text field
+                setUserError(false); // Optionally, also clear user error
+              }}
             />
             <Box mt={2} sx={{ alignSelf: "stretch" }}>
               <Button

@@ -101,7 +101,7 @@ export default function Navigation() {
       await logout().unwrap();
       navigate('/signin');
     } catch (error) {
-      console.error('Logout failed', error);
+     
     }
   };
 
