@@ -53,7 +53,7 @@ const AuthForm = () => {
         // Use the RTK Query mutation for login
         const result = await login({ email, password }).unwrap();
         // Store token and navigate on successful login
-        localStorage.setItem("bearerToken", result.token); // Consider more secure storage options
+        localStorage.setItem("bearerToken", result.token);
         navigate("/projects");
       } else {
         // Use the RTK Query mutation for registration

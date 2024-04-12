@@ -19,7 +19,7 @@ const authApi = api.injectEndpoints({
         method: "POST",
         body: credentials,
       }),
-      invalidatesTags: ["Me"],
+      invalidatesTags: ["Me", "Transactions"],
     }),
     register: builder.mutation({
       query: (credentials) => ({
@@ -27,11 +27,11 @@ const authApi = api.injectEndpoints({
         method: "POST",
         body: credentials,
       }),
-      invalidatesTags: ["Me"],
+      invalidatesTags: ["Me", "Transactions"],
     }),
     logout: builder.mutation({
       queryFn: () => ({ data: {} }),
-      invalidatesTags: ["Me"],
+      invalidatesTags: ["Me", "Transactions"],
     }),
   }),
 });

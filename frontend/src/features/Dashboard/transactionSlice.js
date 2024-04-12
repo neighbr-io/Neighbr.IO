@@ -4,11 +4,11 @@ const transactionsApi = api.injectEndpoints({
   endpoints: (builder) => ({
     getTransactions: builder.query({
       query: () => "transactions",
-      providesTags: providesList("Transactions"),
+      providesTags: ["Transactions"],
     }),
     getTransaction: builder.query({
       query: (id) => `transactions/${id}`,
-      providesTags: providesId("Transactions"),
+      providesTags: ["Transactions"],
     }),
     addTransaction: builder.mutation({
       query: (transaction) => {
