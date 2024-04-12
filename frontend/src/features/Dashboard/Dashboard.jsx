@@ -1,14 +1,11 @@
 import React from 'react';
 import { useGetTransactionsQuery } from './transactionSlice';
-import { useGetAccountDetailsQuery } from './userSlice';
-import TransactionTable from './Transactions/Transactions';
 import DashboardGrid from './DashboardGrid/DashboardGrid';
 
 import "../projects/SingleProject.css"
 
 const Dashboard = () => {
   const { data: transactions, error, isLoading } = useGetTransactionsQuery();
-  const { data: me } = useGetAccountDetailsQuery();
 
   if (isLoading) {
     return <div>Loading...</div>;
