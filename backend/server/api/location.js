@@ -25,7 +25,7 @@ router.post("/", authenticateToken, async (req, res) => {
     !state ||
     !zipcode
   ) {
-    return res.status(400).send("Required project information is missing.");
+    return res.status(400).send("Required business information is missing.");
   }
 
   try {
@@ -34,19 +34,19 @@ router.post("/", authenticateToken, async (req, res) => {
     });
 
     if (!userRecord) {
-      return res.status(403).send("Only logged in user can start a projects.");
+      return res.status(403).send("Only a logged in user can submit a project.");
     }
 
     const newLocation = await prisma.location.create({
       data: {
         businessName,
         houseNumber,
-        aptSuiteOther,
+        aptSuiteOther: aptSuiteOther || "", // Default updates to an empty string if not provided
         street,
         city,
         state,
         zipcode
-      },
+      }
     });
 
     res.status(201).json(newLocation);

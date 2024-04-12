@@ -1,5 +1,8 @@
+
+
 require('dotenv').config();
 const express = require('express');
+const path = require('path');
 const projectsRoutes = require('./api/project');
 const usersRoutes = require('./api/user');
 const staticsRoutes = require('./api/static');
@@ -15,6 +18,7 @@ const port = 8000;
 //added to resolve CORS error - connecting frontend to backend
 app.use(cors());
 app.use(express.json());
+app.use("/", express.static(path.join(__dirname, "dist")));
 
 app.use('/api/static', staticsRoutes);
 app.use('/api/waitlist', waitlistRoute);

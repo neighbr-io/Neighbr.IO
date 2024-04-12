@@ -10,13 +10,13 @@ datasource db {
 
 model Waitlist {
   id       Int        @id @default(autoincrement())
-  email    String     @unique
+  email    String     @unique @pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$")
   role     String 
 }
 
 model User {
     id            Int        @id @default(autoincrement())
-    email         String     @unique
+    email         String     @unique @pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$")
     password      String?    // Make nullable if allowing OAuth sign-in without a password
     googleId      String?    @unique // Nullable and unique Google ID for OAuth sign-ins
     accountTypeId Int
