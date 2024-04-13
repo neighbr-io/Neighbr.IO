@@ -101,7 +101,7 @@ export default function Navigation() {
       await logout().unwrap();
       navigate('/signin');
     } catch (error) {
-      console.error('Logout failed', error);
+     
     }
   };
 
@@ -187,7 +187,6 @@ export default function Navigation() {
             <ListItem disablePadding>
               <ListItemButton
                 onClick={() => {
-                  // window.location.href = "http://localhost:5173/dashboard";
                   navigate('/dashboard');
                 }}
               >
@@ -207,7 +206,6 @@ export default function Navigation() {
           <ListItem disablePadding>
             <ListItemButton
               onClick={() => {
-                // window.location.href = "http://localhost:5173/signin";
                 navigate('/signin');
               }}
             >

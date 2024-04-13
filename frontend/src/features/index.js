@@ -4,6 +4,7 @@ import ProjectContainer from "./projects/ProjectContainer";
 import FeaturedProjects from "./FeaturedProjects/FeaturedProjects";
 import Hero from "./Hero/Hero";
 import HowItWorks from "./HowItWorks/HowItWorks";
+import Totals from "./Totals/Totals";
 
 export {
    Navigation,
@@ -11,5 +12,6 @@ export {
    ProjectContainer,
    Hero,
    FeaturedProjects,
-   HowItWorks
+   HowItWorks,
+   Totals
 };
