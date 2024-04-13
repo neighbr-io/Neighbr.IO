@@ -2,14 +2,11 @@
 
 At Neighbr.io, we've simplified the path to mutual success and community strength through a unique pledge system. Here’s how it unfolds:
 
-1
-Pledge & Support: Community members, like you, pledge financial support to local businesses through Neighbr.io. This isn’t a loan; it’s a vote of confidence in the potential of neighborhood businesses.
+1. Pledge & Support: Community members, like you, pledge financial support to local businesses through Neighbr.io. This isn’t a loan; it’s a vote of confidence in the potential of neighborhood businesses.
 
-2
-Offer & Thank: In return for your pledge, businesses don’t pay back with money plus interest. Instead, they offer their services or products as a heartfelt expression of gratitude, most definitely with a big discount!
+2. Offer & Thank: In return for your pledge, businesses don’t pay back with money plus interest. Instead, they offer their services or products as a heartfelt expression of gratitude, most definitely with a big discount!
 
-3
-Strengthen & Grow: This exchange fosters a robust ecosystem where businesses grow without the burden of financial debt, and supporters enjoy local services, enriching the community bond.
+3. Strengthen & Grow: This exchange fosters a robust ecosystem where businesses grow without the burden of financial debt, and supporters enjoy local services, enriching the community bond.
 
 # How to Run the Project Locally
 
