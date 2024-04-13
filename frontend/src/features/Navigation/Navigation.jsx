@@ -132,7 +132,7 @@ export default function Navigation() {
     >
       {isAuthenticated ? (
         <>
-          <MenuItem onClick={() => window.location.href = "http://localhost:5173/dashboard"}>My account</MenuItem>
+          <MenuItem onClick={() => navigate("/dashboard")}>My account</MenuItem>
           <MenuItem onClick={handleSignout} disabled={isLoading}>Sign out</MenuItem>
         </>
       ) : (
@@ -187,7 +187,8 @@ export default function Navigation() {
             <ListItem disablePadding>
               <ListItemButton
                 onClick={() => {
-                  window.location.href = "http://localhost:5173/dashboard";
+                  // window.location.href = "http://localhost:5173/dashboard";
+                  navigate('/dashboard');
                 }}
               >
                 <ListItemIcon></ListItemIcon>
@@ -206,7 +207,8 @@ export default function Navigation() {
           <ListItem disablePadding>
             <ListItemButton
               onClick={() => {
-                window.location.href = "http://localhost:5173/signin";
+                // window.location.href = "http://localhost:5173/signin";
+                navigate('/signin');
               }}
             >
               {/* Components that are only visislbe when you're signed out */}
