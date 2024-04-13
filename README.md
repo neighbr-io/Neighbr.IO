@@ -11,10 +11,10 @@ At Neighbr.io, we've simplified the path to mutual success and community strengt
 # How to Run the Project Locally
 
 1. Ensure your .env file contains the following:
-JWT_SECRET=<your jwt secrete here>
+JWT_SECRET= your jwt secrete here
 DATABASE_URL="postgres://yourusername:@localhost:5432/neighbr-io?schema=public"
-STRIPE_SECRET_KEY = <your stripe secret key here>
-STRIPE_PUBLISHABLE_KEY = <refer to Stripe webiste for public key>
+STRIPE_SECRET_KEY = your stripe secret key here
+STRIPE_PUBLISHABLE_KEY = refer to Stripe webiste for public key
 STATIC_DIR = ./frontend
 
 2. Check that you have prisma installed and run the seed data
