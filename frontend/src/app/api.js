@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 const TOKEN = "token";
-const apiUrl = "/api";
+const apiUrl = import.meta.env.VITE_API_URL || '/api'
 console.log(import.meta.env);
 console.log(apiUrl);
 
