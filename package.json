@@ -42,6 +42,7 @@
     "server": "node server.js",
     "server:dev": "nodemon backend/server/server.js",
     "start:frontend": "cd frontend && npm run dev",
-    "start": "concurrently \"npm run server:dev\" \"npm run start:frontend\""
+    "start:dev": "concurrently \"npm run server:dev\" \"npm run start:frontend\"",
+    "start": "concurrently \"npm run server\" \"npm run start:frontend\""
   }
 }
