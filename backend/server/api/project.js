@@ -20,7 +20,7 @@ router.get("/", async (req, res) => {
     }));
     res.json(response);
   } catch (error) {
-    console.error("Failed to get projects:", error);
+    console.error("Failed to get projects:", error.message);
     res.status(500).json({ error: "Failed to get projects" });
   }
 });
