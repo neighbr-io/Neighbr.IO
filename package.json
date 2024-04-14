@@ -38,11 +38,11 @@
     "prisma": "^5.10.2"
   },
   "scripts": {
-    "build": "vite build",
+    "build": "cd frontend && npm run build", 
     "seed": "node prisma/seed.js",
     "server": "node backend/server/server.js",
     "server:dev": "nodemon backend/server/server.js",
-    "start:frontend": "cd frontend && npm run dev",
+    "start:frontend": "cd frontend && npm start",
     "start:dev": "concurrently \"npm run server:dev\" \"npm run start:frontend\"",
     "start": "concurrently \"npm run server\" \"npm run start:frontend\""
   }
